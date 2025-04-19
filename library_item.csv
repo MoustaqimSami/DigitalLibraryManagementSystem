@@ -1,0 +1,21 @@
+ItemID,Title,No_of_copies,Status,Publisher_ID,Publication_Date,Language,Editor_ID,Author_ID
+1,The Great Gatsby,5,Available,101,2020-01-15,English,201,301
+2,To Kill a Mockingbird,3,Unavailable,102,2019-05-23,English,202,302
+3,1984,4,Available,103,2018-11-11,English,203,303
+4,Brave New World,6,Unavailable,101,2021-06-10,English,204,304
+5,Moby Dick,2,Available,102,2017-09-08,English,205,305
+6,The Odyssey,5,Unavailable,103,2015-03-14,Greek,206,306
+7,Hamlet,7,Available,104,2016-12-20,English,207,307
+8,Macbeth,6,Unavailable,105,2022-04-30,English,208,308
+9,Don Quixote,3,Available,101,2014-07-04,Spanish,209,309
+10,Crime and Punishment,2,Unavailable,102,2013-10-16,Russian,210,310
+11,The Brothers Karamazov,4,Available,103,2012-01-25,Russian,211,311
+12,Jane Eyre,3,Unavailable,104,2011-08-19,English,212,312
+13,Wuthering Heights,5,Available,105,2010-11-01,English,213,313
+14,Frankenstein,6,Unavailable,101,2009-06-09,English,214,314
+15,Dracula,4,Available,102,2008-03-22,English,215,315
+16,Pride and Prejudice,7,Unavailable,103,2007-05-10,English,216,316
+17,Emma,3,Available,104,2006-12-12,English,217,317
+18,The Hobbit,5,Unavailable,105,2005-09-14,English,218,318
+19,The Lord of the Rings,8,Available,101,2004-04-05,English,219,319
+20,A Tale of Two Cities,6,Unavailable,102,2003-02-28,English,220,320
