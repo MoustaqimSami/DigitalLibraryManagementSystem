@@ -1,21 +1,21 @@
-ItemID,Title,No_of_copies,Status,Publisher_ID,Publication_Date,Language,Editor_ID,Author_ID
-1,The Great Gatsby,5,Available,101,2020-01-15,English,201,301
-2,To Kill a Mockingbird,3,Unavailable,102,2019-05-23,English,202,302
-3,1984,4,Available,103,2018-11-11,English,203,303
-4,Brave New World,6,Unavailable,101,2021-06-10,English,204,304
-5,Moby Dick,2,Available,102,2017-09-08,English,205,305
-6,The Odyssey,5,Unavailable,103,2015-03-14,Greek,206,306
-7,Hamlet,7,Available,104,2016-12-20,English,207,307
-8,Macbeth,6,Unavailable,105,2022-04-30,English,208,308
-9,Don Quixote,3,Available,101,2014-07-04,Spanish,209,309
-10,Crime and Punishment,2,Unavailable,102,2013-10-16,Russian,210,310
-11,The Brothers Karamazov,4,Available,103,2012-01-25,Russian,211,311
-12,Jane Eyre,3,Unavailable,104,2011-08-19,English,212,312
-13,Wuthering Heights,5,Available,105,2010-11-01,English,213,313
-14,Frankenstein,6,Unavailable,101,2009-06-09,English,214,314
-15,Dracula,4,Available,102,2008-03-22,English,215,315
-16,Pride and Prejudice,7,Unavailable,103,2007-05-10,English,216,316
-17,Emma,3,Available,104,2006-12-12,English,217,317
-18,The Hobbit,5,Unavailable,105,2005-09-14,English,218,318
-19,The Lord of the Rings,8,Available,101,2004-04-05,English,219,319
-20,A Tale of Two Cities,6,Unavailable,102,2003-02-28,English,220,320
+ItemID,Title,Status,Publisher_ID,Publication_Date,Language,Editor_ID,Author_ID
+1,The Great Gatsby,Available,301,1925-04-10,English,101,201
+2,To Kill a Mockingbird,Unavailable,302,1960-07-11,English,102,202
+3,1984,Available,303,1949-06-08,English,103,203
+4,The Catcher in the Rye,Available,304,1951-07-16,English,104,204
+5,Pride and Prejudice,Unavailable,305,1813-01-28,English,105,205
+6,Moby-Dick,Available,306,1851-10-18,English,106,206
+7,War and Peace,Unavailable,307,1869-01-01,Russian,107,207
+8,The Odyssey,Available,308,800-01-01,Greek,108,208
+9,The Hobbit,Unavailable,309,1937-09-21,English,109,209
+10,The Lord of the Rings,Available,310,1954-07-29,English,110,210
+11,Global Warming Trends in the 21st Century,Available,301,2017-06-05,English,103,211
+12,AI and the Future of Work,Unavailable,302,2023-02-19,French,105,212
+13,Economic Impact of Renewable Energy,Available,308,2020-10-12,Spanish,102,213
+14,A Study on Marine Biodiversity,Available,309,2018-07-30,German,104,214
+15,Quantum Computing: Current State and Future Prospects,Available,310,2021-01-25,English,102,215
+16,Mental Health in the Digital Age,Unavailable,310,2016-09-11,French,105,216
+17,Blockchain and Financial Transparency,Unavailable,309,2019-12-04,Spanish,101,217
+18,Cybersecurity in Smart Cities,Available,307,2022-03-15,German,101,218
+19,Educational Reforms in the Post-Pandemic World,Available,305,2024-08-09,English,103,219
+20,Neuroscience and Cognitive Development,Available,303,2015-11-28,French,104,220

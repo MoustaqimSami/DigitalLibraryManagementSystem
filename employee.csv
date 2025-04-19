@@ -1,0 +1,11 @@
+SIN,Fname,Minit,Lname,Hire_Date,Access_Level,Address,Phone_no,Work_Hours,Email,Branch_Address
+192931271,John,A,Doe,2021-03-01,1,123 Main Street,1234567890,40,john.doe@email.com,123 Maple Street
+182369122,Jane,M,Smith,2020-07-15,2,456 Oak Street,1345678901,38,jane.smith@email.com,123 Maple Street
+182134983,Robert,C,Johnson,2019-11-23,3,789 Pine Street,1456789012,42,robert.johnson@email.com,456 Oak Avenue
+110923474,Emily,E,White,2022-02-10,1,101 Birch Lane,1567890123,35,emily.white@email.com,456 Oak Avenue
+120949235,Michael,L,Martinez,2018-05-17,2,202 Cedar Road,1678901234,40,michael.martinez@email.com,123 Maple Street
+120972036,Olivia,F,Brown,2017-09-05,3,303 Redwood Drive,1789012345,37,olivia.brown@email.com,123 Maple Street
+120398407,David,H,Wilson,2023-01-30,1,404 Willow Boulevard,1890123456,40,david.wilson@email.com,456 Oak Avenue
+129374038,Sophia,G,Lee,2016-08-12,2,505 Cherry Street,1901234567,38,sophia.lee@email.com,456 Oak Avenue
+192803979,James,K,Anderson,2021-10-20,3,606 Maple Way,1012345678,40,james.anderson@email.com,123 Maple Street
+120401220,Ava,S,Thomas,2019-03-18,1,707 Spruce Street,1232345678,36,ava.thomas@email.com,456 Oak Avenue
