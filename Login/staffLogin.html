@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Staff Login</title>
     <link rel="stylesheet" href="loginSignup.css"/>
-    <link rel="stylesheet" href="staffLogin.css"/>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
@@ -20,20 +19,22 @@
                 <form action="#">
                     <h1>Staff Login</h1>
                     <div class="input-box">
-                        <input type="text" placeholder="Staff Email" required>
+                        <input type="text" placeholder="Staff Email" name="sEmail" required>
                         <i class='bx bxs-user'></i>
                     </div>
                     <div class="input-box">
-                        <input type="password" placeholder="Password" required>
+                        <input type="password" placeholder="Password" name="sPassword" required>
                         <i class='bx bxs-lock-alt'></i>
                     </div>
                     <div class="forgot-link">
                         <a href="#">Forgot Password?</a>
                     </div>
-                    <button type="submit" class="btn">Login</button>
+                    <p id="errorMessage" style="color: red;"></p>
+                    <button type="submit" id="staffLogin" class="btn">Login</button>
                 </form>
             </div>
         </div>
     </div>
+    <script src="staffLogin.js"></script>
 </body>
 </html>

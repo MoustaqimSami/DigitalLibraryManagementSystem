@@ -43,6 +43,37 @@ app.post("/login", (req, res) => {
     });
 });
 
+app.post("/signup", (req, res) => {
+    const q = "INSERT INTO login(`User`, `Email`, `Password`, `Role`) VALUES (?)";
+
+    const values = [
+        req.body.User,
+        req.body.Email,
+        req.body.Password,
+        1
+    ];
+
+    db.query(q, [values], (err, data) => {
+        if (err) return res.status(500).json(err);
+        return res.status(201).json("User created successfully!");
+    });
+});
+
+app.post("/stafflogin", (req, res) => {
+    const { Email, Password } = req.body;
+
+    const q = "SELECT * FROM login WHERE Email = ? AND Password = ? AND Role = 3";
+
+    db.query(q, [Email, Password], (err, data) => {
+        if (err) return res.status(500).json(err);
+        if (data.length > 0) {
+            return res.status(200).json("Staff login successful!");
+        } else {
+            return res.status(401).json("Unauthorized or insufficient permissions.");
+        }
+    });
+});
+
 app.listen(8800, ()=> {
     console.log("Connected to backend");
 });
