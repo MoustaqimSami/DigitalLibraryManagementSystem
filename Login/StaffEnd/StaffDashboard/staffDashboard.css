@@ -1,0 +1,266 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+body,
+html {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.dashboard-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+.sidebar {
+  background-color: #352208;
+  color: white;
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  transition: width 0.3s ease;
+}
+
+.sidebar.collapsed {
+  width: 60px;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+#toggleSidebar {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.sidebar-menu,
+.sidebar-footer {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 0 0 20px 0;
+}
+
+.sidebar-menu li,
+.sidebar-footer li {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.sidebar-menu li:hover,
+.sidebar-footer li:hover {
+  background-color: #5a3e1b;
+}
+
+.sidebar li i {
+  margin-right: 12px;
+  font-size: 18px;
+}
+
+.sidebar.collapsed li span {
+  display: none;
+}
+
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(90deg, #e1bb80, #d3b078);
+  padding: 30px;
+}
+
+.top-section {
+  width: 100%;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0 10px;
+}
+
+.home-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font-size: 26px;
+  font-weight: 700;
+  color: #352208;
+  transition: color 0.2s ease;
+}
+
+.home-link:hover {
+  color: #5a3e1b;
+  cursor: pointer;
+}
+
+.user-icon {
+  width: 42px;
+  height: 42px;
+  background-color: #352208;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 16px;
+}
+
+.welcome-text {
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  color: #352208;
+  margin: 20px 0 30px;
+}
+
+.grid-wrapper {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  height: 100%; 
+  box-sizing: border-box;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr); 
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+  height: 100%; 
+  box-sizing: border-box;
+}
+
+.card {
+  background-color: white;
+  border: 2px solid #352208;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #352208;
+  font-weight: 600;
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.card i {
+  font-size: 48px;
+  margin-bottom: 14px;
+}
+
+.card:hover {
+  transform: scale(1.03);
+  background-color: #f1ddb7;
+}
+
+.quote-box {
+  margin-top: 30px;
+  background-color: #fffaf1;
+  border-left: 4px solid #352208;
+  padding: 20px 25px;
+  width: 90%;
+  max-width: 700px;
+  color: #352208;
+  font-size: 16px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  text-align: left;
+  line-height: 1.6;
+  box-sizing: border-box;
+  align-self: center;
+  position: relative;
+}
+
+.quote-mark {
+  font-size: 24px;
+  color: #b98f4f;
+  margin-right: 5px;
+}
+
+.quote-author {
+  text-align: right;
+  margin-top: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #352208;
+}
+
+@media screen and (max-width: 600px) {
+  .user-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .welcome-text {
+    font-size: 18px;
+  }
+
+  .card {
+    font-size: 16px;
+    padding: 16px;
+  }
+
+  .quote-box {
+    font-size: 15px;
+    padding: 18px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    height: auto;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .cards {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(6, auto);
+  }
+}
+

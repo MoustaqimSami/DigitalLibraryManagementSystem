@@ -8,16 +8,17 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+
+
 const app = express();
 
-const frontend_path = path.join(__dirname, '..');
-
-app.use(express.static(path.join(frontend_path, 'Login')));
-
 app.use(cors({
-  origin: 'http://localhost:5500',
-  credentials: true
-}));
+    origin: 'http://localhost:8800',
+    credentials: true
+  }));
+
+const frontend_path = path.join(__dirname, '..');
+app.use(express.static(path.join(frontend_path, 'Login')));
 
 const db = mysql.createConnection({
     host: "127.0.0.1",
@@ -121,10 +122,21 @@ app.post("/stafflogin", (req, res) => {
 });
 
 app.get('/staffDashboard', isAuthenticatedStaff, (req, res) => {
-    res.sendFile(path.join(frontend_path, 'Login', 'StaffEnd', 'StaffDahsboard', 'staffDashboard.html'));
+    res.sendFile(path.join(frontend_path, 'Login', 'StaffEnd', 'StaffDashboard', 'staffDashboard.html'));
 });
+
+app.get('/session-info', (req, res) => {
+    if (req.session.user) {
+      res.json({
+        username: req.session.user.username,
+        role: req.session.user.role
+      });
+    } else {
+      res.status(401).json({ message: 'Unauthorized' });
+    }
+  });
 
 
 app.listen(8800, ()=> {
-    console.log("Connected to backenda");
+    console.log("Connected to backend");
 });

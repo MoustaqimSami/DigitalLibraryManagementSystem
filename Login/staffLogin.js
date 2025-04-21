@@ -25,7 +25,7 @@ staffLogin.addEventListener('click', async (e) => {
         console.log("Got response", res);
 
         if (res.ok) {
-            window.location.href = "/Login/StaffEnd/StaffDahsboard/staffDashboard.html";
+            window.location.href = "/staffDashboard";
         } else {
             const errorText = await res.text();
             errorMessage.textContent = errorText || 'Login failed.';
