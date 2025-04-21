@@ -8,8 +8,6 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
-
 const app = express();
 
 app.use(cors({
@@ -27,6 +25,24 @@ const db = mysql.createConnection({
     database: "librarymanagement"
 });
 
+// Middleware to protect routes
+function isAuthenticated(req, res, next) {
+    if (req.session.user) {
+      next();
+    } else {
+      res.status(401).send('You must log in first.');
+    }
+  }
+
+function isAuthenticatedStaff(req, res, next) {
+    if (req.session.user && req.session.user.alevel >= 3) {
+      next();
+    } else {
+      res.status(401).send('You must log in first.');
+    }
+}
+
+
 app.use(express.json());
 app.use(cors())
 app.use(express.json());             
@@ -39,8 +55,8 @@ app.use(session({
 }))
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(frontend_path, 'Login', 'staffLogin.html'));
-  });
+    res.sendFile(path.join(frontend_path, 'Login', 'loginSignup.html'));
+});
 
 app.post('/login', (req, res) => {
     const q = "SELECT * FROM client_accounts WHERE User = ? AND Password = ?"
@@ -61,24 +77,6 @@ app.post('/login', (req, res) => {
     });
   });
 
-// Middleware to protect routes
-function isAuthenticated(req, res, next) {
-    if (req.session.user) {
-      next();
-    } else {
-      res.status(401).send('You must log in first.');
-    }
-  }
-
-function isAuthenticatedStaff(req, res, next) {
-    if (req.session.user && req.session.user.alevel >= 3) {
-      next();
-    } else {
-      res.status(401).send('You must log in first.');
-    }
-}
-
-  
   // Protected route
 app.get('/dashboard', isAuthenticated, (req, res) => {
     res.send(`Welcome to your dashboard, ${req.session.user.username}!`);
@@ -120,6 +118,24 @@ app.post("/stafflogin", (req, res) => {
         }
     });
 });
+
+app.post("/addBook", (req, res) => {
+    const q = "INSERT INTO library_item(`Title`, `Email`, `Password`, `Role`) VALUES (?)";
+    const q2 = ""
+
+    const values = [
+        req.body.User,
+        req.body.Email,
+        req.body.Password,
+        1
+    ];
+
+    db.query(q, [values], (err, data) => {
+        if (err) return res.status(500).json(err);
+        return res.status(201).json("User created successfully!");
+    });
+});
+
 
 app.get('/staffDashboard', isAuthenticatedStaff, (req, res) => {
     res.sendFile(path.join(frontend_path, 'Login', 'StaffEnd', 'StaffDashboard', 'staffDashboard.html'));

@@ -57,7 +57,13 @@
             </div>
           </div>
 
-          <form id="createDocForm" class="create-doc-form hidden">          
+          <form id="createDocForm" class="create-doc-form hidden">
+            <div class="input-group">
+              <label for="docId">Document ID</label>
+              <input type="text" id="docId" placeholder="Enter unique ID" />
+              <i class='bx bx-barcode'></i>
+            </div>
+          
             <div class="input-group">
               <label for="title">Title</label>
               <input type="text" id="title" placeholder="Enter document title" />
@@ -86,13 +92,6 @@
               <input type="text" id="publisher" placeholder="Enter publisher name" />
               <i class='bx bx-building input-icon'></i>
             </div>
-
-            <div class="input-group">
-              <label for="publicationDate">Publication Date</label>
-              <input type="date" id="publicationDate" />
-              <i class='bx bx-calendar input-icon'></i>
-            </div>
-            
           
             <div class="input-group">
               <label for="editor">Editor</label>
@@ -100,45 +99,11 @@
               <i class='bx bx-id-card input-icon'></i>
             </div>
           
-            <div class="input-group" id="genreGroup">
+            <div class="input-group">
               <label for="genre">Category / Genre</label>
-              <select id="genre" required>
-                <option value="">Please select a type first</option>
-              </select>
+              <input type="text" id="genre" placeholder="Enter category or genre" />
               <i class='bx bx-purchase-tag input-icon'></i>
             </div>
-            
-            <!-- Conditionally shown -->
-
-            <div class="input-group hidden" id="formatGroup">
-              <label for="format">Format</label>
-              <select id="format">
-                <option value="">Select format</option>
-                <option value="Hardcover">Hardcover</option>
-                <option value="Paperback">Paperback</option>
-                <option value="Digital">Digital</option>
-              </select>
-              <i class='bx bx-layout input-icon'></i>
-            </div>
-
-            <div class="input-group hidden" id="editionGroup">
-              <label for="edition">Edition</label>
-              <input type="text" id="edition" placeholder="Enter edition" />
-              <i class='bx bx-bookmark input-icon'></i>
-            </div>
-            
-            <div class="input-group hidden" id="issnGroup">
-              <label for="issn">ISSN</label>
-              <input type="text" id="issn" placeholder="Enter ISSN" />
-              <i class='bx bx-barcode input-icon'></i>
-            </div>
-
-            <div class="input-group hidden" id="isbnGroup">
-              <label for="isbn">ISBN</label>
-              <input type="text" id="isbn" placeholder="Enter ISBN" />
-              <i class='bx bx-barcode input-icon'></i>
-            </div>
-            
           
             <div class="input-group">
               <label for="rating">Rating</label>
@@ -188,7 +153,7 @@
               <i class='bx bx-file input-icon'></i>
             </div>
           
-            <button type="submit">Submit</button>
+            <button type="submit" id="submitBtn">Submit</button>
           </form>
           <div id="editMessage" class="edit-message hidden">
             <div class="edit-icon">
