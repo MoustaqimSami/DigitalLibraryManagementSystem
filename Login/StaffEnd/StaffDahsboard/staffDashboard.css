@@ -132,18 +132,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: -100px;
+  padding: 20px;
+  height: 100%; 
+  box-sizing: border-box;
 }
 
 .cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 40px;
-  padding: 20px;
+  grid-template-rows: repeat(2, 1fr); 
+  gap: 30px;
   width: 100%;
   max-width: 1200px;
-  height: 600px;
+  height: 100%; 
   box-sizing: border-box;
 }
 
@@ -159,12 +160,9 @@ body {
   font-weight: 600;
   font-size: 20px;
   cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    background-color 0.2s ease;
-  height: 100%;
+  transition: transform 0.2s ease, background-color 0.2s ease;
   width: 100%;
-  max-width: 100%; /* prevent overflow */
+  height: 100%;
   padding: 30px;
   box-sizing: border-box;
 }
@@ -180,15 +178,14 @@ body {
 }
 
 .quote-box {
-  margin-top: 40px;
+  margin-top: 30px;
   background-color: #fffaf1;
   border-left: 4px solid #352208;
-  padding: 20px 30px;
-  width: 50%;
-  min-width: 320px;
+  padding: 20px 25px;
+  width: 90%;
   max-width: 700px;
   color: #352208;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 500;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
@@ -213,9 +210,32 @@ body {
   color: #352208;
 }
 
+@media screen and (max-width: 600px) {
+  .user-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .welcome-text {
+    font-size: 18px;
+  }
+
+  .card {
+    font-size: 16px;
+    padding: 16px;
+  }
+
+  .quote-box {
+    font-size: 15px;
+    padding: 18px;
+  }
+}
+
 @media screen and (max-width: 900px) {
   .cards {
     grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
     height: auto;
   }
 }
@@ -223,5 +243,7 @@ body {
 @media screen and (max-width: 600px) {
   .cards {
     grid-template-columns: 1fr;
+    grid-template-rows: repeat(6, auto);
   }
 }
+
