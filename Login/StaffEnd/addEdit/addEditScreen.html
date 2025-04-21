@@ -58,23 +58,93 @@
           </div>
 
           <form id="createDocForm" class="create-doc-form hidden">
-            <label for="title">Book Title</label>
-            <input type="text" id="title" placeholder="Enter book title" />
+            <div class="input-group">
+              <label for="docId">Document ID</label>
+              <input type="text" id="docId" placeholder="Enter unique ID" />
+              <i class='bx bx-barcode'></i>
+            </div>
           
-            <label for="author">Author</label>
-            <input type="text" id="author" placeholder="Enter author name" />
+            <div class="input-group">
+              <label for="title">Title</label>
+              <input type="text" id="title" placeholder="Enter document title" />
+              <i class='bx bx-book'></i>
+            </div>
           
-            <label for="genre">Genre</label>
-            <input type="text" id="genre" placeholder="Enter genre" />
+            <div class="input-group">
+              <label for="type">Type</label>
+              <select id="type">
+                <option value="">Select type</option>
+                <option value="Book">Book</option>
+                <option value="Magazine">Magazine</option>
+                <option value="Research">Research Paper</option>
+              </select>
+              <i class='bx bx-category'></i>
+            </div>
           
-            <label for="rating">Rating</label>
-            <input type="number" id="rating" min="1" max="5" placeholder="1–5" />
+            <div class="input-group">
+              <label for="author">Author</label>
+              <input type="text" id="author" placeholder="Enter author name" />
+              <i class='bx bx-user'></i>
+            </div>
           
-            <label for="copies">Total Copies</label>
-            <input type="number" id="copies" placeholder="Enter number of copies" />
+            <div class="input-group">
+              <label for="genre">Category / Genre</label>
+              <input type="text" id="genre" placeholder="Enter category or genre" />
+              <i class='bx bx-purchase-tag'></i>
+            </div>
+          
+            <div class="input-group">
+              <label for="rating">Rating</label>
+              <input type="number" id="rating" placeholder="1–5" min="1" max="5" />
+              <i class='bx bx-star'></i>
+            </div>
+          
+            <div class="input-group">
+              <label for="totalCopies">Total Copies</label>
+              <input type="number" id="totalCopies" placeholder="Enter total number of copies" />
+              <i class='bx bx-layer'></i>
+            </div>
+          
+            <div class="input-group">
+              <label for="availableCopies">Available Copies</label>
+              <input type="number" id="availableCopies" placeholder="Enter number of available copies" />
+              <i class='bx bx-check-circle'></i>
+            </div>
+          
+            <div class="input-group">
+              <label for="coverColor">Cover Color</label>
+              <input type="color" id="coverColor" />
+              <i class='bx bx-palette'></i>
+            </div>
+          
+            <div class="input-group">
+              <label for="coverUrl">Cover Image URL</label>
+              <input type="url" id="coverUrl" placeholder="Paste image URL" />
+              <i class='bx bx-image'></i>
+            </div>
+          
+            <div class="input-group">
+              <label for="summary">Synopsis / Summary</label>
+              <textarea id="summary" rows="4" placeholder="Write a brief synopsis..."></textarea>
+              <i class='bx bx-detail'></i>
+            </div>
+          
+            <div class="input-group">
+              <label for="language">Language</label>
+              <input type="text" id="language" placeholder="Enter language" />
+              <i class='bx bx-globe'></i>
+            </div>
+          
+            <div class="input-group">
+              <label for="pages">Page Count</label>
+              <input type="number" id="pages" placeholder="Enter number of pages" />
+              <i class='bx bx-file'></i>
+            </div>
           
             <button type="submit">Submit</button>
           </form>
+          
+          
           
         </div>
 

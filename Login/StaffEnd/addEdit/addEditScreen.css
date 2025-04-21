@@ -25,6 +25,7 @@ html {
   width: 220px;
   display: flex;
   flex-direction: column;
+  transition: width 0.3s ease;
   height: 100%;
 }
 
@@ -66,6 +67,7 @@ html {
   align-items: center;
   padding: 12px 20px;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .sidebar li i {
@@ -88,9 +90,11 @@ html {
   padding: 30px;
   align-items: center;
   justify-content: flex-start;
-  height: 100vh;
+  min-height: 100vh; /* instead of fixed height */
+  overflow-y: auto;
   box-sizing: border-box;
 }
+
 
 .top-bar {
   display: flex;
@@ -108,6 +112,7 @@ html {
   font-size: 26px;
   font-weight: 700;
   color: #352208;
+  transition: color 0.2s ease;
 }
 
 .home-link:hover {
@@ -133,16 +138,23 @@ html {
   font-weight: 600;
   color: #352208;
   margin-bottom: 40px;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.move-up {
+  transform: translateY(-30px);
+  opacity: 0.9;
 }
 
 .doc-center-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  flex: 1;
+  justify-content: flex-start;
   width: 100%;
+  margin-bottom: 40px;
 }
+
 
 .doc-button-wrapper {
   display: grid;
@@ -151,7 +163,9 @@ html {
   width: 100%;
   max-width: 1000px;
   box-sizing: border-box;
+  transition: all 0.4s ease;
 }
+
 
 .doc-card {
   background-color: white;
@@ -165,27 +179,29 @@ html {
   font-weight: 600;
   font-size: 20px;
   cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-  height: 220px;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+  height: clamp(220px, 30vh, 300px);
   padding: 35px;
   width: 100%;
   box-sizing: border-box;
 }
 
 .doc-card i {
-  font-size: 48px;
+  font-size: clamp(48px, 5vw, 64px);
   margin-bottom: 14px;
 }
-
 .doc-card span {
-  font-size: 20px;
+  font-size: clamp(18px, 2vw, 22px);
 }
 
 .doc-card:hover {
-  transform: scale(1.03);
+  transform: scale(1.05);
   background-color: #f1ddb7;
 }
 
+/* Quote */
 .quote-box {
   margin-top: auto;
   background-color: #fffaf1;
@@ -230,10 +246,12 @@ html {
   }
 }
 
+/* Hidden by default */
 .create-doc-form.hidden {
   display: none;
 }
 
+/* Visible when .creating-document is active */
 .creating-document .create-doc-form {
   display: flex;
   flex-direction: column;
@@ -247,17 +265,177 @@ html {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Only shrink height, preserve contents */
+.creating-document .doc-button-wrapper {
+  margin-top: -40px;
+  margin-bottom: 20px;
+}
+
+.creating-document .doc-card {
+  height: 120px;
+  transition: height 0.3s ease;
+  align-self: flex-start;
+}
+
+
+.creating-document #createDocBtn {
+  background-color: #352208;
+  color: white;
+  border-color: white;
+}
+
+.creating-document #createDocBtn i,
+.creating-document #createDocBtn span {
+  color: white;
+}
+
 .create-doc-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
   width: 100%;
   max-width: 600px;
-  margin: 40px auto 0;
-  background-color: #fff;
+  margin: 40px auto;
+  background-color: #ffffff;
   padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+}
+
+
+.create-doc-form label {
+  font-weight: 600;
+  font-size: 15px;
+  color: #352208;
+  margin-bottom: 6px;
+}
+
+.create-doc-form .input-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-group i {
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #888;
+  pointer-events: none;
+}
+
+.create-doc-form input,
+.create-doc-form select,
+.create-doc-form textarea {
+  padding: 13px 50px 13px 16px; /* gives room on the right for the icon */
+}
+
+
+.create-doc-form input {
+  padding: 14px 18px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: none;
+  background-color: #f1ddb7;
+  color: #333;
+  outline: none;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.create-doc-form input::placeholder {
+  color: #888;
+  font-weight: 400;
+}
+
+.create-doc-form i {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #888;
+}
+
+.create-doc-form button {
+  margin-top: 10px;
+  padding: 14px;
+  background-color: #352208;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.create-doc-form button:hover {
+  background-color: #5a3e1b;
+}
+
+.create-doc-form select,
+.create-doc-form textarea {
+  padding: 14px 18px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: none;
+  background-color: #f1ddb7;
+  color: #333;
+  outline: none;
+  font-weight: 500;
+  resize: vertical;
+}
+
+.create-doc-form textarea::placeholder {
+  color: #888;
+  font-weight: 400;
+}
+
+.create-doc-form select:invalid {
+  color: #888;
+}
+
+.create-doc-form select option {
+  color: #333;
+}
+
+.create-doc-form .input-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.create-doc-form .input-group i {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #888;
+  pointer-events: none;
+}
+
+.create-doc-form input[type="color"] {
+  padding: 5px;
+  height: 50px;
+}
+
+
+.creating-document .create-doc-form {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.create-doc-form.hidden {
+  display: none;
 }
 
 .create-doc-form input {
@@ -267,6 +445,23 @@ html {
   font-size: 16px;
   background-color: #fafafa;
 }
+
+.create-doc-form .input-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.create-doc-form .input-group i {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #888;
+  pointer-events: none;
+}
+
 
 .create-doc-form label {
   font-weight: 600;
@@ -282,12 +477,21 @@ html {
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .create-doc-form button:hover {
   background-color: #5a3e1b;
 }
 
+/* Step 1: Shrink Create Document on click only */
+.doc-card.shrinking {
+  height: 120px;
+  transition: height 0.4s ease;
+  align-self: flex-start;
+}
+
+/* Step 2: After delay, highlight and animate full layout */
 .creating-document #createDocBtn {
   background-color: #352208;
   color: white;
@@ -299,4 +503,13 @@ html {
   color: white;
 }
 
+.creating-document .doc-button-wrapper {
+  margin-top: -40px;
+  margin-bottom: 20px;
+  transition: margin 0.4s ease;
+}
 
+.doc-card.shrink-height {
+  height: 140px;
+  transition: height 0.4s ease;
+}
