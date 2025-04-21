@@ -17,10 +17,12 @@ window.addEventListener('DOMContentLoaded', async () => {
       console.log('Session info:', data);
 
       const initials = data.username.slice(0, 2).toUpperCase();
-      
+
       const initialsElement = document.getElementById('initials');
+      const welcomeMessage = document.getElementById('welcomeMessage')
       if (initialsElement) {
         initialsElement.textContent = initials;
+        welcomeMessage.textContent = "Welcome " + data.username + ", how are you doing today?"
       }
 
     } else {
