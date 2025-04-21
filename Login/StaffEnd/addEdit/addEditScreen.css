@@ -2,31 +2,42 @@
 
 * {
   box-sizing: border-box;
-}
-
-body,
-html {
   margin: 0;
   padding: 0;
-  font-family: "Poppins", sans-serif;
-  height: 100%;
 }
 
+html, body {
+  height: 100%;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ===== Layout Structure ===== */
 .dashboard-wrapper {
   display: flex;
   height: 100vh;
   overflow: hidden;
 }
 
-/* Sidebar Styles */
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(90deg, #e1bb80, #d3b078);
+  padding: 30px;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+/* ===== Sidebar ===== */
 .sidebar {
+  width: 220px;
+  height: 100%;
   background-color: #352208;
   color: white;
-  width: 220px;
   display: flex;
   flex-direction: column;
   transition: width 0.3s ease;
-  height: 100%;
 }
 
 .sidebar.collapsed {
@@ -50,11 +61,11 @@ html {
 .sidebar-menu,
 .sidebar-footer {
   list-style: none;
-  padding: 0;
-  margin: 0;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  padding: 0;
+  margin: 0;
 }
 
 .sidebar-footer {
@@ -82,42 +93,13 @@ html {
   display: none;
 }
 
-.main-content {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(90deg, #e1bb80, #d3b078);
-  padding: 30px;
-  align-items: center;
-  justify-content: flex-start;
-  min-height: 100vh; /* instead of fixed height */
-  overflow-y: auto;
-  box-sizing: border-box;
-}
-
-
+/* ===== Top Bar & Header ===== */
 .top-bar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
-  align-items: center;
   margin-bottom: 30px;
-}
-
-.home-link {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-  font-size: 26px;
-  font-weight: 700;
-  color: #352208;
-  transition: color 0.2s ease;
-}
-
-.home-link:hover {
-  color: #5a3e1b;
-  cursor: pointer;
 }
 
 .user-icon {
@@ -127,10 +109,25 @@ html {
   color: white;
   font-weight: bold;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   border-radius: 50%;
   font-size: 16px;
+}
+
+.home-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 26px;
+  font-weight: 700;
+  text-decoration: none;
+  color: #352208;
+  transition: color 0.2s ease;
+}
+
+.home-link:hover {
+  color: #5a3e1b;
 }
 
 .welcome-text {
@@ -146,31 +143,32 @@ html {
   opacity: 0.9;
 }
 
+/* ===== Buttons & Cards ===== */
 .doc-center-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center; /* <-- This centers vertically */
   width: 100%;
-  margin-bottom: 40px;
+  flex-grow: 1;
+  transition: justify-content 0.4s ease;
 }
-
 
 .doc-button-wrapper {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 40px;
-  width: 100%;
   max-width: 1000px;
+  width: 100%;
   box-sizing: border-box;
   transition: all 0.4s ease;
 }
-
 
 .doc-card {
   background-color: white;
   border: 2px solid #352208;
   border-radius: 12px;
+  padding: 35px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -178,20 +176,16 @@ html {
   color: #352208;
   font-weight: 600;
   font-size: 20px;
-  cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    background-color 0.2s ease;
   height: clamp(220px, 30vh, 300px);
-  padding: 35px;
-  width: 100%;
-  box-sizing: border-box;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .doc-card i {
   font-size: clamp(48px, 5vw, 64px);
   margin-bottom: 14px;
 }
+
 .doc-card span {
   font-size: clamp(18px, 2vw, 22px);
 }
@@ -201,94 +195,12 @@ html {
   background-color: #f1ddb7;
 }
 
-/* Quote */
-.quote-box {
-  margin-top: auto;
-  background-color: #fffaf1;
-  border-left: 4px solid #352208;
-  padding: 20px 30px;
-  width: 90%;
-  max-width: 700px;
-  color: #352208;
-  font-size: 17px;
-  font-weight: 500;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-  text-align: left;
-  line-height: 1.6;
-}
-
-.quote-mark {
-  font-size: 24px;
-  color: #b98f4f;
-}
-
-.quote-author {
-  text-align: right;
-  margin-top: 10px;
-  font-size: 15px;
-  font-weight: 600;
-  color: #352208;
-}
-
-@media screen and (max-width: 768px) {
-  .doc-center-wrapper {
-    justify-content: flex-start;
-  }
-
-  .doc-button-wrapper {
-    grid-template-columns: 1fr;
-    height: auto;
-  }
-
-  .doc-card {
-    height: 200px;
-  }
-}
-
-/* Hidden by default */
-.create-doc-form.hidden {
-  display: none;
-}
-
-/* Visible when .creating-document is active */
-.creating-document .create-doc-form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  width: 100%;
-  max-width: 600px;
-  margin-top: 40px;
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* Only shrink height, preserve contents */
-.creating-document .doc-button-wrapper {
-  margin-top: -40px;
-  margin-bottom: 20px;
-}
-
-.creating-document .doc-card {
+.doc-card.shrinking,
+.doc-card.shrink-height {
   height: 120px;
-  transition: height 0.3s ease;
-  align-self: flex-start;
 }
 
-
-.creating-document #createDocBtn {
-  background-color: #352208;
-  color: white;
-  border-color: white;
-}
-
-.creating-document #createDocBtn i,
-.creating-document #createDocBtn span {
-  color: white;
-}
-
+/* ===== Create Form ===== */
 .create-doc-form {
   display: flex;
   flex-direction: column;
@@ -302,68 +214,74 @@ html {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
 }
 
+.create-doc-form.hidden {
+  display: none;
+}
 
-.create-doc-form label {
+.creating-document .create-doc-form {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.input-group label {
   font-weight: 600;
   font-size: 15px;
   color: #352208;
   margin-bottom: 6px;
 }
 
-.create-doc-form .input-group {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
-.input-group {
-  position: relative;
-  margin-bottom: 20px;
-}
-
-.input-group i {
+.input-group i.input-icon {
   position: absolute;
-  top: 50%;
-  right: 18px;
+  right: 16px;
+  top: 12px;
   transform: translateY(-50%);
   font-size: 20px;
-  color: #888;
+  color: #999;
   pointer-events: none;
 }
 
 .create-doc-form input,
 .create-doc-form select,
 .create-doc-form textarea {
-  padding: 13px 50px 13px 16px; /* gives room on the right for the icon */
-}
-
-
-.create-doc-form input {
-  padding: 14px 18px;
-  font-size: 16px;
-  border-radius: 10px;
-  border: none;
-  background-color: #f1ddb7;
+  padding: 12px 44px 12px 16px; /* Left + Right spacing */
+  font-size: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
   color: #333;
   outline: none;
   font-weight: 500;
-  transition: background-color 0.3s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
-.create-doc-form input::placeholder {
-  color: #888;
+.create-doc-form input[type="color"] {
+  height: 46px;
+  padding: 4px;
+  background: none;
+  border: none;
+}
+
+.create-doc-form input::placeholder,
+.create-doc-form textarea::placeholder {
+  color: #aaa;
   font-weight: 400;
 }
 
-.create-doc-form i {
-  position: absolute;
-  right: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 20px;
-  color: #888;
+.create-doc-form select:invalid {
+  color: #999;
 }
 
+.create-doc-form select option {
+  color: #333;
+}
+
+/* Submit button */
 .create-doc-form button {
   margin-top: 10px;
   padding: 14px;
@@ -381,117 +299,33 @@ html {
   background-color: #5a3e1b;
 }
 
-.create-doc-form select,
-.create-doc-form textarea {
-  padding: 14px 18px;
-  font-size: 16px;
-  border-radius: 10px;
-  border: none;
-  background-color: #f1ddb7;
-  color: #333;
-  outline: none;
-  font-weight: 500;
-  resize: vertical;
-}
-
-.create-doc-form textarea::placeholder {
-  color: #888;
-  font-weight: 400;
-}
-
-.create-doc-form select:invalid {
-  color: #888;
-}
-
-.create-doc-form select option {
-  color: #333;
-}
-
-.create-doc-form .input-group {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
-.create-doc-form .input-group i {
-  position: absolute;
-  right: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 20px;
-  color: #888;
-  pointer-events: none;
-}
-
-.create-doc-form input[type="color"] {
-  padding: 5px;
-  height: 50px;
-}
-
-
-.creating-document .create-doc-form {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.create-doc-form.hidden {
-  display: none;
-}
-
-.create-doc-form input {
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  background-color: #fafafa;
-}
-
-.create-doc-form .input-group {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
-.create-doc-form .input-group i {
-  position: absolute;
-  right: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 20px;
-  color: #888;
-  pointer-events: none;
-}
-
 
 .create-doc-form label {
   font-weight: 600;
+  font-size: 15px;
   color: #352208;
+  margin-bottom: 6px;
 }
 
-.create-doc-form button {
-  margin-top: 10px;
-  padding: 12px;
-  background-color: #352208;
-  color: white;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+/* Hover + Focus effect */
+.create-doc-form input:focus,
+.create-doc-form select:focus,
+.create-doc-form textarea:focus {
+  border-color: #b98f4f;
+  background-color: #fff;
 }
 
-.create-doc-form button:hover {
-  background-color: #5a3e1b;
+/* ===== Transitions for Create Mode ===== */
+.creating-document .doc-button-wrapper {
+  margin-top: -40px;
+  margin-bottom: 20px;
+  transition: margin 0.4s ease;
 }
 
-/* Step 1: Shrink Create Document on click only */
-.doc-card.shrinking {
-  height: 120px;
-  transition: height 0.4s ease;
-  align-self: flex-start;
+.creating-document .doc-center-wrapper {
+  justify-content: flex-start;
 }
 
-/* Step 2: After delay, highlight and animate full layout */
 .creating-document #createDocBtn {
   background-color: #352208;
   color: white;
@@ -503,13 +337,47 @@ html {
   color: white;
 }
 
-.creating-document .doc-button-wrapper {
-  margin-top: -40px;
-  margin-bottom: 20px;
-  transition: margin 0.4s ease;
+/* ===== Quote Box ===== */
+.quote-box {
+  margin-top: auto;
+  background-color: #fffaf1;
+  border-left: 4px solid #352208;
+  padding: 20px 30px;
+  width: 90%;
+  max-width: 700px;
+  font-size: 17px;
+  font-weight: 500;
+  color: #352208;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  line-height: 1.6;
 }
 
-.doc-card.shrink-height {
-  height: 140px;
-  transition: height 0.4s ease;
+.quote-mark {
+  font-size: 24px;
+  color: #b98f4f;
+}
+
+.quote-author {
+  text-align: right;
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #352208;
+}
+
+/* ===== Responsive ===== */
+@media screen and (max-width: 768px) {
+  .doc-center-wrapper {
+    justify-content: flex-start;
+  }
+
+  .doc-button-wrapper {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .doc-card {
+    height: 200px;
+  }
 }
