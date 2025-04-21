@@ -12,6 +12,7 @@ staffLogin.addEventListener('click', async (e) => {
     try {
         const res = await fetch('http://localhost:8800/stafflogin', {
             method: 'POST',
+            credentials: 'include', // <-- ADD THIS LINE
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -24,7 +25,7 @@ staffLogin.addEventListener('click', async (e) => {
         console.log("Got response", res);
 
         if (res.ok) {
-            console.log("worked");
+            window.location.href = "/Login/StaffEnd/StaffDahsboard/staffDashboard.html";
         } else {
             const errorText = await res.text();
             errorMessage.textContent = errorText || 'Login failed.';
