@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add/Edit Document</title>
+  <link rel="stylesheet" href="addEditScreen.css" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar collapsed">
+      <div class="sidebar-header">
+        <button id="toggleSidebar"><i class='bx bx-menu'></i></button>
+      </div>
+      <ul class="sidebar-menu">
+        <li><i class='bx bx-home'></i><span>Home</span></li>
+        <li><i class='bx bx-edit'></i><span>Add/Edit Document</span></li>
+        <li><i class='bx bx-user'></i><span>Manage Members</span></li>
+        <li><i class='bx bx-book'></i><span>Loans</span></li>
+        <li><i class='bx bx-calendar'></i><span>Reservations</span></li>
+        <li><i class='bx bx-user-voice'></i><span>Author/Publishers</span></li>
+        <li><i class='bx bx-shield-quarter'></i><span>Admin View</span></li>
+      </ul>
+      <ul class="sidebar-footer">
+        <li><i class='bx bx-log-out'></i><span>Logout</span></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+<main class="main-content">
+    <div class="top-bar">
+      <a href="staffDashboard.html" class="home-link">
+        <i class='bx bx-book-bookmark'></i>
+        <span>GAMDL Staff</span>
+      </a>
+      <div class="user-icon">TS</div>
+    </div>
+  
+
+
+      <div class="doc-center-wrapper">
+        <h2 class="welcome-text">Add or Edit a Document</h2>
+        <div class="doc-button-wrapper">
+          <div class="doc-card"><i class='bx bx-file'></i><span>Create Document</span></div>
+          <div class="doc-card"><i class='bx bx-edit-alt'></i><span>Edit Document</span></div>
+        </div>
+      </div>
+      
+
+      <div class="quote-box">
+        <p><span class="quote-mark">“</span>The only thing that you absolutely have to know is the location of the library.<span class="quote-mark">”</span></p>
+        <p class="quote-author">– Albert Einstein</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="addEditScreen.js"></script>
+</body>
+</html>

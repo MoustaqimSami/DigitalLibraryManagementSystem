@@ -102,8 +102,25 @@ body {
 .header {
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: flex-start;
+  padding: 0 10px;
+}
+
+.home-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font-size: 26px;
+  font-weight: 700;
+  color: #352208;
+  transition: color 0.2s ease;
+}
+
+.home-link:hover {
+  color: #5a3e1b;
+  cursor: pointer;
 }
 
 .user-icon {
