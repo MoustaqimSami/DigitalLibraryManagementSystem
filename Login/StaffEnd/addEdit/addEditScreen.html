@@ -1,61 +1,95 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Add/Edit Document</title>
-  <link rel="stylesheet" href="addEditScreen.css" />
-  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-</head>
-<body>
-  <div class="dashboard-wrapper">
-    <!-- Sidebar -->
-    <aside class="sidebar collapsed">
-      <div class="sidebar-header">
-        <button id="toggleSidebar"><i class='bx bx-menu'></i></button>
-      </div>
-      <ul class="sidebar-menu">
-        <li><i class='bx bx-home'></i><span>Home</span></li>
-        <li><i class='bx bx-edit'></i><span>Add/Edit Document</span></li>
-        <li><i class='bx bx-user'></i><span>Manage Members</span></li>
-        <li><i class='bx bx-book'></i><span>Loans</span></li>
-        <li><i class='bx bx-calendar'></i><span>Reservations</span></li>
-        <li><i class='bx bx-user-voice'></i><span>Author/Publishers</span></li>
-        <li><i class='bx bx-shield-quarter'></i><span>Admin View</span></li>
-      </ul>
-      <ul class="sidebar-footer">
-        <li><i class='bx bx-log-out'></i><span>Logout</span></li>
-      </ul>
-    </aside>
-
-    <!-- Main Content -->
-<main class="main-content">
-    <div class="top-bar">
-      <a href="staffDashboard.html" class="home-link">
-        <i class='bx bx-book-bookmark'></i>
-        <span>GAMDL Staff</span>
-      </a>
-      <div class="user-icon">TS</div>
-    </div>
-  
-
-
-      <div class="doc-center-wrapper">
-        <h2 class="welcome-text">Add or Edit a Document</h2>
-        <div class="doc-button-wrapper">
-          <div class="doc-card"><i class='bx bx-file'></i><span>Create Document</span></div>
-          <div class="doc-card"><i class='bx bx-edit-alt'></i><span>Edit Document</span></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add/Edit Document</title>
+    <link rel="stylesheet" href="addEditScreen.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="dashboard-wrapper">
+      <!-- Sidebar -->
+      <aside class="sidebar collapsed">
+        <div class="sidebar-header">
+          <button id="toggleSidebar"><i class="bx bx-menu"></i></button>
         </div>
-      </div>
-      
+        <ul class="sidebar-menu">
+          <li><i class="bx bx-home"></i><span>Home</span></li>
+          <li><i class="bx bx-edit"></i><span>Add/Edit Document</span></li>
+          <li><i class="bx bx-user"></i><span>Manage Members</span></li>
+          <li><i class="bx bx-book"></i><span>Loans</span></li>
+          <li><i class="bx bx-calendar"></i><span>Reservations</span></li>
+          <li>
+            <i class="bx bx-user-voice"></i><span>Author/Publishers</span>
+          </li>
+          <li><i class="bx bx-shield-quarter"></i><span>Admin View</span></li>
+        </ul>
+        <ul class="sidebar-footer">
+          <li><i class="bx bx-log-out"></i><span>Logout</span></li>
+        </ul>
+      </aside>
 
-      <div class="quote-box">
-        <p><span class="quote-mark">“</span>The only thing that you absolutely have to know is the location of the library.<span class="quote-mark">”</span></p>
-        <p class="quote-author">– Albert Einstein</p>
-      </div>
-    </main>
-  </div>
+      <!-- Main Content -->
+      <main class="main-content">
+        <div class="top-bar">
+          <a href="staffDashboard.html" class="home-link">
+            <i class="bx bx-book-bookmark"></i>
+            <span>GAMDL Staff</span>
+          </a>
+          <div class="user-icon">TS</div>
+        </div>
 
-  <script src="addEditScreen.js"></script>
-</body>
+        <div class="doc-center-wrapper">
+          <h2 class="welcome-text">Add or Edit a Document</h2>
+          <div class="doc-button-wrapper">
+            <div class="doc-card" id="createDocBtn">
+              <i class="bx bx-file"></i>
+              <span>Create Document</span>
+            </div>
+
+            <div class="doc-card" id="editDocBtn">
+              <i class="bx bx-edit-alt"></i>
+              <span>Edit Document</span>
+            </div>
+          </div>
+
+          <form id="createDocForm" class="create-doc-form hidden">
+            <label for="title">Book Title</label>
+            <input type="text" id="title" placeholder="Enter book title" />
+          
+            <label for="author">Author</label>
+            <input type="text" id="author" placeholder="Enter author name" />
+          
+            <label for="genre">Genre</label>
+            <input type="text" id="genre" placeholder="Enter genre" />
+          
+            <label for="rating">Rating</label>
+            <input type="number" id="rating" min="1" max="5" placeholder="1–5" />
+          
+            <label for="copies">Total Copies</label>
+            <input type="number" id="copies" placeholder="Enter number of copies" />
+          
+            <button type="submit">Submit</button>
+          </form>
+          
+        </div>
+
+        <div class="quote-box">
+          <p>
+            <span class="quote-mark">“</span>The only thing that you absolutely
+            have to know is the location of the library.<span class="quote-mark"
+              >”</span
+            >
+          </p>
+          <p class="quote-author">– Albert Einstein</p>
+        </div>
+      </main>
+    </div>
+
+    <script src="addEditScreen.js"></script>
+  </body>
 </html>

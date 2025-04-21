@@ -4,7 +4,8 @@
   box-sizing: border-box;
 }
 
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   font-family: "Poppins", sans-serif;
@@ -24,7 +25,6 @@ body, html {
   width: 220px;
   display: flex;
   flex-direction: column;
-  transition: width 0.3s ease;
   height: 100%;
 }
 
@@ -66,7 +66,6 @@ body, html {
   align-items: center;
   padding: 12px 20px;
   cursor: pointer;
-  transition: background-color 0.2s;
 }
 
 .sidebar li i {
@@ -82,17 +81,16 @@ body, html {
 }
 
 .main-content {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    background: linear-gradient(90deg, #e1bb80, #d3b078);
-    padding: 30px;
-    align-items: center;
-    justify-content: flex-start;
-    height: 100vh;
-    box-sizing: border-box;
-  }
-  
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(90deg, #e1bb80, #d3b078);
+  padding: 30px;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  box-sizing: border-box;
+}
 
 .top-bar {
   display: flex;
@@ -103,22 +101,19 @@ body, html {
 }
 
 .home-link {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    font-size: 26px;
-    font-weight: 700;
-    color: #352208;
-    transition: color 0.2s ease;
-  }
-  
-  .home-link:hover {
-    color: #5a3e1b;
-    cursor: pointer;
-  }
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font-size: 26px;
+  font-weight: 700;
+  color: #352208;
+}
 
-  
+.home-link:hover {
+  color: #5a3e1b;
+  cursor: pointer;
+}
 
 .user-icon {
   width: 42px;
@@ -139,85 +134,73 @@ body, html {
   color: #352208;
   margin-bottom: 40px;
 }
-  
 
 .doc-center-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    width: 100%;
-  }
-  
-  
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+}
 
-  .doc-button-wrapper {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    grid-template-rows: 1fr;
-    gap: 40px;
-    width: 100%;
-    max-width: 1000px;
-    height: 60vh; 
-    height: clamp(300px, 40vh, 500px);
-    box-sizing: border-box;
-  }
-  
+.doc-button-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 40px;
+  width: 100%;
+  max-width: 1000px;
+  box-sizing: border-box;
+}
 
-  .doc-card {
-    background-color: white;
-    border: 2px solid #352208;
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #352208;
-    font-weight: 600;
-    font-size: 20px;
-    cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.2s ease;
-    height: clamp(220px, 30vh, 300px); 
-    padding: 35px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
+.doc-card {
+  background-color: white;
+  border: 2px solid #352208;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #352208;
+  font-weight: 600;
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  height: 220px;
+  padding: 35px;
+  width: 100%;
+  box-sizing: border-box;
+}
 
-  .doc-card i {
-    font-size: clamp(48px, 5vw, 64px);
-    margin-bottom: 14px;
-  }
-  .doc-card span {
-    font-size: clamp(18px, 2vw, 22px);
-  }
-  
-  
+.doc-card i {
+  font-size: 48px;
+  margin-bottom: 14px;
+}
+
+.doc-card span {
+  font-size: 20px;
+}
 
 .doc-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
   background-color: #f1ddb7;
 }
 
-/* Quote */
 .quote-box {
-    margin-top: auto;
-    background-color: #fffaf1;
-    border-left: 4px solid #352208;
-    padding: 20px 30px;
-    width: 90%;
-    max-width: 700px;
-    color: #352208;
-    font-size: 17px;
-    font-weight: 500;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-    text-align: left;
-    line-height: 1.6;
-  }
-  
+  margin-top: auto;
+  background-color: #fffaf1;
+  border-left: 4px solid #352208;
+  padding: 20px 30px;
+  width: 90%;
+  max-width: 700px;
+  color: #352208;
+  font-size: 17px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  text-align: left;
+  line-height: 1.6;
+}
 
 .quote-mark {
   font-size: 24px;
@@ -233,17 +216,87 @@ body, html {
 }
 
 @media screen and (max-width: 768px) {
-    .doc-center-wrapper {
-      justify-content: flex-start;
-    }
-  
-    .doc-button-wrapper {
-      grid-template-columns: 1fr;
-      height: auto;
-    }
-  
-    .doc-card {
-      height: 200px;
-    }
+  .doc-center-wrapper {
+    justify-content: flex-start;
   }
-  
+
+  .doc-button-wrapper {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .doc-card {
+    height: 200px;
+  }
+}
+
+.create-doc-form.hidden {
+  display: none;
+}
+
+.creating-document .create-doc-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 40px;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.create-doc-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  max-width: 600px;
+  margin: 40px auto 0;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.create-doc-form input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  background-color: #fafafa;
+}
+
+.create-doc-form label {
+  font-weight: 600;
+  color: #352208;
+}
+
+.create-doc-form button {
+  margin-top: 10px;
+  padding: 12px;
+  background-color: #352208;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.create-doc-form button:hover {
+  background-color: #5a3e1b;
+}
+
+.creating-document #createDocBtn {
+  background-color: #352208;
+  color: white;
+  border-color: white;
+}
+
+.creating-document #createDocBtn i,
+.creating-document #createDocBtn span {
+  color: white;
+}
+
+
