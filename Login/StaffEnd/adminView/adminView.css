@@ -245,6 +245,7 @@ html {
 
 .admin-message {
   background-color: #fffaf1;
+  text-align: center;
   border-left: 6px solid #b98f4f;
   padding: 40px 50px;
   border-radius: 16px;
@@ -262,6 +263,10 @@ html {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.admin-message strong{
+    font-size: 25px;
 }
 
 .admin-icon {
