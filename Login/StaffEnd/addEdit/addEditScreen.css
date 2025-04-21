@@ -178,7 +178,7 @@ html, body {
   font-size: 20px;
   height: clamp(220px, 30vh, 300px);
   cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .doc-card i {
@@ -354,7 +354,7 @@ html, body {
   justify-content: flex-start;
 }
 
-.creating-document #createDocBtn {
+/* .creating-document #createDocBtn {
   background-color: #352208;
   color: white;
   border-color: white;
@@ -363,7 +363,7 @@ html, body {
 .creating-document #createDocBtn i,
 .creating-document #createDocBtn span {
   color: white;
-}
+} */
 
 /* ===== Quote Box ===== */
 .quote-box {
@@ -413,4 +413,65 @@ html, body {
 
 .hidden {
   display: none !important;
+}
+
+.edit-message {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 40px 30px;
+  background-color: #fffaf1;
+  color: #352208;
+  border-left: 5px solid #b98f4f;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.6;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.edit-message .edit-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  color: #b98f4f;
+}
+
+.edit-message p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.show-message {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+.doc-card i,
+.doc-card span {
+  color: #352208;
+}
+
+/* Highlight for active CREATE */
+#createDocBtn.active-create {
+  background-color: #352208;
+  border-color: white;
+}
+
+#createDocBtn.active-create i,
+#createDocBtn.active-create span {
+  color: white;
+}
+
+/* Highlight for active EDIT */
+#editDocBtn.active-edit {
+  background-color: #352208;
+  border-color: white;
+}
+
+#editDocBtn.active-edit i,
+#editDocBtn.active-edit span {
+  color: white;
 }

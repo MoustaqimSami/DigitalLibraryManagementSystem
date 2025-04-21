@@ -1,39 +1,64 @@
-const toggleBtn = document.getElementById("toggleSidebar");
-const sidebar = document.querySelector(".sidebar");
-
-toggleBtn.addEventListener("click", () => {
-  sidebar.classList.toggle("collapsed");
-});
-
 const createDocBtn = document.getElementById("createDocBtn");
+const editDocBtn = document.getElementById("editDocBtn");
 const docWrapper = document.querySelector(".doc-center-wrapper");
 const form = document.getElementById("createDocForm");
+const editMessage = document.getElementById("editMessage");
 const welcomeText = document.querySelector(".welcome-text");
 const allCards = document.querySelectorAll(".doc-card");
 
 createDocBtn.addEventListener("click", () => {
-  // Step 1: Move heading up
   welcomeText.classList.add("move-up");
 
-  // Step 2: Shrink cards (visible)
   setTimeout(() => {
-    allCards.forEach(card => {
-      card.classList.add("shrink-height");
-    });
+    allCards.forEach(card => card.classList.add("shrink-height"));
   }, 200);
 
-  // Step 3: Add grid shift + transition class
-  // NOTE: this triggers both margin and button highlight
   setTimeout(() => {
     docWrapper.classList.add("creating-document");
-  }, 400); // enough time after shrink begins
 
-  // Step 4: Reveal form
-  setTimeout(() => {
+    // Remove both highlights first
+    createDocBtn.classList.remove("active-create");
+    editDocBtn.classList.remove("active-edit");
+
+    //  Highlight only create
+    createDocBtn.classList.add("active-create");
+
+    // Show form, hide message
     form.classList.remove("hidden");
+    editMessage.classList.add("hidden");
+    editMessage.classList.remove("show-message");
+
     form.scrollIntoView({ behavior: "smooth" });
-  }, 800);
+  }, 400);
 });
+
+
+editDocBtn.addEventListener("click", () => {
+  welcomeText.classList.add("move-up");
+
+  setTimeout(() => {
+    allCards.forEach(card => card.classList.add("shrink-height"));
+  }, 200);
+
+  setTimeout(() => {
+    docWrapper.classList.add("creating-document");
+
+    // Remove both highlights first
+    createDocBtn.classList.remove("active-create");
+    editDocBtn.classList.remove("active-edit");
+
+    //  Highlight only edit
+    editDocBtn.classList.add("active-edit");
+
+    // Show message, hide form
+    editMessage.classList.remove("hidden");
+    editMessage.classList.add("show-message");
+    form.classList.add("hidden");
+
+    editMessage.scrollIntoView({ behavior: "smooth" });
+  }, 400);
+});
+
 
 
 
