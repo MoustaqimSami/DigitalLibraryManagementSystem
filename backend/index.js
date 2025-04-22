@@ -737,6 +737,64 @@ app.delete('/api/authorGenres/:Author_ID', (req, res) => {
   });
 });
 
+app.get('/api/reservations', (req, res) => {
+  const q = `SELECT *
+  FROM reservation
+  `
+  ;
+  db.query(q, (err, data) => {
+    if (err) {
+      console.error('Error fetching reservations:', err);
+      return res.status(500).json(err);
+    }
+    res.status(200).json(data);
+  });
+});
+
+app.patch('/api/reservations/:Reservation_no', (req, res) => {
+  const Reservation_no = req.params.Reservation_no;
+
+  const q = `
+    UPDATE reservation
+    SET 
+      Member_Email = ?,
+      ItemID = ?,
+      Status = ?
+    WHERE Reservation_no = ?
+  `;
+
+  const values = [
+    req.body.Member_Email,
+    req.body.ItemID,
+    req.body.Status,
+    Reservation_no
+  ];
+
+  db.query(q, values, (err, data) => {
+    if (err) {
+      console.error('Error updating reservation:', err);
+      return res.status(500).json(err);
+    }
+    res.status(200).json('reservation updated successfully');
+  });
+});
+
+
+app.delete('/api/reservations/:Reservation_no', (req, res) => {
+  const Reservation_no = req.params.Reservation_no;
+
+  const deleteAccounts = `DELETE FROM reservation WHERE Reservation_no = ?`;
+
+  db.query(deleteAccounts, [Reservation_no], (err1, result1) => {
+    if (err1) {
+      console.error('Error deleting from reservation:', err1);
+      return res.status(500).json(err1);
+    }
+  });
+  res.status(200).json('reservation deleted successfully');
+});
+
+
 app.listen(8800, ()=> {
     console.log("Connected to backend");
 });
