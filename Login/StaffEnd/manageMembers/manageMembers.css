@@ -30,12 +30,22 @@ html {
   align-items: center;
   min-height: 100vh;
   padding: 40px;
-  position: relative;
+  overflow-y: auto;
 }
 
 .quote-box {
-  position: absolute;
-  bottom: 30px;
+  margin-top: auto;
+  background-color: #fffaf1;
+  border-left: 4px solid #352208;
+  padding: 20px 30px;
+  width: 90%;
+  max-width: 700px;
+  font-size: 17px;
+  font-weight: 500;
+  color: #352208;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  line-height: 1.6;
 }
 
 /* ===== SIDEBAR ===== */
@@ -92,6 +102,9 @@ html {
 
 .sidebar li i {
   margin-right: 12px;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
 }
 
 .sidebar li:hover {
