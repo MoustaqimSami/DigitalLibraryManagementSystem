@@ -244,18 +244,24 @@ loadMembers();
 // Edit modal logic
 const editModal = document.getElementById("editModal");
 const editForm = document.getElementById("editForm");
+
 let currentEditIndex = null;
+let selectedEmail = null; // 🔥 Save separately
 
 function openEditModal(index) {
   currentEditIndex = index;
-  const member = members[index];
-  document.getElementById("editEmail").value = member.email;
-  document.getElementById("editFname").value = member.fname;
-  document.getElementById("editMinit").value = member.minit;
-  document.getElementById("editLname").value = member.lname;
-  document.getElementById("editPhone").value = member.phone;
-  document.getElementById("editStart").value = member.start;
-  document.getElementById("editExpiration").value = member.expiration;
+  const member = members1[index];
+
+  selectedEmail = member.Email; // 🔥 Save the email to know who we are patching
+
+  document.getElementById("editEmail").value = member.Email;
+  document.getElementById("editFname").value = member.Fname || "";
+  document.getElementById("editMinit").value = member.Minit || "";
+  document.getElementById("editLname").value = member.Lname || "";
+  document.getElementById("editPhone").value = member.Phone || "";
+  document.getElementById("editStart").value = member.StartDate ? member.StartDate.substring(0, 10) : "";
+  document.getElementById("editExpiration").value = member.ExpirationDate ? member.ExpirationDate.substring(0, 10) : "";
+
   editModal.classList.remove("hidden");
   editModal.style.display = "flex";
 }
@@ -265,38 +271,40 @@ document.getElementById("cancelEdit").addEventListener("click", () => {
   editModal.style.display = "none";
 });
 
-editForm.addEventListener("submit", (e) => {
+editForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  members[currentEditIndex] = {
-    email: document.getElementById("editEmail").value,
-    fname: document.getElementById("editFname").value,
-    minit: document.getElementById("editMinit").value,
-    lname: document.getElementById("editLname").value,
-    phone: document.getElementById("editPhone").value,
-    start: document.getElementById("editStart").value,
-    expiration: document.getElementById("editExpiration").value,
+
+  const updatedMember = {
+    Fname: document.getElementById("editFname").value,
+    Minit: document.getElementById("editMinit").value,
+    Lname: document.getElementById("editLname").value,
+    Phone: document.getElementById("editPhone").value,
+    StartDate: document.getElementById("editStart").value,
+    ExpirationDate: document.getElementById("editExpiration").value,
   };
 
-  editModal.classList.add("hidden");
-  editModal.style.display = "none";
-  renderTable();
-
-  // === BACKEND PATCH EXAMPLE ===
-  /*
-  fetch(`/api/members/${members[currentEditIndex].email}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(members[currentEditIndex])
-  }).then(res => res.json())
-    .then(data => {
-      renderTable();
+  try {
+    const response = await fetch(`http://localhost:8800/api/members/${selectedEmail}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(updatedMember)
     });
-  */
+
+    if (!response.ok) throw new Error("Failed to update member");
+
+    console.log("Member updated successfully!");
+
+    editModal.classList.add("hidden");
+    editModal.style.display = "none";
+
+    loadMembers(); // 🔥 reload fresh data
+  } catch (error) {
+    console.error("Error updating member:", error);
+  }
 });
 
-// Delete modal logic
 const deleteModal = document.getElementById("deleteModal");
 const deletePrompt = document.getElementById("deletePrompt");
 const deleteConfirmBtn = document.getElementById("confirmDelete");
@@ -305,31 +313,36 @@ let currentDeleteIndex = null;
 
 function openDeleteModal(index) {
   currentDeleteIndex = index;
-  const fullName = members[index].fname + " " + members[index].lname;
+  const fullName = members1[index].Fname + " " + members1[index].Lname; // 🔥 fixed capitalization
   deletePrompt.textContent = `Do you want to delete member: ${fullName}?`;
   deleteModal.style.display = "flex";
 }
 
+// Cancel delete
 deleteCancelBtn.addEventListener("click", () => {
   deleteModal.classList.add("hidden");
   deleteModal.style.display = "none";
 });
 
-deleteConfirmBtn.addEventListener("click", () => {
-  members.splice(currentDeleteIndex, 1);
-  deleteModal.classList.add("hidden");
-  deleteModal.style.display = "none";
-  renderTable();
+// Confirm delete
+deleteConfirmBtn.addEventListener("click", async () => {
+  const member = members1[currentDeleteIndex];
+  const encodedEmail = encodeURIComponent(member.Email); // 🔥 encode email
 
-  // === BACKEND DELETE EXAMPLE ===
-  /*
-  fetch(`/api/members/${memberId}`, {
-    method: 'DELETE'
-  }).then(res => {
-    if (res.ok) {
-      members.splice(index, 1);
-      renderTable();
-    }
-  });
-  */
+  try {
+    const response = await fetch(`http://localhost:8800/api/members/${encodedEmail}`, {
+      method: 'DELETE'
+    });
+
+    if (!response.ok) throw new Error('Failed to delete member');
+
+    console.log('Member deleted successfully!');
+
+    deleteModal.classList.add("hidden");
+    deleteModal.style.display = "none";
+
+    loadMembers(); // 🔥 refresh table
+  } catch (error) {
+    console.error('Error deleting member:', error);
+  }
 });
