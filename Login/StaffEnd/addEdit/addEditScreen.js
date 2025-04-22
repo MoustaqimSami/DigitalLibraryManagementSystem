@@ -103,19 +103,6 @@ typeSelect.addEventListener("change", () => {
   }
 });
 
-
-
-const typeSelect = document.getElementById("type");
-const genreGroup = document.getElementById("genreGroup");
-const genreLabel = genreGroup.querySelector("label");
-const genreSelect = document.getElementById("genre");
-
-const editionGroup = document.getElementById("editionGroup");
-const issnGroup = document.getElementById("issnGroup");
-const formatGroup = document.getElementById("formatGroup");
-const isbnGroup = document.getElementById("isbnGroup");
-
-
 typeSelect.addEventListener("change", () => {
   const type = typeSelect.value;
 
