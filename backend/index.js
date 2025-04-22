@@ -428,6 +428,148 @@ app.get('/api/members', (req, res) => {
     });
 });
 
+app.patch('/api/members/:email', (req, res) => {
+    const email = req.params.email;
+    const { Fname, Minit, Lname, Phone, StartDate, ExpirationDate } = req.body;
+  
+    const q = `
+      UPDATE client c
+      JOIN member m ON c.Email = m.Member_Email
+      SET 
+        c.Fname = ?,
+        c.MInit = ?,
+        c.Lname = ?,
+        c.Phone_no = ?,
+        m.Start_Date = ?,
+        m.Expiration_Date = ?
+      WHERE c.Email = ?
+    `;
+  
+    const values = [
+      Fname,
+      Minit,
+      Lname,
+      Phone,
+      StartDate,
+      ExpirationDate,
+      email
+    ];
+  
+    db.query(q, values, (err, data) => {
+      if (err) {
+        console.error('Error updating member:', err);
+        return res.status(500).json(err);
+      }
+      res.status(200).json('Member updated successfully');
+    });
+  });
+
+  app.delete('/api/members/:email', (req, res) => {
+    const email = req.params.email;
+  
+    // Step 1: Delete from client_accounts
+    const deleteAccounts = `DELETE FROM client_accounts WHERE Email = ?`;
+  
+    db.query(deleteAccounts, [email], (err1, result1) => {
+      if (err1) {
+        console.error('Error deleting from client_accounts:', err1);
+        return res.status(500).json(err1);
+      }
+  
+        // Step 2: Delete from member
+        const deleteMember = `DELETE FROM member WHERE Member_Email = ?`;
+        db.query(deleteMember, [email], (err2, result2) => {
+        if (err2) {
+          console.error('Error deleting from member:', err2);
+          return res.status(500).json(err2);
+        }
+
+        // Step 3: Delete from loan
+        const deleteMember = `DELETE FROM loan WHERE Client_Email = ?`;
+        db.query(deleteMember, [email], (err2, result2) => {
+        if (err2) {
+          console.error('Error deleting from member:', err2);
+          return res.status(500).json(err2);
+        }
+
+        // Step 4: Delete from reservation
+        const deleteMember = `DELETE FROM reservation WHERE Member_Email = ?`;
+        db.query(deleteMember, [email], (err2, result2) => {
+        if (err2) {
+          console.error('Error deleting from member:', err2);
+          return res.status(500).json(err2);
+        }
+  
+        // Step 5: Delete from client
+        const deleteClient = `DELETE FROM client WHERE Email = ?`;
+        db.query(deleteClient, [email], (err3, result3) => {
+          if (err3) {
+            console.error('Error deleting from client:', err3);
+            return res.status(500).json(err3);
+          }
+  
+          res.status(200).json('Member deleted successfully');
+          
+        });
+      });
+    });
+    });
+    });
+  });
+
+app.get('/api/publishers', (req, res) => {
+    const q = `SELECT Publisher_ID, Name
+    FROM publisher 
+    `
+    ;
+
+    db.query(q, (err, data) => {
+      if (err) {
+        console.error('Error fetching members:', err);
+        return res.status(500).json(err);
+      }
+      res.status(200).json(data);
+    });
+});
+
+app.patch('/api/publishers/:Publisher_ID', (req, res) => {
+  const Publisher_ID = req.params.Publisher_ID;
+
+  const q = `
+    UPDATE publisher
+    SET 
+      Name = ?
+    WHERE Publisher_ID = ?
+  `;
+
+  const values = [
+    req.body.Name,
+    Publisher_ID
+  ];
+
+  db.query(q, values, (err, data) => {
+    if (err) {
+      console.error('Error updating member:', err);
+      return res.status(500).json(err);
+    }
+    res.status(200).json('Member updated successfully');
+  });
+});
+
+app.delete('/api/publishers/:Publisher_ID', (req, res) => {
+  const Publisher_ID = req.params.Publisher_ID;
+
+  const deleteAccounts = `DELETE FROM publisher WHERE Publisher_ID = ?`;
+
+  db.query(deleteAccounts, [Publisher_ID], (err1, result1) => {
+    if (err1) {
+      console.error('Error deleting from publishers:', err1);
+      return res.status(500).json(err1);
+    }
+  });
+  res.status(200).json('Publisher deleted successfully');
+});
+
 app.listen(8800, ()=> {
     console.log("Connected to backend");
 });
