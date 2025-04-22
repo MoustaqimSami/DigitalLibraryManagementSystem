@@ -1,0 +1,255 @@
+/* ===== IMPORTS ===== */
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+/* ===== RESET & BASE ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body,
+html {
+  height: 100%;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(90deg, #e1bb80, #d3b078);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* ===== LAYOUT ===== */
+.dashboard-wrapper {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    position: relative;
+  }
+  
+  .grid-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #352208;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+
+  .grid-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+    width: 100%;
+    max-width: 1000px;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+  
+  
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: 220px;
+  height: 100%;
+  background-color: #352208;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+}
+
+.sidebar.collapsed {
+  width: 60px;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+#toggleSidebar {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.sidebar-menu,
+.sidebar-footer {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding-bottom: 20px;
+}
+
+.sidebar li {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.sidebar li i {
+  margin-right: 12px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar li:hover {
+  background-color: #5a3e1b;
+}
+
+.sidebar.collapsed li span {
+  display: none;
+}
+
+/* ===== HEADER ===== */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.user-icon {
+  width: 42px;
+  height: 42px;
+  background-color: #352208;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 16px;
+}
+
+.home-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 26px;
+  font-weight: 700;
+  text-decoration: none;
+  color: #352208;
+  transition: color 0.2s ease;
+}
+
+.home-link:hover {
+  color: #5a3e1b;
+}
+
+/* ===== CARD GRID ===== */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(280px, 1fr)); /* bigger boxes */
+    gap: 40px;
+    width: 100%;
+    max-width: 800px;
+    padding: 40px;
+    justify-content: center;
+    align-items: center;
+  }
+  
+
+  .card {
+    background-color: white;
+    border: 2px solid #352208;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #352208;
+    font-weight: 600;
+    font-size: 22px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    padding: 40px 30px;              
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    min-height: 220px;               
+    min-width: 240px;
+  }
+  
+
+.card i {
+  font-size: 42px;
+  margin-bottom: 14px;
+}
+
+.card:hover {
+  transform: scale(1.03);
+  background-color: #f1ddb7;
+}
+
+/* ===== QUOTE BOX ===== */
+.quote-box {
+  margin-top: auto;
+  background-color: #fffaf1;
+  border-left: 4px solid #352208;
+  padding: 20px 25px;
+  width: 90%;
+  max-width: 700px;
+  color: #352208;
+  font-size: 16px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  text-align: left;
+  line-height: 1.6;
+  box-sizing: border-box;
+  align-self: center;
+}
+
+.quote-mark {
+  font-size: 24px;
+  color: #b98f4f;
+  margin-right: 5px;
+}
+
+.quote-author {
+  text-align: right;
+  margin-top: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #352208;
+}
+
+/* ===== RESPONSIVE ===== */
+@media screen and (max-width: 600px) {
+    .grid-container {
+      grid-template-columns: 1fr;
+    }
+  }
+  
