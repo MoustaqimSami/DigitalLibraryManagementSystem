@@ -7,22 +7,29 @@ toggleBtn.addEventListener("click", () => {
   sidebar.classList.toggle("collapsed");
 });
 
-// Mock publisher data
-const publishers = [
-  { id: "PUB001", name: "Pearson Education" },
-  { id: "PUB002", name: "Penguin Random House" },
-  { id: "PUB003", name: "Oxford University Press" }
-];
+let members1 = []; // 🔥 We'll fetch real members into here
 
+async function loadPublisher() {
+  try {
+    const response = await fetch('http://localhost:8800/api/publishers'); // adjust if different
+    if (!response.ok) throw new Error('Failed to fetch publishers');
+
+    members1 = await response.json();
+    renderTable();
+  } catch (error) {
+    console.error('Error loading publisher:', error);
+  }
+}
+
+// Render the table
 const tableBody = document.getElementById("publisherTableBody");
-
 function renderTable() {
   tableBody.innerHTML = "";
-  publishers.forEach((publisher, index) => {
+  members1.forEach((member1, index) => {
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td>${publisher.id}</td>
-      <td>${publisher.name}</td>
+      <td>${member1.Publisher_ID}</td>
+      <td>${member1.Name}</td>
       <td>
         <div class="action-buttons">
           <button class="edit-btn" onclick="openEditModal(${index})"><i class='bx bx-pencil'></i></button>
@@ -34,7 +41,7 @@ function renderTable() {
   });
 }
 
-renderTable();
+loadPublisher();
 
 // Edit Modal Logic
 const editModal = document.getElementById("editModal");
@@ -43,8 +50,11 @@ let currentEditIndex = null;
 
 function openEditModal(index) {
   currentEditIndex = index;
-  document.getElementById("editPublisherId").value = publishers[index].id;
-  document.getElementById("editPublisherName").value = publishers[index].name;
+  const publishers = members1[index]
+
+  selectedPID = publishers.Publisher_ID
+  document.getElementById("editPublisherId").value = publishers.Publisher_ID;
+  document.getElementById("editPublisherName").value = publishers.Name;
   editModal.classList.remove("hidden");
   editModal.style.display = "flex";
 }
@@ -54,29 +64,30 @@ document.getElementById("cancelEdit").addEventListener("click", () => {
   editModal.style.display = "none";
 });
 
-editForm.addEventListener("submit", (e) => {
+editForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  publishers[currentEditIndex] = {
-    id: document.getElementById("editPublisherId").value,
-    name: document.getElementById("editPublisherName").value
+  publishers = {
+    Name: document.getElementById("editPublisherName").value
   };
-  editModal.classList.add("hidden");
-  editModal.style.display = "none";
-  renderTable();
-
-  // === BACKEND PATCH EXAMPLE ===
-  /*
-  fetch(`/api/publishers/${publishers[currentEditIndex].id}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(publishers[currentEditIndex])
-  }).then(res => res.json())
-    .then(data => {
-      renderTable();
+  try {
+    const response = await fetch(`http://localhost:8800/api/publishers/${selectedPID}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(publishers)
     });
-  */
+
+    if (!response.ok) throw new Error("Failed to update member");
+
+    console.log("Member updated successfully!");
+
+    editModal.classList.add("hidden");
+    editModal.style.display = "none";
+    loadPublisher();
+  } catch (error) {
+    console.error("Error updating member:", error);
+  }
 });
 
 // Delete Modal Logic
@@ -88,7 +99,7 @@ let currentDeleteIndex = null;
 
 function openDeleteModal(index) {
   currentDeleteIndex = index;
-  deletePrompt.textContent = `Do you want to delete publisher: ${publishers[index].name}?`;
+  deletePrompt.textContent = `Do you want to delete publisher: ${members1[index].Name}?`;
   deleteModal.style.display = "flex";
 }
 
@@ -97,21 +108,24 @@ deleteCancelBtn.addEventListener("click", () => {
   deleteModal.style.display = "none";
 });
 
-deleteConfirmBtn.addEventListener("click", () => {
-  publishers.splice(currentDeleteIndex, 1);
-  deleteModal.classList.add("hidden");
-  deleteModal.style.display = "none";
-  renderTable();
+deleteConfirmBtn.addEventListener("click", async () => {
+  const publisher = members1[currentDeleteIndex];
+  const publisherId = encodeURIComponent(publisher.Publisher_ID); // 🔥 encode email
 
-  // === BACKEND DELETE EXAMPLE ===
-  /*
-  fetch(`/api/publishers/${publisherId}`, {
-    method: 'DELETE'
-  }).then(res => {
-    if (res.ok) {
-      publishers.splice(index, 1);
-      renderTable();
-    }
-  });
-  */
+  try {
+    const response = await fetch(`http://localhost:8800/api/publishers/${publisherId}`, {
+      method: 'DELETE'
+    });
+
+    if (!response.ok) throw new Error('Failed to delete publisher');
+
+    console.log('publisher deleted successfully!');
+
+    deleteModal.classList.add("hidden");
+    deleteModal.style.display = "none";
+
+    loadPublisher(); // 🔥 refresh table
+  } catch (error) {
+    console.error('Error deleting member:', error);
+  }
 });

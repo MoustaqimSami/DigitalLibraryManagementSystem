@@ -517,6 +517,59 @@ app.patch('/api/members/:email', (req, res) => {
     });
   });
 
+app.get('/api/publishers', (req, res) => {
+    const q = `SELECT Publisher_ID, Name
+    FROM publisher 
+    `
+    ;
+
+    db.query(q, (err, data) => {
+      if (err) {
+        console.error('Error fetching members:', err);
+        return res.status(500).json(err);
+      }
+      res.status(200).json(data);
+    });
+});
+
+app.patch('/api/publishers/:Publisher_ID', (req, res) => {
+  const Publisher_ID = req.params.Publisher_ID;
+
+  const q = `
+    UPDATE publisher
+    SET 
+      Name = ?
+    WHERE Publisher_ID = ?
+  `;
+
+  const values = [
+    req.body.Name,
+    Publisher_ID
+  ];
+
+  db.query(q, values, (err, data) => {
+    if (err) {
+      console.error('Error updating member:', err);
+      return res.status(500).json(err);
+    }
+    res.status(200).json('Member updated successfully');
+  });
+});
+
+app.delete('/api/publishers/:Publisher_ID', (req, res) => {
+  const Publisher_ID = req.params.Publisher_ID;
+
+  const deleteAccounts = `DELETE FROM publisher WHERE Publisher_ID = ?`;
+
+  db.query(deleteAccounts, [Publisher_ID], (err1, result1) => {
+    if (err1) {
+      console.error('Error deleting from publishers:', err1);
+      return res.status(500).json(err1);
+    }
+  });
+  res.status(200).json('Publisher deleted successfully');
+});
+
 app.listen(8800, ()=> {
     console.log("Connected to backend");
 });
