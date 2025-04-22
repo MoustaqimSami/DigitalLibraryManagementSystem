@@ -1,14 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Members</title>
-    <link rel="stylesheet" href="manageMembers.css" />
-    <link
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-      rel="stylesheet"
-    />
+    <title>Publishers</title>
+    <link rel="stylesheet" href="managePublishers.css" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
   </head>
   <body>
     <div class="dashboard-wrapper">
@@ -23,9 +20,7 @@
           <li><i class="bx bx-user"></i><span>Manage Members</span></li>
           <li><i class="bx bx-book"></i><span>Loans</span></li>
           <li><i class="bx bx-calendar"></i><span>Reservations</span></li>
-          <li>
-            <i class="bx bx-user-voice"></i><span>Author/Publishers</span>
-          </li>
+          <li><i class="bx bx-user-voice"></i><span>Author/Publishers</span></li>
           <li><i class="bx bx-shield-quarter"></i><span>Admin View</span></li>
         </ul>
         <ul class="sidebar-footer">
@@ -44,28 +39,21 @@
         </div>
 
         <div class="member-center">
-          <h1 class="page-title">Edit Members</h1>
-          <p class="page-subtitle">
-            Because even librarians forget their passwords...
-          </p>
+          <h1 class="page-title">Edit Publishers</h1>
+          <p class="page-subtitle">Where words meet the world, one publisher at a time.</p>
 
-          <h2 class="member-table-title">MEMBERS</h2>
+          <h2 class="member-table-title">PUBLISHERS</h2>
 
           <div class="member-table-wrapper">
             <table class="member-table">
               <thead>
                 <tr>
-                  <th>Email</th>
-                  <th>First Name</th>
-                  <th>Mid Init</th>
-                  <th>Last Name</th>
-                  <th>Phone No</th>
-                  <th>Start Date</th>
-                  <th>Expiration Date</th>
+                  <th>Publisher ID</th>
+                  <th>Name</th>
                   <th>Actions</th>
                 </tr>
               </thead>
-              <tbody id="memberTableBody">
+              <tbody id="publisherTableBody">
                 <!-- JS will populate this -->
               </tbody>
             </table>
@@ -74,59 +62,21 @@
 
         <div class="quote-box">
           <p>
-            <span class="quote-mark">"</span>Everyone is a member until proven
-            otherwise.<span class="quote-mark">"</span>
+            <span class="quote-mark">"</span>Publishing is the final punctuation mark on the journey of creation.<span class="quote-mark">"</span>
           </p>
-          <p class="quote-author">– Probably a librarian</p>
+          <p class="quote-author">– Unknown</p>
         </div>
 
         <!-- Edit Modal -->
         <div id="editModal" class="modal hidden">
           <div class="modal-content">
-            <h3>Edit Member</h3>
+            <h3>Edit Publisher</h3>
             <form id="editForm">
-              <input type="email" id="editEmail" placeholder="Email" required />
-              <input
-                type="text"
-                id="editFname"
-                placeholder="First Name"
-                required
-              />
-              <input
-                type="text"
-                id="editMinit"
-                placeholder="Middle Initial"
-                maxlength="1"
-              />
-              <input
-                type="text"
-                id="editLname"
-                placeholder="Last Name"
-                required
-              />
-              <input
-                type="text"
-                id="editPhone"
-                placeholder="Phone Number"
-                required
-              />
-              <input
-                type="date"
-                id="editStart"
-                placeholder="Start Date"
-                required
-              />
-              <input
-                type="date"
-                id="editExpiration"
-                placeholder="Expiration Date"
-                required
-              />
+              <input type="text" id="editPublisherId" placeholder="Publisher ID" required />
+              <input type="text" id="editPublisherName" placeholder="Publisher Name" required />
               <div class="modal-buttons">
                 <button type="submit" class="edit-btn">Save Changes</button>
-                <button type="button" id="cancelEdit" class="delete-btn">
-                  Cancel
-                </button>
+                <button type="button" id="cancelEdit" class="delete-btn">Cancel</button>
               </div>
             </form>
           </div>
@@ -142,6 +92,7 @@
         </div>
       </main>
     </div>
-    <script src="manageMembers.js"></script>
+
+    <script src="managePublishers.js"></script>
   </body>
 </html>

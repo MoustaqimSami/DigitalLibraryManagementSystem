@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Genres</title>
+  <link rel="stylesheet" href="manageGenre.css" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar collapsed">
+      <div class="sidebar-header">
+        <button id="toggleSidebar"><i class="bx bx-menu"></i></button>
+      </div>
+      <ul class="sidebar-menu">
+        <li><i class="bx bx-home"></i><span>Home</span></li>
+        <li><i class="bx bx-edit"></i><span>Add/Edit Document</span></li>
+        <li><i class="bx bx-user"></i><span>Manage Members</span></li>
+        <li><i class="bx bx-book"></i><span>Loans</span></li>
+        <li><i class="bx bx-calendar"></i><span>Reservations</span></li>
+        <li><i class="bx bx-user-voice"></i><span>Author/Publishers</span></li>
+        <li><i class="bx bx-shield-quarter"></i><span>Admin View</span></li>
+      </ul>
+      <ul class="sidebar-footer">
+        <li><i class="bx bx-log-out"></i><span>Logout</span></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="top-bar">
+        <a href="staffDashboard.html" class="home-link">
+          <i class="bx bx-book-bookmark"></i>
+          <span>GAMDL Staff</span>
+        </a>
+        <div class="user-icon">TS</div>
+      </div>
+
+      <div class="member-center">
+        <h1 class="page-title">Edit Genres</h1>
+        <p class="page-subtitle">Because every story fits a category...</p>
+
+        <h2 class="member-table-title">GENRES</h2>
+
+        <div class="member-table-wrapper">
+          <table class="member-table">
+            <thead>
+              <tr>
+                <th>Author ID</th>
+                <th>Genre</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="genreTableBody">
+              <!-- JS will populate this -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="quote-box">
+        <p><span class="quote-mark">"</span>Genres are the compass of creativity.<span class="quote-mark">"</span></p>
+        <p class="quote-author">– Literary Thinker</p>
+      </div>
+
+      <!-- Edit Modal -->
+      <div id="editModal" class="modal hidden">
+        <div class="modal-content">
+          <h3>Edit Genre</h3>
+          <form id="editForm">
+            <input type="text" id="editAuthorId" placeholder="Author ID" required />
+            <input type="text" id="editGenre" placeholder="Genre" required />
+            <div class="modal-buttons">
+              <button type="submit" class="edit-btn">Save Changes</button>
+              <button type="button" id="cancelEdit" class="delete-btn">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Delete Modal -->
+      <div id="deleteModal" class="modal hidden">
+        <div class="modal-content">
+          <p id="deletePrompt"></p>
+          <button id="confirmDelete">Yes, Delete</button>
+          <button id="cancelDelete">Cancel</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="manageGenre.js"></script>
+</body>
+</html>
