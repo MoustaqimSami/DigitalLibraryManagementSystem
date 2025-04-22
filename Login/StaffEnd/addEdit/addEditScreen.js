@@ -59,9 +59,6 @@ editDocBtn.addEventListener("click", () => {
   }, 400);
 });
 
-
-
-
 const typeSelect = document.getElementById("type");
 const genreGroup = document.getElementById("genreGroup");
 const genreLabel = genreGroup.querySelector("label");
