@@ -67,6 +67,8 @@ editDocBtn.addEventListener("click", () => {
   }, 400);
 });
 
+
+
 const typeSelect = document.getElementById("type");
 const genreGroup = document.getElementById("genreGroup");
 const genreLabel = genreGroup.querySelector("label");
@@ -143,3 +145,147 @@ typeSelect.addEventListener("change", () => {
     });
   }
 });
+
+
+
+ 
+const submitBtn = document.getElementById("submitBtn");
+
+submitBtn.addEventListener("click", async (e) => {
+
+  e.preventDefault();
+
+  const titleInput = document.getElementById("title").value;
+  const typeInput = document.getElementById("type").value;
+  const authorInput = document.getElementById("author").value;
+  const publisherInput = document.getElementById("publisher").value;
+  const publicationDateInput = document.getElementById("publicationDate").value;
+  const editorInput = document.getElementById("editor").value;
+  const genreInput = document.getElementById("genre").value;
+  const formatInput = document.getElementById("format").value;
+  const editionInput = document.getElementById("edition").value;
+  const issnInput = document.getElementById("issn").value;
+  const isbnInput = document.getElementById("isbn").value;
+  const ratingInput = document.getElementById("rating").value;
+  const totalCopiesInput = document.getElementById("totalCopies").value;
+  const coverColorInput = document.getElementById("coverColor").value;
+  const coverUrlInput = document.getElementById("coverUrl").value;
+  const summaryInput = document.getElementById("summary").value;
+  const languageInput = document.getElementById("language").value;
+  const pagesInput = document.getElementById("pages").value;
+
+  console.log(typeInput);
+  console.log(titleInput);
+    if (!typeInput){
+      console.log("Please select a type");
+    }
+    else if (typeInput=="Book"){
+      try {
+        const res = await fetch('http://localhost:8800/addBook', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              Title: titleInput,
+              Status: "Available",
+              Language: languageInput,
+              Publication_Date: publicationDateInput,
+              Cover_Color: coverColorInput,
+              Cover_URL: coverUrlInput,
+              EditorName: editorInput,
+              AuthorName: authorInput,
+              PublisherName: publisherInput,
+              ISBN: isbnInput,
+              Page_Count: pagesInput,
+              Genre: genreInput,
+              Format: formatInput,
+              Edition: editionInput,
+              Rating: ratingInput,
+              Synopsys: summaryInput
+            })
+        });
+
+        console.log("Got response", res);
+
+        if (res.ok) {
+            console.log("worked");
+        } else {
+            console.log("Failed to add book:");
+        }
+    } catch (err) {
+        console.error("Fetch error:", err);
+        errorMessage.textContent = 'An error occurred. Please try again.';
+    }
+    }
+    else if (typeInput=="Magazine"){
+      try {
+        const res = await fetch('http://localhost:8800/addMagazine', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              Title: titleInput,
+              Status: "Available",
+              Language: languageInput,
+              Publication_Date: publicationDateInput,
+              Cover_Color: coverColorInput,
+              Cover_URL: coverUrlInput,
+              EditorName: editorInput,
+              AuthorName: authorInput,
+              PublisherName: publisherInput,
+              ISSN: issnInput,
+              Category: genreInput,
+              Edition: editionInput,
+            })
+        });
+
+        console.log("Got response", res);
+
+        if (res.ok) {
+            console.log("worked");
+        } else {
+            console.log("Failed to add magazine:");
+        }
+    } catch (err) {
+        console.error("Fetch error:", err);
+        errorMessage.textContent = 'An error occurred. Please try again.';
+    }
+    }
+    else{
+      try {
+        const res = await fetch('http://localhost:8800/addRP', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              Title: titleInput,
+              Status: "Available",
+              Language: languageInput,
+              Publication_Date: publicationDateInput,
+              Cover_Color: coverColorInput,
+              Cover_URL: coverUrlInput,
+              EditorName: editorInput,
+              AuthorName: authorInput,
+              PublisherName: publisherInput,
+              Institution: "University of Calgary",
+              Field_of_Study: genreInput
+            })
+        });
+
+        console.log("Got response", res);
+
+        if (res.ok) {
+            console.log("worked");
+        } else {
+            console.log("Failed to add book:");
+        }
+    } catch (err) {
+        console.error("Fetch error:", err);
+        errorMessage.textContent = 'An error occurred. Please try again.';
+    }
+    }
+  }
+)
