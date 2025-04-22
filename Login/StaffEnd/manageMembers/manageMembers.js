@@ -200,20 +200,34 @@ const members = [
   },
 ];
 
+let members1 = []; // 🔥 We'll fetch real members into here
+
+async function loadMembers() {
+  try {
+    const response = await fetch('http://localhost:8800/api/members'); // adjust if different
+    if (!response.ok) throw new Error('Failed to fetch members');
+
+    members1 = await response.json();
+    renderTable();
+  } catch (error) {
+    console.error('Error loading members:', error);
+  }
+}
+
 // Render the table
 const tableBody = document.getElementById("memberTableBody");
 function renderTable() {
   tableBody.innerHTML = "";
-  members.forEach((member, index) => {
+  members1.forEach((member1, index) => {
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td>${member.email}</td>
-      <td>${member.fname}</td>
-      <td>${member.minit}</td>
-      <td>${member.lname}</td>
-      <td>${member.phone}</td>
-      <td>${member.start}</td>
-      <td>${member.expiration}</td>
+      <td>${member1.Email}</td>
+      <td>${member1.Fname}</td>
+      <td>${member1.Minit}</td>
+      <td>${member1.Lname}</td>
+      <td>${member1.Phone}</td>
+      <td>${member1.Start_Date}</td>
+      <td>${member1.Expiration_Date}</td>
       <td>
         <div class="action-buttons">
           <button class="edit-btn" onclick="openEditModal(${index})"><i class='bx bx-pencil'></i></button>
@@ -225,7 +239,7 @@ function renderTable() {
   });
 }
 
-renderTable();
+loadMembers();
 
 // Edit modal logic
 const editModal = document.getElementById("editModal");

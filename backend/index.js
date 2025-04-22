@@ -396,8 +396,6 @@ app.post("/addRP", (req, res) => {
 });
 });
 
-
-
 app.get('/staffDashboard', isAuthenticatedStaff, (req, res) => {
     res.sendFile(path.join(frontend_path, 'Login', 'StaffEnd', 'StaffDashboard', 'staffDashboard.html'));
 });
@@ -413,6 +411,22 @@ app.get('/session-info', (req, res) => {
     }
   });
 
+
+app.get('/api/members', (req, res) => {
+    const q = `SELECT c.Email AS Email, c.Fname AS Fname, c.MInit AS Minit, c.Lname AS Lname, c.Phone_no as Phone, m.Start_Date as Start_Date, m.Expiration_Date as Expiration_Date
+    FROM client c
+    JOIN member m ON m.Member_Email=c.Email
+    `
+    ;
+  
+    db.query(q, (err, data) => {
+      if (err) {
+        console.error('Error fetching members:', err);
+        return res.status(500).json(err);
+      }
+      res.status(200).json(data);
+    });
+});
 
 app.listen(8800, ()=> {
     console.log("Connected to backend");
