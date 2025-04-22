@@ -246,6 +246,22 @@ html, body {
   pointer-events: none;
 }
 
+.input-group select {
+  padding: 14px 50px 14px 16px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: none;
+  background-color: #f1ddb7;
+  color: #333;
+  font-weight: 500;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 20px;
+}
+
 .create-doc-form input,
 .create-doc-form select,
 .create-doc-form textarea {
@@ -257,6 +273,7 @@ html, body {
   color: #333;
   outline: none;
   font-weight: 500;
+  font-family: "Poppins", sans-serif;
   transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
@@ -297,6 +314,17 @@ html, body {
 
 .create-doc-form button:hover {
   background-color: #5a3e1b;
+}
+
+.create-doc-form input[type="date"] {
+  padding: 12px 50px 12px 16px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: none;
+  background-color: #f9f9f9;
+  color: #333;
+  outline: none;
+  font-weight: 500;
 }
 
 
@@ -380,6 +408,11 @@ html, body {
   .doc-card {
     height: 200px;
   }
+}
+
+
+.hidden {
+  display: none !important;
 }
 
 

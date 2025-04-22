@@ -102,3 +102,49 @@ typeSelect.addEventListener("change", () => {
     });
   }
 });
+
+
+
+const typeSelect = document.getElementById("type");
+const genreGroup = document.getElementById("genreGroup");
+const genreLabel = genreGroup.querySelector("label");
+const genreSelect = document.getElementById("genre");
+
+const editionGroup = document.getElementById("editionGroup");
+const issnGroup = document.getElementById("issnGroup");
+const formatGroup = document.getElementById("formatGroup");
+const isbnGroup = document.getElementById("isbnGroup");
+
+
+typeSelect.addEventListener("change", () => {
+  const type = typeSelect.value;
+
+  // Reset all dynamic fields
+  genreSelect.innerHTML = "";
+  editionGroup.classList.add("hidden");
+  issnGroup.classList.add("hidden");
+  formatGroup.classList.add("hidden");
+  isbnGroup.classList.add("hidden");
+
+  if (type === "Book") {
+    genreLabel.textContent = "Genre";
+    ["Classical", "Historical", "Dystopian", "Coming-of-Age", "Romance", "Adventure", "Poetry", "Fantasy"].forEach(option => {
+      genreSelect.innerHTML += `<option value="${option}">${option}</option>`;
+    });
+    editionGroup.classList.remove("hidden");
+    formatGroup.classList.remove("hidden");
+    isbnGroup.classList.remove("hidden"); // Show ISBN for books
+  } else if (type === "Magazine") {
+    genreLabel.textContent = "Category";
+    ["Fashion", "Entertainment", "Sports", "Cinema"].forEach(option => {
+      genreSelect.innerHTML += `<option value="${option}">${option}</option>`;
+    });
+    editionGroup.classList.remove("hidden");
+    issnGroup.classList.remove("hidden");
+  } else if (type === "Research") {
+    genreLabel.textContent = "Field of Study";
+    ["Science", "Computer Science", "Biology", "Finance", "Education", "Psychology"].forEach(option => {
+      genreSelect.innerHTML += `<option value="${option}">${option}</option>`;
+    });
+  }
+});
