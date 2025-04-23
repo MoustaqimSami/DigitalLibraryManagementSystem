@@ -432,7 +432,7 @@ window.addEventListener("DOMContentLoaded", async () => {
           </div>
           <div class="search-card-details">
             <h3 class="search-card-title">${book.Title}</h3>
-            <p><strong>Rating:</strong> ${book.Rating}</p>
+            <p><strong>Rating:</strong> ${book.Type === "Book" ? (book.Rating || "NA") : "NA"}</p>
             <p><strong>Type:</strong> ${book.Type}</p>
             <p><strong>Genre:</strong> ${book.Genre}</p>
             <p><strong>Author:</strong> ${book.Author_Name}</p>
