@@ -312,7 +312,6 @@ window.addEventListener("DOMContentLoaded", () => {
   ];
 
   // === DOM References ===
-  const bookList = document.getElementById("bookList");
   const searchInput = document.getElementById("searchInput");
   const modal = document.getElementById("bookModal");
   const modalContent = document.getElementById("modalContent");
@@ -464,11 +463,99 @@ window.addEventListener("DOMContentLoaded", () => {
     }, 3000);
   }
 
-  const searchResultsContainer = document.getElementById(
-    "searchResultsContainer"
-  );
-  const searchResults = document.getElementById("searchResults");
-  const noResults = document.getElementById("noResults");
+  const filterBtn = document.querySelector(".filter-btn");
+  const filterModal = document.getElementById("filterModal");
+  const closeFilterModal = document.getElementById("closeFilterModal");
+
+  filterBtn.addEventListener("click", () => {
+    filterModal.classList.remove("hidden");
+  });
+
+  closeFilterModal.addEventListener("click", () => {
+    filterModal.classList.add("hidden");
+  });
+
+  filterModal.addEventListener("click", (e) => {
+    if (e.target === filterModal) {
+      filterModal.classList.add("hidden");
+    }
+  });
+
+  const filterForm = document.getElementById("filterForm");
+
+  filterForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const typeValue = document.getElementById("filterType").value.toLowerCase();
+    const genreValue = document
+      .getElementById("filterGenre")
+      .value.toLowerCase();
+    const langValue = document
+      .getElementById("filterLanguage")
+      .value.toLowerCase();
+    const authorValue = document
+      .getElementById("filterAuthor")
+      .value.toLowerCase();
+
+    const filtered = books.filter((book) => {
+      const typeMatch =
+        !typeValue ||
+        (book.Type && book.Type.toLowerCase().includes(typeValue));
+      const genreMatch =
+        !genreValue ||
+        (book.Genre && book.Genre.toLowerCase().includes(genreValue));
+      const langMatch =
+        !langValue ||
+        (book.Language && book.Language.toLowerCase().includes(langValue));
+      const authorMatch =
+        !authorValue ||
+        (book.Author && book.Author.toLowerCase().includes(authorValue));
+
+      return typeMatch && genreMatch && langMatch && authorMatch;
+    });
+
+    document
+      .querySelectorAll(".horizontal-section")
+      .forEach((section) => (section.style.display = "none"));
+    document
+      .getElementById("searchResultsContainer")
+      .classList.remove("hidden");
+    const searchTitle = document.querySelector(
+      "#searchResultsContainer .section-title"
+    );
+    searchTitle.style.display = "block";
+
+    const noResults = document.getElementById("noResults");
+    const searchResults = document.getElementById("searchResults");
+    searchResults.innerHTML = "";
+
+    if (filtered.length === 0) {
+      noResults.style.display = "flex";
+    } else {
+      noResults.style.display = "none";
+      filtered.forEach((book) =>
+        searchResults.appendChild(createSearchCard(book))
+      );
+    }
+
+    document.getElementById("filterModal").classList.add("hidden");
+  });
+
+  document.getElementById("resetFilters").addEventListener("click", () => {
+    document.getElementById("filterType").value = "";
+    document.getElementById("filterGenre").value = "";
+    document.getElementById("filterLanguage").value = "";
+    document.getElementById("filterAuthor").value = "";
+
+    document
+      .querySelectorAll(".horizontal-section")
+      .forEach((section) => (section.style.display = "block"));
+    document.getElementById("searchResultsContainer").classList.add("hidden");
+    document.getElementById("searchResults").innerHTML = "";
+    document.getElementById("noResults").style.display = "none";
+
+    document.getElementById("filterModal").classList.add("hidden");
+  });
 
   searchInput.addEventListener("input", () => {
     const keyword = searchInput.value.trim().toLowerCase();
@@ -510,9 +597,11 @@ window.addEventListener("DOMContentLoaded", () => {
     if (filtered.length === 0) {
       searchTitle.style.display = "none";
       noResults.classList.add("show");
+      noResults.style.display = "flex";
     } else {
       searchTitle.style.display = "block";
       noResults.classList.remove("show");
+      noResults.style.display = "none";
       filtered.forEach((book) =>
         searchResults.appendChild(createSearchCard(book))
       );

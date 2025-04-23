@@ -714,3 +714,113 @@ html {
   opacity: 1;
   transform: translateY(0);
 }
+
+.filter-modal {
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+}
+
+.filter-modal h2 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #f0e5dc;
+}
+
+#filterForm label {
+  display: block;
+  font-size: 14px;
+  margin-top: 14px;
+  color: #ddd;
+}
+
+#filterForm input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 6px;
+  border: none;
+  border-radius: 8px;
+  background-color: #3a3a3a;
+  color: #fff;
+}
+
+.filter-apply-btn,
+.filter-reset-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.filter-apply-btn {
+  background-color: #f0e5dc;
+  color: #352208;
+}
+
+.filter-reset-btn {
+  background-color: #444;
+  color: #f0e5dc;
+  margin-top: 10px;
+}
+
+.filter-apply-btn:hover {
+  background-color: #e3d2c3;
+}
+
+.filter-reset-btn:hover {
+  background-color: #555;
+}
+
+.filter-modal {
+  max-width: 400px;
+}
+
+#filterForm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+#filterForm input,
+#filterForm select {
+  padding: 10px;
+  font-size: 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2a2a2a;
+  color: #fff;
+}
+
+.filter-apply-btn,
+.filter-reset-btn {
+  width: 100%;
+  padding: 12px 0;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.filter-apply-btn {
+  background-color: #f0e5dc;
+  color: #352208;
+}
+
+.filter-reset-btn {
+  background-color: #444;
+  color: #fff;
+}
+
+.filter-reset-btn:hover {
+  background-color: #555;
+}
+
+.filter-apply-btn:hover {
+  background-color: #e3d2c3;
+}

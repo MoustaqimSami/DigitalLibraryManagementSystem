@@ -160,6 +160,47 @@
       </div>
     </div>
 
+    <!-- Filter Modal -->
+    <div id="filterModal" class="modal hidden">
+      <div class="modal-content filter-modal">
+        <button class="close-modal-btn" id="closeFilterModal">
+          <i class="bx bx-x"></i>
+        </button>
+        <h2 class="modal-title">Filter Search</h2>
+        <form id="filterForm">
+          <label for="filterType">Type</label>
+          <select id="filterType">
+            <option value="">All</option>
+            <option value="Book">Book</option>
+            <option value="Magazine">Magazine</option>
+            <option value="Research Paper">Research Paper</option>
+          </select>
+
+          <label for="filterGenre">Genre</label>
+          <input
+            type="text"
+            id="filterGenre"
+            placeholder="e.g. Sci-Fi, Romance"
+          />
+
+          <label for="filterLanguage">Language</label>
+          <input
+            type="text"
+            id="filterLanguage"
+            placeholder="e.g. English, French"
+          />
+
+          <label for="filterAuthor">Author</label>
+          <input type="text" id="filterAuthor" placeholder="e.g. Matt Haig" />
+
+          <button type="submit" class="filter-apply-btn">Apply Filters</button>
+          <button type="button" class="filter-reset-btn" id="resetFilters">
+            Reset
+          </button>
+        </form>
+      </div>
+    </div>
+
     <script src="home.js"></script>
   </body>
 </html>
