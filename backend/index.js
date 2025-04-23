@@ -25,24 +25,6 @@ const db = mysql.createConnection({
     database: "librarymanagement"
 });
 
-// Middleware to protect routes
-function isAuthenticated(req, res, next) {
-    if (req.session.user) {
-      next();
-    } else {
-      res.status(401).send('You must log in first.');
-    }
-  }
-
-function isAuthenticatedStaff(req, res, next) {
-    if (req.session.user && req.session.user.alevel >= 3) {
-      next();
-    } else {
-      res.status(401).send('You must log in first.');
-    }
-}
-
-
 app.use(express.json());
 app.use(cors())
 app.use(express.json());             
@@ -67,6 +49,7 @@ app.post('/login', (req, res) => {
         if (data.length > 0) {
             req.session.user = {
                 username: data[0].User,
+                email: data[0].Email,
                 role: data[0].Role,
                 alevel: data[0].Access_level
             }
@@ -77,12 +60,8 @@ app.post('/login', (req, res) => {
     });
   });
 
-  // Protected route
-app.get('/dashboard', isAuthenticated, (req, res) => {
-    res.send(`Welcome to your dashboard, ${req.session.user.username}!`);
-});
 
-app.post("/signup", (req, res) => {
+  app.post("/signup", (req, res) => {
     const q = "INSERT INTO login(`User`, `Email`, `Password`, `Role`) VALUES (?)";
 
     const values = [
@@ -97,6 +76,112 @@ app.post("/signup", (req, res) => {
         return res.status(201).json("User created successfully!");
     });
 });
+
+  
+// Middleware to protect routes
+function isAuthenticated(req, res, next) {
+  if (req.session.user) {
+    next();
+  } else {
+    res.status(401).send('You must log in first.');
+  }
+}
+
+function isAuthenticatedStaff(req, res, next) {
+  if (req.session.user && req.session.user.alevel >= 3) {
+    next();
+  } else {
+    res.status(401).send('You must log in first.');
+  }
+}
+
+app.use('/home', isAuthenticated, express.static(path.join(frontend_path, 'Login', 'ClientEnd')));
+app.use('/staffDashboard', isAuthenticatedStaff, express.static(path.join(frontend_path, 'Login', 'StaffEnd')));
+
+app.get('/session-info', (req, res) => {
+  if (req.session.user) {
+    res.json({
+      username: req.session.user.username,
+      email: req.session.user.email,
+      role: req.session.user.role
+    });
+  } else {
+    res.status(401).json({ message: 'Unauthorized' });
+  }
+});
+
+
+
+// Client Protected Routes
+app.get('/home', (req, res) => {
+    res.sendFile(path.join(frontend_path, 'Login', 'ClientEnd', 'home.html'));
+});
+
+app.get('/home/loans', (req, res) => {
+  res.sendFile(path.join(frontend_path, 'Login', 'ClientEnd', 'home.html'));
+});
+
+app.get('/home/reservations', (req, res) => {
+  res.sendFile(path.join(frontend_path, 'Login', 'ClientEnd', 'home.html'));
+});
+
+app.get('/home/profile', (req, res) => {
+  res.sendFile(path.join(frontend_path, 'Login', 'ClientEnd', 'home.html'));
+});
+
+// Staff Protected Routes
+app.get('/staffDashboard', (req, res) => {
+  res.sendFile(path.join(frontend_path, 'Login', 'StaffEnd', 'StaffDashboard', 'staffDashboard.html'));
+});
+
+app.get('/staffDashboard/addDocuments', (req, res) => {
+  res.sendFile(path.join(frontend_path, 'Login', 'StaffEnd', 'addEdit', 'addEditScreen.html'));
+});
+
+app.get('/staffDashboard/adminView', (req, res) => {
+  res.sendFile(path.join(frontend_path, 'Login', 'StaffEnd', 'adminView', 'adminView.html'));
+});
+
+app.get('/staffDashboard/adminView', (req, res) => {
+  res.sendFile(path.join(frontend_path, 'Login', 'StaffEnd', 'adminView', 'adminView.html'));
+});
+
+app.get('/staffDashboard/manageLoans', (req, res) => {
+  res.sendFile(path.join(frontend_path, 'Login', 'StaffEnd', 'manageLoans', 'manageLoans.html'));
+});
+
+app.get('/staffDashboard/manageMembers', (req, res) => {
+  res.sendFile(path.join(frontend_path, 'Login', 'StaffEnd', 'manageMembers', 'manageMembers.html'));
+});
+
+app.get('/staffDashboard/managePubEdiAut', (req, res) => {
+  res.sendFile(path.join(frontend_path, 'Login', 'StaffEnd', 'managePubEdiAut', 'managePBE.html'));
+});
+
+app.get('/staffDashboard/managePubEdiAut/manageAuthors', (req, res) => {
+  res.sendFile(path.join(frontend_path, 'Login', 'StaffEnd', 'managePubEdiAut','manageAuthors' ,'manageAuthors.html'));
+});
+
+app.get('/staffDashboard/managePubEdiAut/manageEditors', (req, res) => {
+  res.sendFile(path.join(frontend_path, 'Login', 'StaffEnd', 'managePubEdiAut','manageEditors' ,'manageEditors.html'));
+});
+
+app.get('/staffDashboard/managePubEdiAut/manageGenre', (req, res) => {
+  res.sendFile(path.join(frontend_path, 'Login', 'StaffEnd', 'managePubEdiAut','manageGenre' ,'manageGenre.html'));
+});
+
+app.get('/staffDashboard/managePubEdiAut/managePublishers', (req, res) => {
+  res.sendFile(path.join(frontend_path, 'Login', 'StaffEnd', 'managePubEdiAut','managePublishers' ,'managePublishers.html'));
+});
+
+app.get('/staffDashboard/manageReservations', (req, res) => {
+  res.sendFile(path.join(frontend_path, 'Login', 'StaffEnd', 'manageReservations', 'manageReservations.html'));
+});
+
+app.get('/staffDashboard/manageLoans', (req, res) => {
+  res.sendFile(path.join(frontend_path, 'Login', 'StaffEnd', 'manageLoans', 'manageLoans.html'));
+});
+
 
 
 app.post("/stafflogin", (req, res) => {
@@ -395,22 +480,6 @@ app.post("/addRP", (req, res) => {
     });
 });
 });
-
-app.get('/staffDashboard', isAuthenticatedStaff, (req, res) => {
-    res.sendFile(path.join(frontend_path, 'Login', 'StaffEnd', 'StaffDashboard', 'staffDashboard.html'));
-});
-
-app.get('/session-info', (req, res) => {
-    if (req.session.user) {
-      res.json({
-        username: req.session.user.username,
-        role: req.session.user.role
-      });
-    } else {
-      res.status(401).json({ message: 'Unauthorized' });
-    }
-  });
-
 
 app.get('/api/members', (req, res) => {
     const q = `SELECT c.Email AS Email, c.Fname AS Fname, c.MInit AS Minit, c.Lname AS Lname, c.Phone_no as Phone, m.Start_Date as Start_Date, m.Expiration_Date as Expiration_Date
@@ -856,6 +925,55 @@ app.delete('/api/loans/:LoanID', (req, res) => {
     }
   });
   res.status(200).json('Loan deleted successfully');
+});
+
+
+// CLIENT SIDE
+
+app.get('/api/libraryItems', (req, res) => {
+  const q = `SELECT 
+    li.ItemID,
+    li.Title,
+    li.Status,
+    li.Publisher_ID,
+    li.Publication_Date,
+    li.Language,
+    li.Editor_ID,
+    li.Author_ID,
+    li.Cover_Color,
+    li.Cover_URL,
+
+    -- Book-specific fields
+    b.ISBN,
+    b.Page_Count,
+    b.Genre AS Book_Genre,
+    b.Format,
+    b.Edition AS Book_Edition,
+    b.Rating,
+    b.Synopsys,
+
+    -- Magazine-specific fields
+    m.ISSN,
+    m.Category,
+    m.Edition AS Magazine_Edition,
+
+    -- Research paper-specific fields
+    r.Institution,
+    r.Field_of_Study
+
+    FROM library_item li
+    LEFT JOIN book b ON li.ItemID = b.Item_ID
+    LEFT JOIN magazine m ON li.ItemID = m.Item_ID
+    LEFT JOIN research_paper r ON li.ItemID = r.Item_ID;
+  `
+  ;
+  db.query(q, (err, data) => {
+    if (err) {
+      console.error('Error fetching library items:', err);
+      return res.status(500).json(err);
+    }
+    res.status(200).json(data);
+  });
 });
 
 
