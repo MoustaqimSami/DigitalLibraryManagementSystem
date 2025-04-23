@@ -15,7 +15,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     sidebar.classList.toggle("collapsed");
   });
 
-  // BACKEND: Replace with actual book API fetch in production if needed
+  // BACKEND: Replace with actual book API fetch
   const books1 = [
     // === Books ===
     {
@@ -339,7 +339,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         }
   
         return {
-          ItemID: item.ItemID, // or generate custom ID like "MG004" if needed
+          ItemID: item.ItemID, 
           Title: item.Title,
           Type: type,
           Status: item.Status,
@@ -415,7 +415,7 @@ window.addEventListener("DOMContentLoaded", async () => {
           <h3>${book.Title}</h3>
           <div class="book-meta">
             <span class="genre">${book.Genre || book.Type}</span>
-            <span class="rating"><i class='bx bxs-star'></i> ${book.Rating}.0</span>
+            <span class="rating"><i class='bx bxs-star'></i> ${book.Type === "Book" ? (book.Rating || "NA") : "NA"}</span>
           </div>
         </div>
       `;
