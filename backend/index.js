@@ -1131,6 +1131,71 @@ app.delete('/api/profile/:email', (req, res) => {
   });
 });
 
+app.get('/home/libraryItems/:clientEmail', (req, res) => {
+  const ClientID = req.params.clientEmail
+  const q = `SELECT 
+    li.ItemID,
+    li.Title,
+    li.Status,
+    li.Publisher_ID,
+    li.Publication_Date,
+    li.Language,
+    li.Editor_ID,
+    li.Author_ID,
+    li.Cover_Color,
+    li.Cover_URL,
+
+    -- Book-specific fields
+    b.ISBN,
+    b.Page_Count,
+    b.Genre AS Book_Genre,
+    b.Format,
+    b.Edition AS Book_Edition,
+    b.Rating,
+    b.Synopsys,
+
+    -- Magazine-specific fields
+    m.ISSN,
+    m.Category,
+    m.Edition AS Magazine_Edition,
+
+    -- Research paper-specific fields
+    r.Institution,
+    r.Field_of_Study,
+
+    -- Author Fields
+    a.Name AS Author_Name,
+    a.Nationaility AS Author_Nationality,
+
+    -- Publisher Fields
+    p.Name AS Publisher_Name,
+
+    -- Editor Fields
+    e.Name AS Editor_Name,
+    e.Specialization AS Editor_Specialization
+
+    
+
+    FROM library_item li
+    LEFT JOIN book b ON li.ItemID = b.Item_ID
+    LEFT JOIN magazine m ON li.ItemID = m.Item_ID
+    LEFT JOIN research_paper r ON li.ItemID = r.Item_ID
+    LEFT JOIN author a on li.Author_ID = a.Author_ID
+    LEFT JOIN publisher p on li.Publisher_ID = p.Publisher_ID
+    LEFT JOIN editor e on li.Editor_ID = e.Editor_ID
+    LEFT JOIN loan l on li.ItemID = l.Library_Item_ID
+    WHERE l.Client_Email = ?;
+  `
+  ;
+  db.query(q, [ClientID], (err, data) => {
+    if (err) {
+      console.error('Error fetching library items:', err);
+      return res.status(500).json(err);
+    }
+    res.status(200).json(data);
+  });
+});
+
 app.listen(8800, ()=> {
     console.log("Connected to backend");
 });
