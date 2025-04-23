@@ -244,7 +244,7 @@ function createCard(book) {
         <h3>${book.Title}</h3>
         <div class="book-meta">
           <span class="genre">${book.Genre || "Unknown Genre"}</span>
-          <span class="rating"><i class='bx bxs-star'></i> ${book.Type === "Book" ? (book.Rating || "NA") : "NA"}</span>
+          <span class="rating"><i class='bx bxs-star'></i> ${book.Type === "Book" ? (book.Rating) : "NA"}</span>
         </div>
       </div>
     `;
