@@ -41,7 +41,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-    const q = "SELECT * FROM client_accounts WHERE User = ? AND Password = ?"
+    const q = "SELECT * FROM client_accounts WHERE User = ? AND Password = ? AND Access_level=2"
     const { User, Password } = req.body;
     
     db.query(q, [User, Password], (err, data) => {

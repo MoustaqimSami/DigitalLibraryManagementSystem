@@ -57,6 +57,12 @@ let session = null;
         if (initialsElement) {
           initialsElement.textContent = initials;
         }
+        const initialsProfile = document.getElementById('initialsProfile');
+        const pageGreets = document.getElementById('pageGreets');
+        if (initialsProfile) {
+          initialsProfile.textContent = initials;
+          pageGreets.textContent = "Hello " + user.username + ", how are you doing today?";
+        }
     
         return user;
       } catch (err) {
