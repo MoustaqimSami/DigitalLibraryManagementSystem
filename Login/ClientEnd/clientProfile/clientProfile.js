@@ -1,5 +1,5 @@
 // === Fake Member Database ===
-let member = {
+let member1 = {
     Fname: "Tasnim",
     MInit: "H.",
     Lname: "Hossain",
@@ -10,10 +10,11 @@ let member = {
     Password: "oldpassword123" // for demonstration only
   };
   
+
+let member = null;
+let session = null;
   // === Populate Profile Info ===
-  window.addEventListener("DOMContentLoaded", () => {
-    populateProfile();
-  
+  window.addEventListener("DOMContentLoaded", async () => {  
     // Modal Toggle Buttons
     document.getElementById("editBtn").onclick = () =>
       document.getElementById("editModal").classList.remove("hidden");
@@ -29,48 +30,162 @@ let member = {
         btn.closest(".modal").classList.add("hidden");
       });
     });
+
+    session = await getSessionInfo();
+    member = await getUser();
+    console.log(member)
+
+    populateProfile();
+
+
+    async function getSessionInfo() {
+      try {
+        const res = await fetch('/session-info', {
+          method: 'GET',
+          credentials: 'include' // important to include cookies
+        });
+    
+        if (!res.ok) {
+          throw new Error('Not logged in');
+        }
+    
+        const user = await res.json();
   
-    // Edit Profile Submission
-    document.getElementById("editProfileForm").addEventListener("submit", (e) => {
+        const initials = user.username.slice(0, 2).toUpperCase();
+  
+        const initialsElement = document.getElementById('initials');
+        if (initialsElement) {
+          initialsElement.textContent = initials;
+        }
+        const initialsProfile = document.getElementById('initialsProfile');
+        const pageGreets = document.getElementById('pageGreets');
+        if (initialsProfile) {
+          initialsProfile.textContent = initials;
+          pageGreets.textContent = "Hello " + user.username + ", how are you doing today?";
+        }
+    
+        return user;
+      } catch (err) {
+        console.error('Error fetching session info:', err);
+        return null;
+      }
+    }
+  
+    async function getUser() {
+      const selectedEmail = encodeURIComponent(session.email);
+    
+      try {
+        const response = await fetch(`http://localhost:8800/api/getUserInfo/${selectedEmail}`);
+    
+        if (!response.ok) {
+          throw new Error(`Server responded with ${response.status}`);
+        }
+    
+        const data = await response.json();
+        console.log("User Info:", data);
+        return data;
+    
+      } catch (err) {
+        console.error('Error fetching user info:', err);
+        return null;
+      }
+    }
+    document.getElementById("editProfileForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      member.Fname = document.getElementById("editFname").value;
-      member.MInit = document.getElementById("editMInit").value;
-      member.Lname = document.getElementById("editLname").value;
-      member.Phone_No = document.getElementById("editPhone").value;
-      showToast("Profile updated successfully!", "success");
-      populateProfile();
-      closeModal("editModal");
+    
+      // Collect updated form values
+      const updatedMember = {
+        Fname: document.getElementById("editFname").value,
+        MInit: document.getElementById("editMInit").value,
+        Lname: document.getElementById("editLname").value,
+        Phone_No: document.getElementById("editPhone").value
+      };
+    
+      try {
+        const response = await fetch(`http://localhost:8800/api/profile/${encodeURIComponent(session.email)}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updatedMember)
+        });
+    
+        if (!response.ok) {
+          throw new Error(`Failed to update profile: ${response.status}`);
+        }
+    
+        // Update the local member object
+        Object.assign(member, updatedMember);
+    
+        showToast("Profile updated successfully!", "success");
+        populateProfile();
+        closeModal("editModal");
+    
+      } catch (error) {
+        console.error("Error updating profile:", error);
+        showToast("Error updating profile. Please try again.", "error");
+      }
     });
-  
+
     // Change Password Submission
-    document.getElementById("changePasswordForm").addEventListener("submit", (e) => {
+    document.getElementById("changePasswordForm").addEventListener("submit", async (e) => {
       e.preventDefault();
+    
       const current = document.getElementById("currentPassword").value;
       const newPass = document.getElementById("newPassword").value;
       const confirmPass = document.getElementById("confirmPassword").value;
-  
+    
       if (current !== member.Password) {
         showToast("Current password is incorrect.", "error");
         return;
       }
-  
+    
       if (newPass !== confirmPass) {
         showToast("New passwords do not match.", "error");
         return;
       }
-  
-      member.Password = newPass;
-      showToast("Password updated successfully!", "success");
-      closeModal("passwordModal");
+    
+      try {
+        const res = await fetch(`http://localhost:8800/api/profile/password/${encodeURIComponent(member.Email)}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ newPassword: newPass })
+        });
+    
+        if (!res.ok) throw new Error('Failed to update password');
+    
+        member.Password = newPass; // Update in-memory reference
+        showToast("Password updated successfully!", "success");
+        closeModal("passwordModal");
+      } catch (err) {
+        console.error("Error updating password:", err);
+        showToast("Something went wrong. Try again.", "error");
+      }
     });
   
-    // Delete Account Logic
-    document.getElementById("confirmDeleteBtn").addEventListener("click", () => {
-      showToast("Account deleted successfully.", "success");
-      closeModal("deleteModal");
-      setTimeout(() => {
-        // Redirect to login page
-      }, 1500);
+    document.getElementById("confirmDeleteBtn").addEventListener("click", async () => {
+      try {
+        const res = await fetch(`http://localhost:8800/api/profile/${encodeURIComponent(member.Email)}`, {
+          method: 'DELETE',
+          credentials: 'include'
+        });
+    
+        if (!res.ok) {
+          throw new Error('Failed to delete account');
+        }
+    
+        showToast("Account deleted successfully.", "success");
+        closeModal("deleteModal");
+    
+        setTimeout(() => {
+          window.location.href = '/';  // Redirect to main page
+        }, 1500);
+      } catch (err) {
+        console.error("Error deleting account:", err);
+        showToast("Error deleting account. Try again later.", "error");
+      }
     });
   });
   

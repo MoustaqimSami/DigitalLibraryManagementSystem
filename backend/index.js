@@ -41,7 +41,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-    const q = "SELECT * FROM client_accounts WHERE User = ? AND Password = ?"
+    const q = "SELECT * FROM client_accounts WHERE User = ? AND Password = ? AND Access_level=2"
     const { User, Password } = req.body;
     
     db.query(q, [User, Password], (err, data) => {
@@ -117,16 +117,8 @@ app.get('/home', (req, res) => {
     res.sendFile(path.join(frontend_path, 'Login', 'ClientEnd', 'home.html'));
 });
 
-app.get('/home/loans', (req, res) => {
-  res.sendFile(path.join(frontend_path, 'Login', 'ClientEnd', 'home.html'));
-});
-
-app.get('/home/reservations', (req, res) => {
-  res.sendFile(path.join(frontend_path, 'Login', 'ClientEnd', 'home.html'));
-});
-
-app.get('/home/profile', (req, res) => {
-  res.sendFile(path.join(frontend_path, 'Login', 'ClientEnd', 'home.html'));
+app.get('/home/clientProfile', (req, res) => {
+  res.sendFile(path.join(frontend_path, 'Login', 'ClientEnd', 'clientProfile', 'clientProfile.html'));
 });
 
 // Staff Protected Routes
@@ -1045,7 +1037,98 @@ app.post("/home/addLoan", (req, res) => {
       loanId: newLoanId
   });
 })
-  
+});
+
+app.get('/api/getUserInfo/:userEmail', (req, res) => {
+  const userEmail = req.params.userEmail;
+
+  const q = `
+    SELECT 
+      c.Fname,
+      c.MInit,
+      c.Lname,
+      c.Email,  -- comes from session too
+      c.Phone_no AS Phone_No,
+      DATE_FORMAT(m.Start_Date, '%M %e, %Y') AS Start_Date,
+      DATE_FORMAT(m.Expiration_Date, '%M %e, %Y') AS Expiration_Date,
+      ca.Password
+    FROM client c
+    JOIN member m ON c.Email = m.Member_Email
+    JOIN client_accounts ca ON c.Email = ca.Email
+    WHERE c.Email = ?
+  `;
+
+  db.query(q, [userEmail], (err, data) => {
+    if (err) {
+      console.error('Error fetching user info:', err);
+      return res.status(500).json({ error: err.sqlMessage });
+    }
+
+    if (data.length === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json(data[0]);
+  });
+});
+
+app.patch('/api/profile/:email', (req, res) => {
+  const userEmail = req.params.email;
+
+  const q = `
+    UPDATE client
+    SET 
+      Fname = ?, 
+      MInit = ?, 
+      Lname = ?, 
+      Phone_no = ?
+    WHERE Email = ?
+  `;
+
+  const values = [
+    req.body.Fname,
+    req.body.MInit,
+    req.body.Lname,
+    req.body.Phone_No,
+    userEmail
+  ];
+
+  db.query(q, values, (err, data) => {
+    if (err) {
+      console.error('Error updating profile:', err);
+      return res.status(500).json({ message: 'Failed to update profile', error: err });
+    }
+    res.status(200).json({ message: 'Profile updated successfully' });
+  });
+});
+
+app.patch('/api/profile/password/:email', (req, res) => {
+  const email = req.params.email;
+  const { newPassword } = req.body;
+
+  const q = `UPDATE client_accounts SET Password = ? WHERE Email = ?`;
+
+  db.query(q, [newPassword, email], (err, data) => {
+    if (err) {
+      console.error('Error updating password:', err);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+    res.status(200).json({ message: 'Password updated successfully' });
+  });
+});
+
+app.delete('/api/profile/:email', (req, res) => {
+  const email = req.params.email;
+
+  const q = `DELETE FROM client WHERE Email = ?`;
+
+  db.query(q, [email], (err, data) => {
+    if (err) {
+      console.error("Delete error:", err);
+      return res.status(500).json({ error: "Failed to delete account." });
+    }
+    res.status(200).json({ message: "Account deleted successfully." });
+  });
 });
 
 app.listen(8800, ()=> {
