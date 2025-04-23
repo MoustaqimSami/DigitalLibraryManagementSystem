@@ -429,11 +429,17 @@ window.addEventListener("DOMContentLoaded", async () => {
   }
 
   function createSearchCard(book) {
+    const image =
+      book.Type === "Magazine"
+        ? "MAGIcon.png"
+        : book.Type === "Research Paper"
+          ? "RPIcon.png"
+          : book.Cover_URL;
     const card = document.createElement("div");
     card.className = "search-result-card";
     card.innerHTML = `
           <div class="search-card-image">
-            <img src="${book.Cover_URL}" alt="${book.Title} Cover" />
+            <img src="${image}" alt="${book.Title} Cover" />
           </div>
           <div class="search-card-details">
             <h3 class="search-card-title">${book.Title}</h3>

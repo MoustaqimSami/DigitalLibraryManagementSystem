@@ -222,11 +222,17 @@ function openBookModal(book) {
   }
 }
 function createCard(book) {
+  const image =
+      book.Type === "Magazine"
+        ? "MAGIcon.png"
+        : book.Type === "Research Paper"
+          ? "RPIcon.png"
+          : book.Cover_URL;
     const card = document.createElement("div");
     card.className = "book-card";
     card.innerHTML = `
       <div class="book-image-wrapper">
-        <img src="${book.Cover_URL}" alt="Book Cover" />
+        <img src="${image}" alt="Book Cover" />
       </div>
       <div class="book-details">
         <h3>${book.Title}</h3>
