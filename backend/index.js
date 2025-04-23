@@ -795,6 +795,70 @@ app.delete('/api/reservations/:Reservation_no', (req, res) => {
 });
 
 
+app.get('/api/loans', (req, res) => {
+  const q = `SELECT *
+  FROM loan
+  `
+  ;
+  db.query(q, (err, data) => {
+    if (err) {
+      console.error('Error fetching loan:', err);
+      return res.status(500).json(err);
+    }
+    res.status(200).json(data);
+  });
+});
+
+app.patch('/api/loans/:LoanID', (req, res) => {
+  const LoanID = req.params.LoanID;
+
+  const q = `
+    UPDATE loan
+    SET 
+      Library_Item_ID = ?,
+      Client_Email = ?,
+      LoanStatus = ?,
+      LoanDate = ?,
+      DueDate = ?,
+      CurrentFine = ?
+    WHERE LoanID = ?
+  `;
+
+  const values = [
+    req.body.Library_Item_ID,
+    req.body.Client_Email,
+    req.body.LoanStatus,
+    req.body.LoanDate,
+    req.body.DueDate,
+    req.body.CurrentFine,
+    LoanID
+  ];
+
+  db.query(q, values, (err, data) => {
+    if (err) {
+      console.error('Error updating loan:', err);
+      return res.status(500).json(err);
+    }
+    res.status(200).json('Loan updated successfully');
+  });
+});
+
+
+app.delete('/api/loans/:LoanID', (req, res) => {
+  const LoanID = req.params.LoanID;
+
+  const deleteAccounts = `DELETE FROM loan WHERE LoanID = ?`;
+
+  db.query(deleteAccounts, [LoanID], (err1, result1) => {
+    if (err1) {
+      console.error('Error deleting from loan:', err1);
+      return res.status(500).json(err1);
+    }
+  });
+  res.status(200).json('Loan deleted successfully');
+});
+
+
 app.listen(8800, ()=> {
     console.log("Connected to backend");
 });
