@@ -1,20 +1,119 @@
 // Dummy data
 const loans = [
-  {
-    ItemID: "RP005",
-    Title: "Neural Insights",
-    Type: "Research Paper",
-    Genre: "Artificial Intelligence",
-    Language: "Spanish",
-    Cover_URL: "https://picsum.photos/id/3005/300/400",
-    Publication_Date: "2023-04-22",
-    Author_Name: "Luis Ortega",
-    Publisher_Name: "Madrid Academic Press",
-    Editor_Name: "Eva Gomez",
-    Synopsys: "A deep dive into neural mechanisms and AI intersections.",
-    Status: "Borrowed",
-  },
-];
+    {
+      ItemID: "BK101",
+      Title: "The Midnight Library",
+      Type: "Book",
+      Genre: "Fiction",
+      Language: "English",
+      Cover_URL: "https://picsum.photos/id/1001/300/400",
+      Publication_Date: "2021-08-10",
+      Author_Name: "Matt Haig",
+      Publisher_Name: "Canongate Books",
+      Editor_Name: "Emily West",
+      Synopsys: "A story about all the choices that go into a life well lived.",
+      Status: "Borrowed"
+    },
+    {
+      ItemID: "RP204",
+      Title: "AI and Future Ethics",
+      Type: "Research Paper",
+      Genre: "Artificial Intelligence",
+      Language: "French",
+      Cover_URL: "https://picsum.photos/id/1002/300/400",
+      Publication_Date: "2023-01-15",
+      Author_Name: "Dr. Clara Bisson",
+      Publisher_Name: "Université de Paris",
+      Editor_Name: "Pierre Moreau",
+      Synopsys: "Explores the ethical implications of artificial intelligence.",
+      Status: "Borrowed"
+    },
+    {
+      ItemID: "MG305",
+      Title: "Tech Weekly Digest",
+      Type: "Magazine",
+      Genre: "Technology",
+      Language: "English",
+      Cover_URL: "https://picsum.photos/id/1003/300/400",
+      Publication_Date: "2024-03-05",
+      Author_Name: "Various Contributors",
+      Publisher_Name: "Tech Media House",
+      Editor_Name: "Samantha Grey",
+      Synopsys: "Latest trends in consumer technology and startups.",
+      Status: "Borrowed"
+    },
+    {
+      ItemID: "BK202",
+      Title: "The Silent Patient",
+      Type: "Book",
+      Genre: "Thriller",
+      Language: "German",
+      Cover_URL: "https://picsum.photos/id/1004/300/400",
+      Publication_Date: "2019-02-05",
+      Author_Name: "Alex Michaelides",
+      Publisher_Name: "Celadon Books",
+      Editor_Name: "Mark Keller",
+      Synopsys: "A psychological thriller about a woman’s act of violence.",
+      Status: "Borrowed"
+    },
+    {
+        ItemID: "BK101",
+        Title: "The Midnight Library",
+        Type: "Book",
+        Genre: "Fiction",
+        Language: "English",
+        Cover_URL: "https://picsum.photos/id/1001/300/400",
+        Publication_Date: "2021-08-10",
+        Author_Name: "Matt Haig",
+        Publisher_Name: "Canongate Books",
+        Editor_Name: "Emily West",
+        Synopsys: "A story about all the choices that go into a life well lived.",
+        Status: "Borrowed"
+      },
+      {
+        ItemID: "RP204",
+        Title: "AI and Future Ethics",
+        Type: "Research Paper",
+        Genre: "Artificial Intelligence",
+        Language: "French",
+        Cover_URL: "https://picsum.photos/id/1002/300/400",
+        Publication_Date: "2023-01-15",
+        Author_Name: "Dr. Clara Bisson",
+        Publisher_Name: "Université de Paris",
+        Editor_Name: "Pierre Moreau",
+        Synopsys: "Explores the ethical implications of artificial intelligence.",
+        Status: "Borrowed"
+      },
+      {
+        ItemID: "MG305",
+        Title: "Tech Weekly Digest",
+        Type: "Magazine",
+        Genre: "Technology",
+        Language: "English",
+        Cover_URL: "https://picsum.photos/id/1003/300/400",
+        Publication_Date: "2024-03-05",
+        Author_Name: "Various Contributors",
+        Publisher_Name: "Tech Media House",
+        Editor_Name: "Samantha Grey",
+        Synopsys: "Latest trends in consumer technology and startups.",
+        Status: "Borrowed"
+      },
+      {
+        ItemID: "BK202",
+        Title: "The Silent Patient",
+        Type: "Book",
+        Genre: "Thriller",
+        Language: "German",
+        Cover_URL: "https://picsum.photos/id/1004/300/400",
+        Publication_Date: "2019-02-05",
+        Author_Name: "Alex Michaelides",
+        Publisher_Name: "Celadon Books",
+        Editor_Name: "Mark Keller",
+        Synopsys: "A psychological thriller about a woman’s act of violence.",
+        Status: "Borrowed"
+      }
+  ];
+  
 
 const reservations = [
   {
@@ -108,25 +207,27 @@ function openBookModal(book) {
     buttonContainer.appendChild(downloadBtn);
   }
 }
-
 function createCard(book) {
-  const card = document.createElement("div");
-  card.className = "book-card";
-  card.innerHTML = `
+    const card = document.createElement("div");
+    card.className = "book-card";
+    card.innerHTML = `
       <div class="book-image-wrapper">
         <img src="${book.Cover_URL}" alt="Book Cover" />
       </div>
       <div class="book-details">
         <h3>${book.Title}</h3>
         <div class="book-meta">
-          <span class="genre">${book.Genre}</span>
-          <span class="rating"><i class='bx bxs-star'></i> 4.5</span>
+          <span class="genre">${book.Genre || "Unknown Genre"}</span>
+          <span class="rating">
+            <i class='bx bxs-star'></i> ${book.Rating ? book.Rating.toFixed(1) : "4.5"}
+          </span>
         </div>
       </div>
     `;
-  card.onclick = () => openBookModal(book);
-  return card;
-}
+    card.onclick = () => openBookModal(book);
+    return card;
+  }
+  
 
 function renderLoanCards() {
   const container = document.getElementById("userLoans");
