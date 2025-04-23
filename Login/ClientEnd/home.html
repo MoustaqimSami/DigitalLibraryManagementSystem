@@ -39,43 +39,63 @@
           <div class="user-icon">JD</div>
         </div>
 
-        <!-- Search -->
-        <div class="search-container">
-          <div class="search-wrapper">
-            <i class="bx bx-search search-icon"></i>
-            <input
-              type="text"
-              id="searchInput"
-              placeholder="Search for books, authors, genres..."
-            />
-            <button class="filter-btn">
-              <i class="bx bx-filter-alt"></i> Filter
-            </button>
+        <div class="content-body">
+          <!-- Search -->
+          <div class="search-container">
+            <div class="search-wrapper">
+              <i class="bx bx-search search-icon"></i>
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="Search for books, authors, genres..."
+              />
+              <button class="filter-btn">
+                <i class="bx bx-filter-alt"></i> Filter
+              </button>
+            </div>
           </div>
-        </div>
 
-        <!-- Popular Books -->
-        <div class="horizontal-section">
-          <h2 class="section-title">Popular Books</h2>
-          <div class="scroll-container" id="popularBooks"></div>
-        </div>
+          <!-- Popular Books -->
+          <div class="horizontal-section">
+            <h2 class="section-title">Popular Books</h2>
+            <div class="scroll-container" id="popularBooks"></div>
+          </div>
 
-        <!-- Latest Books -->
-        <div class="horizontal-section">
-          <h2 class="section-title">Latest Books</h2>
-          <div class="scroll-container" id="latestBooks"></div>
-        </div>
+          <!-- Latest Books -->
+          <div class="horizontal-section">
+            <h2 class="section-title">Latest Books</h2>
+            <div class="scroll-container" id="latestBooks"></div>
+          </div>
 
-        <!-- Latest Magazines -->
-        <div class="horizontal-section">
-          <h2 class="section-title">Latest Magazines</h2>
-          <div class="scroll-container" id="latestMagazines"></div>
-        </div>
+          <!-- Latest Magazines -->
+          <div class="horizontal-section">
+            <h2 class="section-title">Latest Magazines</h2>
+            <div class="scroll-container" id="latestMagazines"></div>
+          </div>
 
-        <!-- Latest Research Papers -->
-        <div class="horizontal-section">
-          <h2 class="section-title">Latest Research Papers</h2>
-          <div class="scroll-container" id="latestPapers"></div>
+          <!-- Latest Research Papers -->
+          <div class="horizontal-section">
+            <h2 class="section-title">Latest Research Papers</h2>
+            <div class="scroll-container" id="latestPapers"></div>
+          </div>
+
+          <!-- Search Results Section -->
+          <div id="searchResultsContainer" class="hidden">
+            <h2 class="section-title">Search Results</h2>
+            <div class="book-list" id="searchResults"></div>
+            <div id="noResults" class="no-results">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/7486/7486531.png"
+                alt="No Results"
+                class="no-results-icon"
+              />
+              <h3>No matches found</h3>
+              <p>
+                We couldn't find anything for your search. Try checking the
+                spelling or explore other keywords.
+              </p>
+            </div>
+          </div>
         </div>
 
         <!-- Footer -->
