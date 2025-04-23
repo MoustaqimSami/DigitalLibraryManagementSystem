@@ -1,6 +1,13 @@
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
   window.jsPDF = window.jspdf.jsPDF;
   console.log("jsPDF loaded:", typeof window.jspdf !== "undefined");
+
+
+  books = await getLibraryItems();    
+  
+  user = await getSessionInfo();
+
+  console.log(user)
 
   const toggleBtn = document.getElementById("toggleSidebar");
   const sidebar = document.querySelector(".sidebar");
@@ -9,7 +16,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   // BACKEND: Replace with actual book API fetch in production if needed
-  const books = [
+  const books1 = [
     // === Books ===
     {
       ItemID: "BK001",
@@ -311,6 +318,83 @@ window.addEventListener("DOMContentLoaded", () => {
     },
   ];
 
+  async function getLibraryItems() {
+    try {
+      const response = await fetch('/api/libraryItems'); // Replace with your actual API route
+      const data = await response.json();
+  
+      const transformed = data.map(item => {
+        let type = null;
+        let genre = null;
+  
+        if (item.ISBN) {
+          type = 'Book';
+          genre = item.Book_Genre;
+        } else if (item.ISSN) {
+          type = 'Magazine';
+          genre = item.Category;
+        } else if (item.Institution) {
+          type = 'Research Paper';
+          genre = item.Field_of_Study;
+        }
+  
+        return {
+          ItemID: item.ItemID, // or generate custom ID like "MG004" if needed
+          Title: item.Title,
+          Type: type,
+          Status: item.Status,
+          Genre: genre,
+          Language: item.Language,
+          Cover_URL: item.Cover_URL,
+          Publication_Date: item.Publication_Date?.split('T')[0], // Format as 'YYYY-MM-DD'
+          Rating: item.Rating,
+          Synopsys: item.Synopsys,
+          Author_ID: item.Author_ID,
+          Author_Name: item.Author_Name,
+          Author_Nationality: item.Author_Nationality,
+          Editor_ID: item.Editor_ID,
+          Editor_Name: item.Editor_Name,
+          Editor_Specialization: item.Editor_Specialization,
+          Publisher_ID: item.Publisher_ID,
+          Publisher_Name: item.Publisher_Name
+        };
+      });
+  
+      console.log('Transformed Data:', transformed);
+      return transformed;
+  
+    } catch (err) {
+      console.error('Error fetching or transforming data:', err);
+      return [];
+    }
+  }
+
+  async function getSessionInfo() {
+    try {
+      const res = await fetch('/session-info', {
+        method: 'GET',
+        credentials: 'include' // important to include cookies
+      });
+  
+      if (!res.ok) {
+        throw new Error('Not logged in');
+      }
+  
+      const user = await res.json();
+
+      const initials = user.username.slice(0, 2).toUpperCase();
+
+      const initialsElement = document.getElementById('initials');
+      if (initialsElement) {
+        initialsElement.textContent = initials;
+      }
+  
+      return user;
+    } catch (err) {
+      console.error('Error fetching session info:', err);
+      return null;
+    }
+  }
   // === DOM References ===
   const searchInput = document.getElementById("searchInput");
   const modal = document.getElementById("bookModal");
@@ -331,7 +415,7 @@ window.addEventListener("DOMContentLoaded", () => {
           <h3>${book.Title}</h3>
           <div class="book-meta">
             <span class="genre">${book.Genre || book.Type}</span>
-            <span class="rating"><i class='bx bxs-star'></i> ${Math.floor(Math.random() * 2) + 4}.0</span>
+            <span class="rating"><i class='bx bxs-star'></i> ${book.Rating}.0</span>
           </div>
         </div>
       `;
@@ -348,10 +432,10 @@ window.addEventListener("DOMContentLoaded", () => {
           </div>
           <div class="search-card-details">
             <h3 class="search-card-title">${book.Title}</h3>
-            <p><strong>Rating:</strong> ${book.Rating || "N/A"}</p>
-            <p><strong>Type:</strong> ${book.Type || "Book"}</p>
-            <p><strong>Genre:</strong> ${book.Genre || "N/A"}</p>
-            <p><strong>Author:</strong> ${book.Author || "Matt Haig"}</p>
+            <p><strong>Rating:</strong> ${book.Rating}</p>
+            <p><strong>Type:</strong> ${book.Type}</p>
+            <p><strong>Genre:</strong> ${book.Genre}</p>
+            <p><strong>Author:</strong> ${book.Author_Name}</p>
             <div class="search-card-synopsis">
               A dazzling novel about all the choices that go into a life well lived. This story explores the infinite possibilities between life and death, identity, and purpose.
             </div>
@@ -368,14 +452,14 @@ window.addEventListener("DOMContentLoaded", () => {
         <button class="close-modal-btn" id="closeModal"><i class="bx bx-x"></i></button>
         <div class="modal-body">
           <div class="modal-left">
-            <h1 class="book-title">${book.Title}</h1>
-            <p class="modal-field"><strong>Author:</strong> Matt Haig</p>
+            <h1 class="book-title"> ${book.Title}</h1>
+            <p class="modal-field"><strong>Author: </strong>${book.Author_Name}</p>
             <p class="modal-field"><strong>Genre:</strong> ${book.Genre}</p>
-            <p class="modal-field"><strong>Type:</strong> ${book.Type || "Book"}</p>
-            <p class="modal-field"><strong>Publisher:</strong> ${book.Publisher_ID || "PUB001"}</p>
+            <p class="modal-field"><strong>Type:</strong> ${book.Type}</p>
+            <p class="modal-field"><strong>Publisher:</strong> ${book.Publisher_Name}</p>
             <p class="modal-field"><strong>Publication Date:</strong> ${book.Publication_Date}</p>
-            <p class="modal-field"><strong>Editor:</strong> ${book.Editor_ID || "ED001"}</p>
-            <p class="modal-field synopsis"><strong>Synopsis:</strong> A dazzling novel about all the choices that go into a life well lived. This story explores the infinite possibilities between life and death, identity, and purpose.</p>
+            <p class="modal-field"><strong>Editor:</strong> ${book.Editor_Name}</p>
+            <p class="modal-field synopsis"><strong>Synopsis:</strong> ${book.Synopsys || "Refer to our staff for more info!"} </p>
             <p class="modal-field"><strong>Status:</strong> <span class="${isAvailable ? "available" : "unavailable"}">${book.Status}</span></p>
             <div class="modal-buttons wide">
               <button class="book-action-btn borrow" ${!isAvailable ? "disabled" : ""}><i class='bx bx-book'></i> Borrow</button>
@@ -391,8 +475,8 @@ window.addEventListener("DOMContentLoaded", () => {
       .querySelector("#closeModal")
       .addEventListener("click", () => (modal.style.display = "none"));
 
-    modal.querySelector(".reserve").addEventListener("click", () => {
-      const userId = "client123"; // BACKEND: Replace with logged-in user ID
+    modal.querySelector(".reserve").addEventListener("click", async () => {
+      const userId = user.email; // BACKEND: Replace with logged-in user ID
       const reservationKey = `${userId}_${book.ItemID}`;
       if (localStorage.getItem("reserved_" + reservationKey)) {
         showToast("You have already reserved this item.", "info");
@@ -401,6 +485,29 @@ window.addEventListener("DOMContentLoaded", () => {
 
       // BACKEND: Add API call to create reservation
       localStorage.setItem("reserved_" + reservationKey, "true");
+
+      try {
+        const res = await fetch('http://localhost:8800/home/addReservation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Member_Email: user.email,
+                ItemID: book.ItemID,
+                Status: book.Status
+            })
+        });
+
+        console.log("Got response", res);
+
+        if (res.ok) {
+            console.log("worked");
+        } 
+    } catch (err) {
+        console.error("Fetch error:", err);
+        errorMessage.textContent = 'An error occurred. Please try again.';
+    }
       showToast("Book reserved successfully!");
     });
 
@@ -411,10 +518,33 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   // === BORROW RECEIPT MODAL ===
-  function openBorrowModal(book) {
-    const memberName = "Mouin Noin"; // BACKEND: Replace with actual user name
-    const memberEmail = "moni@example.com"; // BACKEND: Replace with actual user email
-    const loanId = 2001; // BACKEND: Generate this dynamically
+  async function openBorrowModal(book) {
+
+    try {
+      const res = await fetch('http://localhost:8800/home/addLoan', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              Library_Item_ID: book.ItemID,
+              Client_Email: user.email,
+          })
+      });
+
+
+      if (res.ok) {
+          data = await res.json();
+          console.log("worked");
+      } 
+  } catch (err) {
+      console.error("Fetch error:", err);
+      errorMessage.textContent = 'An error occurred. Please try again.';
+  }
+
+    const memberName = user.username; // BACKEND: Replace with actual user name
+    const memberEmail = user.email; // BACKEND: Replace with actual user email
+    const loanId = data.loanId; // BACKEND: Generate this dynamically
     const borrowDate = new Date();
     const returnDate = new Date(borrowDate);
     returnDate.setMonth(borrowDate.getMonth() + 1);
@@ -609,6 +739,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   function renderBookSections() {
+    console.log("Rendering books:", books)
     const popular = books.filter((b) => b.Type === "Book").slice(0, 10);
     const latestBooks = books.filter((b) => b.Type === "Book").slice(-10);
     const latestMagazines = books.filter((b) => b.Type === "Magazine");
@@ -632,8 +763,5 @@ window.addEventListener("DOMContentLoaded", () => {
       document.getElementById("latestPapers").appendChild(createCard(book))
     );
   }
-
-  // === Init ===
-  renderBookSections();
-  renderBooks();
+  renderBookSections();             
 });
