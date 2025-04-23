@@ -86,21 +86,28 @@
         </div>
 
         <!-- Edit Modal -->
-        <div id="editModal" class="modal hidden">
-          <div class="modal-content">
-            <h3>Edit Reservation</h3>
-            <form id="editForm">
-              <input type="text" id="editReservationNo" placeholder="Reservation No" readonly />
-              <input type="email" id="editMemberEmail" placeholder="Member Email" required />
-              <input type="text" id="editItemId" placeholder="Item ID" required />
-              <input type="text" id="editStatus" placeholder="Status" required />
-              <div class="modal-buttons">
-                <button type="submit" class="edit-btn">Save Changes</button>
-                <button type="button" id="cancelEdit" class="delete-btn">Cancel</button>
-              </div>
-            </form>
-          </div>
+    <div id="editModal" class="modal hidden">
+    <div class="modal-content">
+      <h3>Edit Reservation</h3>
+      <form id="editForm">
+        <input type="text" id="editReservationNo" placeholder="Reservation No" readonly />
+        <input type="email" id="editMemberEmail" placeholder="Member Email" required readonly/>
+        <input type="text" id="editItemId" placeholder="Item ID" required readonly/>
+        
+        <!-- Styled Dropdown -->
+        <select id="editStatus" required>
+          <option value="holding">Holding</option>
+          <option value="collected">Collected</option>
+        </select>
+  
+        <div class="modal-buttons">
+          <button type="submit" class="edit-btn">Save Changes</button>
+          <button type="button" id="cancelEdit" class="delete-btn">Cancel</button>
         </div>
+      </form>
+    </div>
+  </div>
+  
 
         <!-- Delete Modal -->
         <div id="deleteModal" class="modal hidden">
