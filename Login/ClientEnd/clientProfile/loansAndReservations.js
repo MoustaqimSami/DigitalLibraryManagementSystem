@@ -170,7 +170,7 @@ function openBookModal(book) {
           <p class="modal-field"><strong>Genre:</strong> ${book.Genre}</p>
           <p class="modal-field"><strong>Type:</strong> ${book.Type}</p>
           <p class="modal-field"><strong>Language:</strong> ${book.Language}</p>
-          <p class="modal-field synopsis" id="modalSummary">${book.Synopsys}</p>
+          <p class="modal-field synopsis" id="modalSummary">${book.Synopsys || "Refer to our staff for more information"}</p>
           <p class="modal-field">
             <strong>Status:</strong> 
             <span id="modalStatus" class="${book.Status.toLowerCase() === "available" ? "available" : "unavailable"}">
@@ -193,7 +193,7 @@ function openBookModal(book) {
   };
 
   // Inject the download button only for non-reserved items
-  if (book.Type.toLowerCase() !== "reservation") {
+  if (book.TypeOrder.toLowerCase() !== "reservation") {
     const buttonContainer = modal.querySelector("#modalButtons");
     const downloadBtn = document.createElement("button");
     downloadBtn.className = "book-action-btn return";
@@ -295,7 +295,7 @@ function createCard(book) {
           LoanStatus: item.LoanStatus,
           LoanDate: item.LoanDate,
           DueDate: item.DueDate,
-          Type: "Loan"
+          TypeOrder: "Loan"
         };
       });
   
