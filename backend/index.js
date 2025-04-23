@@ -214,7 +214,7 @@ app.get('/logout', (req, res) => {
   });
 });
 
-app.post("/addBook", (req, res) => {
+app.post("/staffDashboard/addBook", (req, res) => {
     const qGetIDs = `
     SELECT
       p.Publisher_ID AS publisherId,
@@ -969,12 +969,26 @@ app.get('/api/libraryItems', (req, res) => {
 
     -- Research paper-specific fields
     r.Institution,
-    r.Field_of_Study
+    r.Field_of_Study,
+
+    -- Author Fields
+    a.Name AS Author_Name,
+    a.Nationaility AS Author_Nationality,
+
+    -- Publisher Fields
+    p.Name AS Publisher_Name,
+
+    -- Editor Fields
+    e.Name AS Editor_Name,
+    e.Specialization AS Editor_Specialization
 
     FROM library_item li
     LEFT JOIN book b ON li.ItemID = b.Item_ID
     LEFT JOIN magazine m ON li.ItemID = m.Item_ID
-    LEFT JOIN research_paper r ON li.ItemID = r.Item_ID;
+    LEFT JOIN research_paper r ON li.ItemID = r.Item_ID
+    LEFT JOIN author a on li.Author_ID = a.Author_ID
+    LEFT JOIN publisher p on li.Publisher_ID = p.Publisher_ID
+    LEFT JOIN editor e on li.Editor_ID = e.Editor_ID;
   `
   ;
   db.query(q, (err, data) => {
@@ -986,6 +1000,53 @@ app.get('/api/libraryItems', (req, res) => {
   });
 });
 
+app.post("/home/addReservation", (req, res) => {
+  const q = "INSERT INTO reservation(`Member_Email`, `ItemID`, `Status`) VALUES (?)";
+
+  const values = [
+      req.body.Member_Email,
+      req.body.ItemID,
+      "Holding"
+  ];
+
+  db.query(q, [values], (err, data) => {
+      if (err) return res.status(500).json(err);
+      return res.status(201).json("Reservation created successfully!");
+  });
+});
+
+app.post("/home/addLoan", (req, res) => {
+  const q = `
+    INSERT INTO loan (
+      Library_Item_ID, 
+      Client_Email, 
+      LoanStatus, 
+      LoanDate, 
+      DueDate, 
+      CurrentFine
+    ) VALUES (?, ?, ?, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 MONTH), ?)
+  `;
+
+  const values = [
+    req.body.Library_Item_ID,
+    req.body.Client_Email,
+    "In Progress",
+    0
+  ];
+
+  db.query(q, values, (err, data) => {
+    if (err) return res.status(500).json(err);
+
+    const newLoanId = data.insertId;
+    console.log("New Loan ID:", newLoanId);
+
+    return res.status(201).json({
+      message: "Loan created successfully!",
+      loanId: newLoanId
+  });
+})
+  
+});
 
 app.listen(8800, ()=> {
     console.log("Connected to backend");
