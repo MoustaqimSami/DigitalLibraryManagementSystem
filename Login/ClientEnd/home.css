@@ -603,6 +603,13 @@ html {
   padding: 20px;
 }
 
+.section-title {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: #f7dbb1;
+  }
+
 /* Updated horizontal card layout */
 .search-result-card {
   width: 100%;
