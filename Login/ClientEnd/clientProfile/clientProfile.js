@@ -36,8 +36,7 @@ let session = null;
     console.log(member)
 
     populateProfile();
-
-
+    
     async function getSessionInfo() {
       try {
         const res = await fetch('/session-info', {

@@ -1,5 +1,5 @@
 // Dummy data
-const loans = [
+const loans1 = [
     {
       ItemID: "BK101",
       Title: "The Midnight Library",
@@ -115,7 +115,7 @@ const loans = [
   ];
   
 
-const reservations = [
+const reservations1 = [
   {
     ItemID: "RP007",
     Title: "Future Intelligence",
@@ -134,6 +134,21 @@ const reservations = [
 
 const modal = document.getElementById("bookModal");
 const modalContent = document.getElementById("modalContent");
+
+let session1 = null;
+let loans = [];
+
+window.addEventListener("DOMContentLoaded", async () => {
+  try {
+    session1 = await getSessionInfo();
+    loans = await getLoanItems();
+    reservations = await getReservationItems();
+    renderLoanCards();
+    renderReservationCards();
+  } catch (error) {
+    console.error("Initialization error:", error);
+  }
+});
 
 function openBookModal(book) {
   const modal = document.getElementById("bookModal");
@@ -172,7 +187,7 @@ function openBookModal(book) {
   };
 
   // Inject the download button only for non-reserved items
-  if (book.Status.toLowerCase() !== "reserved") {
+  if (book.Type.toLowerCase() !== "reservation") {
     const buttonContainer = modal.querySelector("#modalButtons");
     const downloadBtn = document.createElement("button");
     downloadBtn.className = "book-action-btn return";
@@ -182,12 +197,11 @@ function openBookModal(book) {
     downloadBtn.onclick = () => {
       const doc = new jsPDF();
       const loanId = "RET-" + new Date().getTime();
-      const memberName = "Tasnim Hossain";
-      const memberEmail = "tasnimhp9@gmail.com";
+      const memberName = session1.username;
+      const memberEmail = session1.email;
 
-      const borrowDate = new Date();
-      const returnDate = new Date(borrowDate);
-      returnDate.setMonth(borrowDate.getMonth() + 1);
+      const borrowDate = new Date(book.LoanDate).toLocaleDateString('en-US');
+      const returnDate = new Date(book.DueDate).toLocaleDateString('en-US');
 
       doc.setFontSize(16);
       doc.text("GAMDL Return Receipt", 20, 20);
@@ -197,8 +211,8 @@ function openBookModal(book) {
       doc.text(`Member Email: ${memberEmail}`, 20, 70);
       doc.text(`Book Title: ${book.Title}`, 20, 80);
       doc.text(`Item ID: ${book.ItemID}`, 20, 90);
-      doc.text(`Return Date: ${borrowDate.toLocaleDateString()}`, 20, 100);
-      doc.text(`Return Due: ${returnDate.toLocaleDateString()}`, 20, 110);
+      doc.text(`Return Date: ${borrowDate}`, 20, 100);
+      doc.text(`Return Due: ${returnDate}`, 20, 110);
       doc.text("Please present this return receipt to the librarian.", 20, 130);
 
       doc.save(`ReturnReceipt_${book.ItemID}.pdf`);
@@ -228,6 +242,147 @@ function createCard(book) {
     return card;
   }
   
+  async function getLoanItems() {
+    const selectedEmail = session1.email
+    try {
+      const response = await fetch(`/home/libraryItems/loans/${selectedEmail}`); // Replace with your actual API route
+      const data = await response.json();
+  
+      const transformed = data.map(item => {
+        let type = null;
+        let genre = null;
+  
+        if (item.ISBN) {
+          type = 'Book';
+          genre = item.Book_Genre;
+        } else if (item.ISSN) {
+          type = 'Magazine';
+          genre = item.Category;
+        } else if (item.Institution) {
+          type = 'Research Paper';
+          genre = item.Field_of_Study;
+        }
+  
+        return {
+          ItemID: item.ItemID, // or generate custom ID like "MG004" if needed
+          Title: item.Title,
+          Type: type,
+          Status: item.Status,
+          Genre: genre,
+          Language: item.Language,
+          Cover_URL: item.Cover_URL,
+          Publication_Date: item.Publication_Date?.split('T')[0], // Format as 'YYYY-MM-DD'
+          Rating: item.Rating,
+          Synopsys: item.Synopsys,
+          Author_ID: item.Author_ID,
+          Author_Name: item.Author_Name,
+          Author_Nationality: item.Author_Nationality,
+          Editor_ID: item.Editor_ID,
+          Editor_Name: item.Editor_Name,
+          Editor_Specialization: item.Editor_Specialization,
+          Publisher_ID: item.Publisher_ID,
+          Publisher_Name: item.Publisher_Name,
+          LoanStatus: item.LoanStatus,
+          LoanDate: item.LoanDate,
+          DueDate: item.DueDate,
+          Type: "Loan"
+        };
+      });
+  
+      console.log('Transformed Data:', transformed);
+      return transformed;
+  
+    } catch (err) {
+      console.error('Error fetching or transforming data:', err);
+      return [];
+    }
+  }
+
+
+  async function getReservationItems() {
+    const selectedEmail = session1.email
+    try {
+      const response = await fetch(`/home/libraryItems/reservations/${selectedEmail}`); // Replace with your actual API route
+      const data = await response.json();
+  
+      const transformed = data.map(item => {
+        let type = null;
+        let genre = null;
+  
+        if (item.ISBN) {
+          type = 'Book';
+          genre = item.Book_Genre;
+        } else if (item.ISSN) {
+          type = 'Magazine';
+          genre = item.Category;
+        } else if (item.Institution) {
+          type = 'Research Paper';
+          genre = item.Field_of_Study;
+        }
+  
+        return {
+          ItemID: item.ItemID, // or generate custom ID like "MG004" if needed
+          Title: item.Title,
+          Type: type,
+          Status: item.Status,
+          Genre: genre,
+          Language: item.Language,
+          Cover_URL: item.Cover_URL,
+          Publication_Date: item.Publication_Date?.split('T')[0], // Format as 'YYYY-MM-DD'
+          Rating: item.Rating,
+          Synopsys: item.Synopsys,
+          Author_ID: item.Author_ID,
+          Author_Name: item.Author_Name,
+          Author_Nationality: item.Author_Nationality,
+          Editor_ID: item.Editor_ID,
+          Editor_Name: item.Editor_Name,
+          Editor_Specialization: item.Editor_Specialization,
+          Publisher_ID: item.Publisher_ID,
+          Publisher_Name: item.Publisher_Name,
+          Type: "Reservation"
+        };
+      });
+  
+      console.log('Transformed Data:', transformed);
+      return transformed;
+  
+    } catch (err) {
+      console.error('Error fetching or transforming data:', err);
+      return [];
+    }
+  }
+  async function getSessionInfo() {
+    try {
+      const res = await fetch('/session-info', {
+        method: 'GET',
+        credentials: 'include' // important to include cookies
+      });
+  
+      if (!res.ok) {
+        throw new Error('Not logged in');
+      }
+  
+      const user = await res.json();
+
+      const initials = user.username.slice(0, 2).toUpperCase();
+
+      const initialsElement = document.getElementById('initials');
+      if (initialsElement) {
+        initialsElement.textContent = initials;
+      }
+      const initialsProfile = document.getElementById('initialsProfile');
+      const pageGreets = document.getElementById('pageGreets');
+      if (initialsProfile) {
+        initialsProfile.textContent = initials;
+        pageGreets.textContent = "Hello " + user.username + ", how are you doing today?";
+      }
+  
+      return user;
+    } catch (err) {
+      console.error('Error fetching session info:', err);
+      return null;
+    }
+  }
 
 function renderLoanCards() {
   const container = document.getElementById("userLoans");
@@ -240,6 +395,3 @@ function renderReservationCards() {
   container.innerHTML = "";
   reservations.forEach((book) => container.appendChild(createCard(book)));
 }
-
-renderLoanCards();
-renderReservationCards();
