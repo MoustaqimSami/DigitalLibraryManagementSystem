@@ -570,6 +570,231 @@ app.delete('/api/publishers/:Publisher_ID', (req, res) => {
   res.status(200).json('Publisher deleted successfully');
 });
 
+app.get('/api/authors', (req, res) => {
+  const q = `SELECT Author_ID, Name, Nationaility
+  FROM author 
+  `
+  ;
+
+  db.query(q, (err, data) => {
+    if (err) {
+      console.error('Error fetching members:', err);
+      return res.status(500).json(err);
+    }
+    res.status(200).json(data);
+  });
+});
+
+app.patch('/api/authors/:Author_ID', (req, res) => {
+  const Author_ID = req.params.Author_ID;
+
+  const q = `
+    UPDATE author
+    SET 
+      Name = ?,
+      Nationaility = ?
+    WHERE Author_ID = ?
+  `;
+
+  const values = [
+    req.body.Name,
+    req.body.Nationaility,
+    Author_ID
+  ];
+
+  db.query(q, values, (err, data) => {
+    if (err) {
+      console.error('Error updating author:', err);
+      return res.status(500).json(err);
+    }
+    res.status(200).json('Author updated successfully');
+  });
+});
+
+app.delete('/api/authors/:Author_ID', (req, res) => {
+  const Author_ID = req.params.Author_ID;
+
+  const deleteAccounts = `DELETE FROM author WHERE Author_ID = ?`;
+
+  db.query(deleteAccounts, [Author_ID], (err1, result1) => {
+    if (err1) {
+      console.error('Error deleting from publishers:', err1);
+      return res.status(500).json(err1);
+    }
+  });
+  res.status(200).json('Author deleted successfully');
+});
+
+app.get('/api/editors', (req, res) => {
+  const q = `SELECT Editor_ID, Name, Specialization
+  FROM editor 
+  `
+  ;
+
+  db.query(q, (err, data) => {
+    if (err) {
+      console.error('Error fetching editor:', err);
+      return res.status(500).json(err);
+    }
+    res.status(200).json(data);
+  });
+});
+
+app.patch('/api/editors/:Editor_ID', (req, res) => {
+  const Editor_ID = req.params.Editor_ID;
+
+  const q = `
+    UPDATE editor
+    SET 
+      Name = ?,
+      Specialization = ?
+    WHERE Editor_ID = ?
+  `;
+
+  const values = [
+    req.body.Name,
+    req.body.Specialization,
+    Editor_ID
+  ];
+
+  db.query(q, values, (err, data) => {
+    if (err) {
+      console.error('Error updating editor:', err);
+      return res.status(500).json(err);
+    }
+    res.status(200).json('Editor updated successfully');
+  });
+});
+
+app.delete('/api/editors/:Editor_ID', (req, res) => {
+  const Editor_ID = req.params.Editor_ID;
+
+  const deleteAccounts = `DELETE FROM editor WHERE Editor_ID = ?`;
+
+  db.query(deleteAccounts, [Editor_ID], (err1, result1) => {
+    if (err1) {
+      console.error('Error deleting from publishers:', err1);
+      return res.status(500).json(err1);
+    }
+  });
+  res.status(200).json('Editor deleted successfully');
+});
+
+app.get('/api/authorsGenre', (req, res) => {
+  const q = `SELECT Author_ID, Genre
+  FROM author_genres
+  `
+  ;
+  db.query(q, (err, data) => {
+    if (err) {
+      console.error('Error fetching genre:', err);
+      return res.status(500).json(err);
+    }
+    res.status(200).json(data);
+  });
+});
+
+app.patch('/api/authorsGenre/:Author_ID', (req, res) => {
+  const Author_ID = req.params.Author_ID;
+
+  const q = `
+    UPDATE author_genres
+    SET 
+      Genre = ?
+    WHERE Author_ID = ?
+  `;
+
+  const values = [
+    req.body.Genre,
+    Author_ID
+  ];
+
+  db.query(q, values, (err, data) => {
+    if (err) {
+      console.error('Error updating genres:', err);
+      return res.status(500).json(err);
+    }
+    res.status(200).json('Genre updated successfully');
+  });
+});
+
+app.delete('/api/authorGenres/:Author_ID', (req, res) => {
+  const Author_ID = req.params.Author_ID;
+  
+  const values = [
+    req.body.Genre,
+    Author_ID
+  ];
+
+  const deleteAccounts = `DELETE FROM author_genres WHERE Genre = ? AND Author_ID = ?`;
+
+  db.query(deleteAccounts, values, (err1, result1) => {
+    if (err1) {
+      console.error('Error deleting from genres:', err1);
+      return res.status(500).json(err1);
+    }
+    res.status(200).json({ message: 'Genre deleted successfully' });
+  });
+});
+
+app.get('/api/reservations', (req, res) => {
+  const q = `SELECT *
+  FROM reservation
+  `
+  ;
+  db.query(q, (err, data) => {
+    if (err) {
+      console.error('Error fetching reservations:', err);
+      return res.status(500).json(err);
+    }
+    res.status(200).json(data);
+  });
+});
+
+app.patch('/api/reservations/:Reservation_no', (req, res) => {
+  const Reservation_no = req.params.Reservation_no;
+
+  const q = `
+    UPDATE reservation
+    SET 
+      Member_Email = ?,
+      ItemID = ?,
+      Status = ?
+    WHERE Reservation_no = ?
+  `;
+
+  const values = [
+    req.body.Member_Email,
+    req.body.ItemID,
+    req.body.Status,
+    Reservation_no
+  ];
+
+  db.query(q, values, (err, data) => {
+    if (err) {
+      console.error('Error updating reservation:', err);
+      return res.status(500).json(err);
+    }
+    res.status(200).json('reservation updated successfully');
+  });
+});
+
+
+app.delete('/api/reservations/:Reservation_no', (req, res) => {
+  const Reservation_no = req.params.Reservation_no;
+
+  const deleteAccounts = `DELETE FROM reservation WHERE Reservation_no = ?`;
+
+  db.query(deleteAccounts, [Reservation_no], (err1, result1) => {
+    if (err1) {
+      console.error('Error deleting from reservation:', err1);
+      return res.status(500).json(err1);
+    }
+  });
+  res.status(200).json('reservation deleted successfully');
+});
+
+
 app.listen(8800, ()=> {
     console.log("Connected to backend");
 });

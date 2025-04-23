@@ -9,25 +9,37 @@
   </head>
   <body>
     <div class="dashboard-wrapper">
-      <!-- Sidebar -->
       <aside class="sidebar collapsed">
         <div class="sidebar-header">
           <button id="toggleSidebar"><i class="bx bx-menu"></i></button>
         </div>
         <ul class="sidebar-menu">
-          <li><i class="bx bx-home"></i><span>Home</span></li>
-          <li><i class="bx bx-edit"></i><span>Add/Edit Document</span></li>
-          <li><i class="bx bx-user"></i><span>Manage Members</span></li>
-          <li><i class="bx bx-book"></i><span>Loans</span></li>
-          <li><i class="bx bx-calendar"></i><span>Reservations</span></li>
-          <li><i class="bx bx-user-voice"></i><span>Author/Publishers</span></li>
-          <li><i class="bx bx-shield-quarter"></i><span>Admin View</span></li>
+          <li><i class="bx bx-home"></i> <span>Home</span></li>
+          <a href="/StaffEnd/addEdit/addEditScreen.html" style="text-decoration: none; color: inherit;">
+          <li>
+            <i class="bx bx-edit"></i> <span>Add/Edit Document</span>
+          </li>
+          </a>
+          <a href="/StaffEnd/manageMembers/manageMembers.html" style="text-decoration: none; color: inherit;">
+          <li><i class="bx bx-user"></i> <span>Manage Members</span></li>
+          </a>
+          <li><i class="bx bx-book"></i> <span>Loans</span></li>
+          <a href="/StaffEnd/manageReservations/manageReservations.html" style="text-decoration: none; color: inherit;">
+            <li><i class="bx bx-calendar"></i> <span>Reservations</span></li>
+          </a>
+          <a href="/StaffEnd/managePubEdiAut/managePBE.html" style="text-decoration: none; color: inherit;">
+          <li>
+            <i class="bx bx-user-voice"></i> <span>Author/Publishers</span>
+          </li>
+          </a>
+          <a href="/StaffEnd/adminView/adminView.html" style="text-decoration: none; color: inherit;">
+          <li><i class="bx bx-shield-quarter"></i> <span>Admin View</span></li>
+          </a>
         </ul>
         <ul class="sidebar-footer">
-          <li><i class="bx bx-log-out"></i><span>Logout</span></li>
+          <li><i class="bx bx-log-out"></i> <span>Logout</span></li>
         </ul>
       </aside>
-
       <!-- Main Content -->
       <main class="main-content">
         <div class="top-bar">

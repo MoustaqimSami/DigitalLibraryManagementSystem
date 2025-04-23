@@ -28,17 +28,31 @@ const reservations = [
 ];
 
 // Render table
-const tableBody = document.getElementById("reservationTableBody");
+let members1 = []; // 🔥 We'll fetch real members into here
 
+async function loadReservations() {
+  try {
+    const response = await fetch('http://localhost:8800/api/reservations'); // adjust if different
+    if (!response.ok) throw new Error('Failed to fetch reservation');
+
+    members1 = await response.json();
+    renderTable();
+  } catch (error) {
+    console.error('Error loading reservation:', error);
+  }
+}
+
+// Render the table
+const tableBody = document.getElementById("reservationTableBody");
 function renderTable() {
   tableBody.innerHTML = "";
-  reservations.forEach((res, index) => {
+  members1.forEach((member1, index) => {
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td>${res.reservation_no}</td>
-      <td>${res.member_email}</td>
-      <td>${res.itemId}</td>
-      <td>${res.status}</td>
+      <td>${member1.Reservation_no}</td>
+      <td>${member1.Member_Email}</td>
+      <td>${member1.ItemID}</td>
+      <td>${member1.Status}</td>
       <td>
         <div class="action-buttons">
           <button class="edit-btn" onclick="openEditModal(${index})"><i class='bx bx-pencil'></i></button>
@@ -50,7 +64,8 @@ function renderTable() {
   });
 }
 
-renderTable();
+loadReservations();
+
 
 // Edit Modal Logic
 const editModal = document.getElementById("editModal");
@@ -59,11 +74,13 @@ let currentEditIndex = null;
 
 function openEditModal(index) {
   currentEditIndex = index;
-  const res = reservations[index];
-  document.getElementById("editReservationNo").value = res.reservation_no;
-  document.getElementById("editMemberEmail").value = res.member_email;
-  document.getElementById("editItemId").value = res.itemId;
-  document.getElementById("editStatus").value = res.status;
+  const reservations = members1[index]
+
+  selectedRID = reservations.Reservation_no
+  document.getElementById("editReservationNo").value = reservations.Reservation_no;
+  document.getElementById("editMemberEmail").value = reservations.Member_Email;
+  document.getElementById("editItemId").value = reservations.ItemID;
+  document.getElementById("editStatus").value = reservations.Status;
 
   editModal.classList.remove("hidden");
   editModal.style.display = "flex";
@@ -74,28 +91,32 @@ document.getElementById("cancelEdit").addEventListener("click", () => {
   editModal.style.display = "none";
 });
 
-editForm.addEventListener("submit", (e) => {
+editForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-
-  reservations[currentEditIndex] = {
-    reservation_no: document.getElementById("editReservationNo").value,
-    member_email: document.getElementById("editMemberEmail").value,
-    itemId: document.getElementById("editItemId").value,
-    status: document.getElementById("editStatus").value,
+  reservationsSQL = {
+    Member_Email: document.getElementById("editMemberEmail").value,
+    ItemID: document.getElementById("editItemId").value,
+    Status: document.getElementById("editStatus").value
   };
+  try {
+    const response = await fetch(`http://localhost:8800/api/reservations/${selectedRID}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(reservationsSQL)
+    });
 
-  editModal.classList.add("hidden");
-  editModal.style.display = "none";
-  renderTable();
+    if (!response.ok) throw new Error("Failed to update reservation");
 
-  // Example for backend PATCH
-  /*
-  fetch(`/api/reservations/${reservations[currentEditIndex].reservation_no}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(reservations[currentEditIndex]),
-  }).then(res => res.json()).then(data => renderTable());
-  */
+    console.log("reservation updated successfully!");
+
+    editModal.classList.add("hidden");
+    editModal.style.display = "none";
+    loadReservations();
+  } catch (error) {
+    console.error("Error updating member:", error);
+  }
 });
 
 // Delete Modal Logic
@@ -107,9 +128,7 @@ let currentDeleteIndex = null;
 
 function openDeleteModal(index) {
   currentDeleteIndex = index;
-  const reservationNumber = reservations[index].reservation_no;
-  deletePrompt.textContent = `Do you want to delete reservation: ${reservationNumber}?`;
-  deleteModal.classList.remove("hidden");
+  deletePrompt.textContent = `Do you want to resolve reservation: ${members1[index].Reservation_no}?`;
   deleteModal.style.display = "flex";
 }
 
@@ -118,21 +137,24 @@ deleteCancelBtn.addEventListener("click", () => {
   deleteModal.style.display = "none";
 });
 
-deleteConfirmBtn.addEventListener("click", () => {
-  reservations.splice(currentDeleteIndex, 1);
-  deleteModal.classList.add("hidden");
-  deleteModal.style.display = "none";
-  renderTable();
+deleteConfirmBtn.addEventListener("click", async () => {
+  const reservation = members1[currentDeleteIndex];
+  const reservationID = encodeURIComponent(reservation.Reservation_no); // 🔥 encode email
 
-  // Example for backend DELETE
-  /*
-  fetch(`/api/reservations/${reservation_no}`, {
-    method: "DELETE"
-  }).then(res => {
-    if (res.ok) {
-      reservations.splice(currentDeleteIndex, 1);
-      renderTable();
-    }
-  });
-  */
+  try {
+    const response = await fetch(`http://localhost:8800/api/reservations/${reservationID}`, {
+      method: 'DELETE'
+    });
+
+    if (!response.ok) throw new Error('Failed to delete reservation');
+
+    console.log('reservation deleted successfully!');
+
+    deleteModal.classList.add("hidden");
+    deleteModal.style.display = "none";
+
+    loadReservations(); // 🔥 refresh table
+  } catch (error) {
+    console.error('Error deleting reservation:', error);
+  }
 });

@@ -12,17 +12,30 @@ const authors = [
   { id: "AU003", name: "Chimamanda Ngozi Adichie", nationality: "Nigerian" },
 ];
 
-const tableBody = document.getElementById("authorTableBody");
+let members1 = []; // 🔥 We'll fetch real members into here
+
+async function loadAuthor() {
+  try {
+    const response = await fetch('http://localhost:8800/api/authors'); // adjust if different
+    if (!response.ok) throw new Error('Failed to fetch authors');
+
+    members1 = await response.json();
+    renderTable();
+  } catch (error) {
+    console.error('Error loading publisher:', error);
+  }
+}
 
 // Render the table
-function renderAuthorTable() {
+const tableBody = document.getElementById("authorTableBody");
+function renderTable() {
   tableBody.innerHTML = "";
-  authors.forEach((author, index) => {
+  members1.forEach((member1, index) => {
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td>${author.id}</td>
-      <td>${author.name}</td>
-      <td>${author.nationality}</td>
+      <td>${member1.Author_ID}</td>
+      <td>${member1.Name}</td>
+      <td>${member1.Nationaility}</td>
       <td>
         <div class="action-buttons">
           <button class="edit-btn" onclick="openEditModal(${index})"><i class='bx bx-pencil'></i></button>
@@ -34,20 +47,20 @@ function renderAuthorTable() {
   });
 }
 
-renderAuthorTable();
+loadAuthor();
 
-// ==================== Edit Modal ====================
+// Edit Modal Logic
 const editModal = document.getElementById("editModal");
 const editForm = document.getElementById("editForm");
 let currentEditIndex = null;
 
 function openEditModal(index) {
   currentEditIndex = index;
-  const author = authors[index];
-  document.getElementById("editAuthorId").value = author.id;
-  document.getElementById("editAuthorName").value = author.name;
-  document.getElementById("editAuthorNationality").value = author.nationality;
-
+  const authors = members1[index]
+  selectedAID = authors.Author_ID;
+  document.getElementById("editAuthorId").value = authors.Author_ID;
+  document.getElementById("editAuthorName").value = authors.Name;
+  document.getElementById("editAuthorNationality").value = authors.Nationaility;
   editModal.classList.remove("hidden");
   editModal.style.display = "flex";
 }
@@ -57,30 +70,34 @@ document.getElementById("cancelEdit").addEventListener("click", () => {
   editModal.style.display = "none";
 });
 
-editForm.addEventListener("submit", (e) => {
+editForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-
-  authors[currentEditIndex] = {
-    id: document.getElementById("editAuthorId").value,
-    name: document.getElementById("editAuthorName").value,
-    nationality: document.getElementById("editAuthorNationality").value,
+  authorsSQL = {
+    Name: document.getElementById("editAuthorName").value,
+    Nationaility: document.getElementById("editAuthorNationality").value
   };
+  try {
+    const response = await fetch(`http://localhost:8800/api/authors/${selectedAID}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(authorsSQL)
+    });
 
-  editModal.classList.add("hidden");
-  editModal.style.display = "none";
-  renderAuthorTable();
+    if (!response.ok) throw new Error("Failed to update author");
 
-  // === BACKEND PATCH EXAMPLE ===
-  /*
-  fetch(`/api/authors/${authors[currentEditIndex].id}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(authors[currentEditIndex])
-  }).then(res => res.json()).then(data => renderAuthorTable());
-  */
+    console.log("Author updated successfully!");
+
+    editModal.classList.add("hidden");
+    editModal.style.display = "none";
+    loadAuthor();
+  } catch (error) {
+    console.error("Error updating author:", error);
+  }
 });
 
-// ==================== Delete Modal ====================
+// Delete Modal Logic
 const deleteModal = document.getElementById("deleteModal");
 const deletePrompt = document.getElementById("deletePrompt");
 const deleteConfirmBtn = document.getElementById("confirmDelete");
@@ -89,9 +106,7 @@ let currentDeleteIndex = null;
 
 function openDeleteModal(index) {
   currentDeleteIndex = index;
-  const authorName = authors[index].name;
-  deletePrompt.textContent = `Do you want to delete author: ${authorName}?`;
-  deleteModal.classList.remove("hidden");
+  deletePrompt.textContent = `Do you want to delete author: ${members1[index].Name}?`;
   deleteModal.style.display = "flex";
 }
 
@@ -100,21 +115,24 @@ deleteCancelBtn.addEventListener("click", () => {
   deleteModal.style.display = "none";
 });
 
-deleteConfirmBtn.addEventListener("click", () => {
-  authors.splice(currentDeleteIndex, 1);
-  deleteModal.classList.add("hidden");
-  deleteModal.style.display = "none";
-  renderAuthorTable();
+deleteConfirmBtn.addEventListener("click", async () => {
+  const authors = members1[currentDeleteIndex];
+  const authorsID = encodeURIComponent(authors.Author_ID); // 🔥 encode email
 
-  // === BACKEND DELETE Example ===
-  /*
-  fetch(`/api/authors/${authorId}`, {
-    method: "DELETE"
-  }).then(res => {
-    if (res.ok) {
-      authors.splice(currentDeleteIndex, 1);
-      renderAuthorTable();
-    }
-  });
-  */
+  try {
+    const response = await fetch(`http://localhost:8800/api/authors/${authorsID}`, {
+      method: 'DELETE'
+    });
+
+    if (!response.ok) throw new Error('Failed to delete author');
+
+    console.log('Author deleted successfully!');
+
+    deleteModal.classList.add("hidden");
+    deleteModal.style.display = "none";
+
+    loadAuthor(); // 🔥 refresh table
+  } catch (error) {
+    console.error('Error deleting author:', error);
+  }
 });

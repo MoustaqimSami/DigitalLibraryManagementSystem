@@ -12,16 +12,29 @@ const genres = [
   { authorId: "A003", genre: "Historical Fiction" }
 ];
 
-// Render the genre table
-const genreTableBody = document.getElementById("genreTableBody");
+let members1 = []; // 🔥 We'll fetch real members into here
 
-function renderGenreTable() {
-  genreTableBody.innerHTML = "";
-  genres.forEach((item, index) => {
+async function loadGenre() {
+  try {
+    const response = await fetch('http://localhost:8800/api/authorsGenre'); // adjust if different
+    if (!response.ok) throw new Error('Failed to fetch genres');
+
+    members1 = await response.json();
+    renderTable();
+  } catch (error) {
+    console.error('Error loading genres:', error);
+  }
+}
+
+// Render the table
+const tableBody = document.getElementById("genreTableBody");
+function renderTable() {
+  tableBody.innerHTML = "";
+  members1.forEach((member1, index) => {
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td>${item.authorId}</td>
-      <td>${item.genre}</td>
+      <td>${member1.Author_ID}</td>
+      <td>${member1.Genre}</td>
       <td>
         <div class="action-buttons">
           <button class="edit-btn" onclick="openEditModal(${index})"><i class='bx bx-pencil'></i></button>
@@ -29,23 +42,23 @@ function renderGenreTable() {
         </div>
       </td>
     `;
-    genreTableBody.appendChild(row);
+    tableBody.appendChild(row);
   });
 }
 
-renderGenreTable();
+loadGenre();
 
-// Edit modal logic
+// Edit Modal Logic
 const editModal = document.getElementById("editModal");
 const editForm = document.getElementById("editForm");
 let currentEditIndex = null;
 
 function openEditModal(index) {
   currentEditIndex = index;
-  const genre = genres[index];
-  document.getElementById("editAuthorId").value = genre.authorId;
-  document.getElementById("editGenre").value = genre.genre;
-
+  const genres = members1[index]
+  genresEID = genres.Author_ID;
+  document.getElementById("editAuthorId").value = genres.Author_ID;
+  document.getElementById("editGenre").value = genres.Genre;
   editModal.classList.remove("hidden");
   editModal.style.display = "flex";
 }
@@ -55,20 +68,32 @@ document.getElementById("cancelEdit").addEventListener("click", () => {
   editModal.style.display = "none";
 });
 
-editForm.addEventListener("submit", (e) => {
+editForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-
-  genres[currentEditIndex] = {
-    authorId: document.getElementById("editAuthorId").value,
-    genre: document.getElementById("editGenre").value
+  genresSQL = {
+    Genre: document.getElementById("editGenre").value,
   };
+  try {
+    const response = await fetch(`http://localhost:8800/api/authorsGenre/${genresEID}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(genresSQL)
+    });
 
-  editModal.classList.add("hidden");
-  editModal.style.display = "none";
-  renderGenreTable();
+    if (!response.ok) throw new Error("Failed to update genres");
+
+    console.log("Genre updated successfully!");
+
+    editModal.classList.add("hidden");
+    editModal.style.display = "none";
+    loadGenre();
+  } catch (error) {
+    console.error("Error updating genre:", error);
+  }
 });
 
-// Delete modal logic
 const deleteModal = document.getElementById("deleteModal");
 const deletePrompt = document.getElementById("deletePrompt");
 const deleteConfirmBtn = document.getElementById("confirmDelete");
@@ -77,8 +102,7 @@ let currentDeleteIndex = null;
 
 function openDeleteModal(index) {
   currentDeleteIndex = index;
-  deletePrompt.textContent = `Do you want to delete genre entry for Author ID: ${genres[index].authorId}?`;
-  deleteModal.classList.remove("hidden");
+  deletePrompt.textContent = `Do you want to delete genre: ${members1[index].Genre}?`;
   deleteModal.style.display = "flex";
 }
 
@@ -87,9 +111,33 @@ deleteCancelBtn.addEventListener("click", () => {
   deleteModal.style.display = "none";
 });
 
-deleteConfirmBtn.addEventListener("click", () => {
-  genres.splice(currentDeleteIndex, 1);
-  deleteModal.classList.add("hidden");
-  deleteModal.style.display = "none";
-  renderGenreTable();
+deleteConfirmBtn.addEventListener("click", async () => {
+  const genres = members1[currentDeleteIndex];
+  const genreID = encodeURIComponent(genres.Author_ID); // 🔥 encode email
+
+  genresSQL = {
+    Genre: genres.Genre,
+  };
+
+
+  try {
+    const response = await fetch(`http://localhost:8800/api/authorGenres/${genreID}`, {
+      method: 'DELETE',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(genresSQL)
+    });
+
+    if (!response.ok) throw new Error('Failed to delete genre');
+
+    console.log('Genre deleted successfully!');
+
+    deleteModal.classList.add("hidden");
+    deleteModal.style.display = "none";
+
+    loadGenre(); // 🔥 refresh table
+  } catch (error) {
+    console.error('Error deleting genre:', error);
+  }
 });
