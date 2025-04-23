@@ -55,20 +55,28 @@
         </div>
 
         <!-- Popular Books -->
-        <section class="book-section">
-          <h2 class="section-title">Popular</h2>
-          <div class="book-list" id="popularBooks">
-            <!-- JS will populate -->
-          </div>
-        </section>
+        <div class="horizontal-section">
+          <h2 class="section-title">Popular Books</h2>
+          <div class="scroll-container" id="popularBooks"></div>
+        </div>
 
         <!-- Latest Books -->
-        <section class="book-section">
-          <h2 class="section-title">Latest</h2>
-          <div class="book-list" id="latestBooks">
-            <!-- JS will populate -->
-          </div>
-        </section>
+        <div class="horizontal-section">
+          <h2 class="section-title">Latest Books</h2>
+          <div class="scroll-container" id="latestBooks"></div>
+        </div>
+
+        <!-- Latest Magazines -->
+        <div class="horizontal-section">
+          <h2 class="section-title">Latest Magazines</h2>
+          <div class="scroll-container" id="latestMagazines"></div>
+        </div>
+
+        <!-- Latest Research Papers -->
+        <div class="horizontal-section">
+          <h2 class="section-title">Latest Research Papers</h2>
+          <div class="scroll-container" id="latestPapers"></div>
+        </div>
 
         <!-- Footer -->
         <footer class="footer">
@@ -105,7 +113,9 @@
           <i class="bx bx-x"></i>
         </button>
         <h2 class="modal-title">Borrow Receipt</h2>
-        <p class="modal-field"><strong>Loan ID:</strong> <span id="receiptLoanId"></span></p>
+        <p class="modal-field">
+          <strong>Loan ID:</strong> <span id="receiptLoanId"></span>
+        </p>
         <p class="modal-field">
           <strong>Member:</strong> <span id="receiptMember"></span>
         </p>
