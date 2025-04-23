@@ -2,12 +2,11 @@ window.addEventListener("DOMContentLoaded", async () => {
   window.jsPDF = window.jspdf.jsPDF;
   console.log("jsPDF loaded:", typeof window.jspdf !== "undefined");
 
+  books = await getLibraryItems();
 
-  books = await getLibraryItems();    
-  
   user = await getSessionInfo();
 
-  console.log(user)
+  console.log(user);
 
   const toggleBtn = document.getElementById("toggleSidebar");
   const sidebar = document.querySelector(".sidebar");
@@ -320,33 +319,33 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   async function getLibraryItems() {
     try {
-      const response = await fetch('/api/libraryItems'); // Replace with your actual API route
+      const response = await fetch("/api/libraryItems"); // Replace with your actual API route
       const data = await response.json();
-  
-      const transformed = data.map(item => {
+
+      const transformed = data.map((item) => {
         let type = null;
         let genre = null;
-  
+
         if (item.ISBN) {
-          type = 'Book';
+          type = "Book";
           genre = item.Book_Genre;
         } else if (item.ISSN) {
-          type = 'Magazine';
+          type = "Magazine";
           genre = item.Category;
         } else if (item.Institution) {
-          type = 'Research Paper';
+          type = "Research Paper";
           genre = item.Field_of_Study;
         }
-  
+
         return {
-          ItemID: item.ItemID, 
+          ItemID: item.ItemID,
           Title: item.Title,
           Type: type,
           Status: item.Status,
           Genre: genre,
           Language: item.Language,
           Cover_URL: item.Cover_URL,
-          Publication_Date: item.Publication_Date?.split('T')[0], // Format as 'YYYY-MM-DD'
+          Publication_Date: item.Publication_Date?.split("T")[0], // Format as 'YYYY-MM-DD'
           Rating: item.Rating,
           Synopsys: item.Synopsys,
           Author_ID: item.Author_ID,
@@ -356,42 +355,41 @@ window.addEventListener("DOMContentLoaded", async () => {
           Editor_Name: item.Editor_Name,
           Editor_Specialization: item.Editor_Specialization,
           Publisher_ID: item.Publisher_ID,
-          Publisher_Name: item.Publisher_Name
+          Publisher_Name: item.Publisher_Name,
         };
       });
-  
-      console.log('Transformed Data:', transformed);
+
+      console.log("Transformed Data:", transformed);
       return transformed;
-  
     } catch (err) {
-      console.error('Error fetching or transforming data:', err);
+      console.error("Error fetching or transforming data:", err);
       return [];
     }
   }
 
   async function getSessionInfo() {
     try {
-      const res = await fetch('/session-info', {
-        method: 'GET',
-        credentials: 'include' // important to include cookies
+      const res = await fetch("/session-info", {
+        method: "GET",
+        credentials: "include", // important to include cookies
       });
-  
+
       if (!res.ok) {
-        throw new Error('Not logged in');
+        throw new Error("Not logged in");
       }
-  
+
       const user = await res.json();
 
       const initials = user.username.slice(0, 2).toUpperCase();
 
-      const initialsElement = document.getElementById('initials');
+      const initialsElement = document.getElementById("initials");
       if (initialsElement) {
         initialsElement.textContent = initials;
       }
-  
+
       return user;
     } catch (err) {
-      console.error('Error fetching session info:', err);
+      console.error("Error fetching session info:", err);
       return null;
     }
   }
@@ -405,17 +403,24 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   // === CARD CREATION ===
   function createCard(book) {
+    const image =
+      book.Type === "Magazine"
+        ? "MAGIcon.png"
+        : book.Type === "Research Paper"
+          ? "RPIcon.png"
+          : book.Cover_URL;
+
     const card = document.createElement("div");
     card.className = "book-card";
     card.innerHTML = `
         <div class="book-image-wrapper">
-          <img src="${book.Cover_URL}" alt="Book Cover" />
+          <img src="${image}" alt="Cover" />
         </div>
         <div class="book-details">
           <h3>${book.Title}</h3>
           <div class="book-meta">
             <span class="genre">${book.Genre || book.Type}</span>
-            <span class="rating"><i class='bx bxs-star'></i> ${book.Type === "Book" ? (book.Rating || "NA") : "NA"}</span>
+            <span class="rating"><i class='bx bxs-star'></i> ${book.Type === "Book" ? book.Rating || "NA" : "NA"}</span>
           </div>
         </div>
       `;
@@ -432,7 +437,7 @@ window.addEventListener("DOMContentLoaded", async () => {
           </div>
           <div class="search-card-details">
             <h3 class="search-card-title">${book.Title}</h3>
-            <p><strong>Rating:</strong> ${book.Type === "Book" ? (book.Rating || "NA") : "NA"}</p>
+            <p><strong>Rating:</strong> ${book.Type === "Book" ? book.Rating || "NA" : "NA"}</p>
             <p><strong>Type:</strong> ${book.Type}</p>
             <p><strong>Genre:</strong> ${book.Genre}</p>
             <p><strong>Author:</strong> ${book.Author_Name}</p>
@@ -487,27 +492,27 @@ window.addEventListener("DOMContentLoaded", async () => {
       localStorage.setItem("reserved_" + reservationKey, "true");
 
       try {
-        const res = await fetch('http://localhost:8800/home/addReservation', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                Member_Email: user.email,
-                ItemID: book.ItemID,
-                Status: book.Status
-            })
+        const res = await fetch("http://localhost:8800/home/addReservation", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            Member_Email: user.email,
+            ItemID: book.ItemID,
+            Status: book.Status,
+          }),
         });
 
         console.log("Got response", res);
 
         if (res.ok) {
-            console.log("worked");
-        } 
-    } catch (err) {
+          console.log("worked");
+        }
+      } catch (err) {
         console.error("Fetch error:", err);
-        errorMessage.textContent = 'An error occurred. Please try again.';
-    }
+        errorMessage.textContent = "An error occurred. Please try again.";
+      }
       showToast("Book reserved successfully!");
     });
 
@@ -519,28 +524,26 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   // === BORROW RECEIPT MODAL ===
   async function openBorrowModal(book) {
-
     try {
-      const res = await fetch('http://localhost:8800/home/addLoan', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-              Library_Item_ID: book.ItemID,
-              Client_Email: user.email,
-          })
+      const res = await fetch("http://localhost:8800/home/addLoan", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          Library_Item_ID: book.ItemID,
+          Client_Email: user.email,
+        }),
       });
 
-
       if (res.ok) {
-          data = await res.json();
-          console.log("worked");
-      } 
-  } catch (err) {
+        data = await res.json();
+        console.log("worked");
+      }
+    } catch (err) {
       console.error("Fetch error:", err);
-      errorMessage.textContent = 'An error occurred. Please try again.';
-  }
+      errorMessage.textContent = "An error occurred. Please try again.";
+    }
 
     const memberName = user.username; // BACKEND: Replace with actual user name
     const memberEmail = user.email; // BACKEND: Replace with actual user email
@@ -739,7 +742,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   });
 
   function renderBookSections() {
-    console.log("Rendering books:", books)
+    console.log("Rendering books:", books);
     const popular = books.filter((b) => b.Type === "Book").slice(0, 10);
     const latestBooks = books.filter((b) => b.Type === "Book").slice(-10);
     const latestMagazines = books.filter((b) => b.Type === "Magazine");
@@ -763,5 +766,5 @@ window.addEventListener("DOMContentLoaded", async () => {
       document.getElementById("latestPapers").appendChild(createCard(book))
     );
   }
-  renderBookSections();             
+  renderBookSections();
 });
