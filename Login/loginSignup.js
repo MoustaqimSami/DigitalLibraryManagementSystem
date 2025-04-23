@@ -36,7 +36,7 @@ sendLoginBtn.addEventListener('click', async (e) => {
         console.log("Got response", res);
 
         if (res.ok) {
-            console.log("worked");
+            window.location.href = "/home";
         } else {
             const errorText = await res.text();
             errorMessage.textContent = errorText || 'Login failed.';

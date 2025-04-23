@@ -14,43 +14,46 @@
           <button id="toggleSidebar"><i class="bx bx-menu"></i></button>
         </div>
         <ul class="sidebar-menu">
-          <li><i class="bx bx-home"></i> <span>Home</span></li>
-          <a href="/StaffEnd/addEdit/addEditScreen.html" style="text-decoration: none; color: inherit;">
-          <li>
+          <a href="/staffDashboard" style="text-decoration: none; color: inherit;">
+            <li><i class="bx bx-home"></i> <span>Home</span></li>
+          </a>
+          <a href="/staffDashboard/addDocuments" style="text-decoration: none; color: inherit;">
+            <li>
             <i class="bx bx-edit"></i> <span>Add/Edit Document</span>
           </li>
-          </a>
-          <a href="/StaffEnd/manageMembers/manageMembers.html" style="text-decoration: none; color: inherit;">
+          <a href="/staffDashboard/manageMembers" style="text-decoration: none; color: inherit;">
           <li><i class="bx bx-user"></i> <span>Manage Members</span></li>
           </a>
-          <a href="/StaffEnd/manageLoans/manageLoans.html" style="text-decoration: none; color: inherit;">
+          <a href="/staffDashboard/manageLoans" style="text-decoration: none; color: inherit;">
           <li><i class="bx bx-book"></i> <span>Loans</span></li>
           </a>
-          <a href="/StaffEnd/manageReservations/manageReservations.html" style="text-decoration: none; color: inherit;">
+          <a href="/staffDashboard/manageReservations" style="text-decoration: none; color: inherit;">
             <li><i class="bx bx-calendar"></i> <span>Reservations</span></li>
           </a>
-          <a href="/StaffEnd/managePubEdiAut/managePBE.html" style="text-decoration: none; color: inherit;">
+          <a href="/staffDashboard/managePubEdiAut" style="text-decoration: none; color: inherit;">
           <li>
             <i class="bx bx-user-voice"></i> <span>Author/Publishers</span>
           </li>
           </a>
-          <a href="/StaffEnd/adminView/adminView.html" style="text-decoration: none; color: inherit;">
+          <a href="/staffDashboard/adminView" style="text-decoration: none; color: inherit;">
           <li><i class="bx bx-shield-quarter"></i> <span>Admin View</span></li>
           </a>
         </ul>
         <ul class="sidebar-footer">
+          <a href="/logout" style="text-decoration: none; color: inherit;">
           <li><i class="bx bx-log-out"></i> <span>Logout</span></li>
+          </a>
         </ul>
       </aside>
 
       <!-- Main Content -->
       <main class="main-content">
         <div class="top-bar">
-          <a href="staffDashboard.html" class="home-link">
+          <a href="/staffDashboard" class="home-link">
             <i class="bx bx-book-bookmark"></i>
             <span>GAMDL Staff</span>
           </a>
-          <div class="user-icon">TS</div>
+          <div class="user-icon" id="initials">TS</div>
         </div>
 
         <div class="member-center">
