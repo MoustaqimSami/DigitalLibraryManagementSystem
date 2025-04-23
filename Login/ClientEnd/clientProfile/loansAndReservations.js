@@ -151,6 +151,12 @@ window.addEventListener("DOMContentLoaded", async () => {
 });
 
 function openBookModal(book) {
+  const image =
+      book.Type === "Magazine"
+        ? "MAGIcon.png"
+        : book.Type === "Research Paper"
+          ? "RPIcon.png"
+          : book.Cover_URL;
   const modal = document.getElementById("bookModal");
   const modalContent = document.getElementById("modalContent");
 
@@ -175,7 +181,7 @@ function openBookModal(book) {
           </div>
         </div>
         <div class="book-modal-right">
-          <img id="modalImage" src="${book.Cover_URL}" alt="${book.ItemID}" />
+          <img id="modalImage" src="${image}" alt="${book.ItemID}" />
         </div>
       </div>
     `;

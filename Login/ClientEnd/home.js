@@ -458,6 +458,12 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   // === MODAL POPULATION ===
   function openModal(book) {
+    const image =
+      book.Type === "Magazine"
+        ? "MAGIcon.png"
+        : book.Type === "Research Paper"
+          ? "RPIcon.png"
+          : book.Cover_URL;
     const isAvailable = book.Status === "Available";
     modalContent.innerHTML = `
         <button class="close-modal-btn" id="closeModal"><i class="bx bx-x"></i></button>
@@ -477,7 +483,7 @@ window.addEventListener("DOMContentLoaded", async () => {
               <button class="book-action-btn reserve"><i class='bx bx-bookmark'></i> Reserve</button>
             </div>
           </div>
-          <div class="modal-right"><img src="${book.Cover_URL}" alt="${book.Title} Cover" /></div>
+          <div class="modal-right"><img src="${image}" alt="${book.Title} Cover" /></div>
         </div>
       `;
 
