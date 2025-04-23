@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>GAMDL | Home</title>
   <link rel="stylesheet" href="home.css" />
-  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
 </head>
 <body>
   <div class="dashboard-wrapper">
@@ -26,25 +26,69 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="main-content">
-      <!-- Header -->
+    <div class="main-content">
       <div class="top-bar">
-        <a href="clientDashboard.html" class="home-link">
+        <a href="#" class="home-link">
           <i class="bx bx-book-bookmark"></i>
           <span>GAMDL</span>
         </a>
-        <div class="user-icon">JD</div> <!-- Replace dynamically if needed -->
+        <div class="user-icon">JD</div>
       </div>
-    </main>
+
+      <!-- Search -->
+      <div class="search-container">
+        <div class="search-wrapper">
+          <i class="bx bx-search search-icon"></i>
+          <input type="text" id="searchInput" placeholder="Search for books, authors, genres..." />
+          <button class="filter-btn"><i class='bx bx-filter-alt'></i> Filter</button>
+        </div>
+      </div>
+      
+
+      <!-- Popular Books -->
+      <section class="book-section">
+        <h2 class="section-title">Popular</h2>
+        <div class="book-list" id="popularBooks">
+          <!-- JS will populate -->
+        </div>
+      </section>
+
+      <!-- Latest Books -->
+      <section class="book-section">
+        <h2 class="section-title">Latest</h2>
+        <div class="book-list" id="latestBooks">
+          <!-- JS will populate -->
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>© 2025 GAMDL Library. All rights reserved.</p>
+        <div class="footer-links">
+          <a href="#">Help</a>
+          <a href="#">About</a>
+          <a href="#">Terms</a>
+          <a href="#">Contact</a>
+        </div>
+      </footer>
+    </div>
   </div>
 
-  <script>
-    // Sidebar toggle logic
-    const toggleBtn = document.getElementById("toggleSidebar");
-    const sidebar = document.querySelector(".sidebar");
-    toggleBtn.addEventListener("click", () => {
-      sidebar.classList.toggle("collapsed");
-    });
-  </script>
+  <!-- Modal (Populated via JS) -->
+  <div id="bookModal" class="modal hidden">
+    <div class="modal-content" id="modalContent">
+      <img id="modalImage" src="" alt="Book Cover" />
+      <h2 id="modalTitle">Book Title</h2>
+      <p id="modalAuthor">Author</p>
+      <p id="modalSummary">Book description goes here...</p>
+      <div class="modal-buttons">
+        <button class="book-action-btn borrow">Borrow</button>
+        <button class="book-action-btn reserve">Reserve</button>
+      </div>
+      <button class="close-modal-btn"><i class="bx bx-x"></i></button>
+    </div>
+  </div>
+
+  <script src="home.js"></script>
 </body>
 </html>
