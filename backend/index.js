@@ -62,20 +62,59 @@ app.post('/login', (req, res) => {
 
 
   app.post("/signup", (req, res) => {
-    const q = "INSERT INTO login(`User`, `Email`, `Password`, `Role`) VALUES (?)";
-
-    const values = [
-        req.body.User,
-        req.body.Email,
-        req.body.Password,
-        1
-    ];
-
-    db.query(q, [values], (err, data) => {
-        if (err) return res.status(500).json(err);
-        return res.status(201).json("User created successfully!");
+    const {
+      email,
+      firstName,
+      middleInitial,
+      lastName,
+      phoneNumber,
+      User,
+      passwordSignUp
+    } = req.body;
+  
+    const insertClient = `
+      INSERT INTO client (Email, Fname, MInit, Lname, Phone_no)
+      VALUES (?, ?, ?, ?, ?)
+    `;
+  
+    const insertAccount = `
+      INSERT INTO client_accounts (Email, User, Password, Role, Access_level)
+      VALUES (?, ?, ?, 'MEMBER', 2)
+    `;
+  
+    db.beginTransaction(err => {
+      if (err) return res.status(500).json({ error: 'Failed to start transaction' });
+  
+      db.query(insertClient, [email, firstName, middleInitial, lastName, phoneNumber], (err, result1) => {
+        if (err) {
+          return db.rollback(() => {
+            console.error("Client insert error:", err);
+            res.status(500).json({ error: 'Error inserting into client' });
+          });
+        }
+  
+        db.query(insertAccount, [email, User, passwordSignUp], (err, result2) => {
+          if (err) {
+            return db.rollback(() => {
+              console.error("Account insert error:", err);
+              res.status(500).json({ error: 'Error inserting into client_accounts' });
+            });
+          }
+  
+          db.commit(err => {
+            if (err) {
+              return db.rollback(() => {
+                console.error("Commit error:", err);
+                res.status(500).json({ error: 'Failed to commit transaction' });
+              });
+            }
+  
+            res.status(201).json({ message: "User created successfully!" });
+          });
+        });
+      });
     });
-});
+  });
 
   
 // Middleware to protect routes

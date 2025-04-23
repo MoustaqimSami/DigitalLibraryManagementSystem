@@ -36,7 +36,7 @@ sendLoginBtn.addEventListener('click', async (e) => {
         console.log("Got response", res);
 
         if (res.ok) {
-            window.location.href = "/home";
+            console.log("worked");
         } else {
             const errorText = await res.text();
             errorMessage.textContent = errorText || 'Login failed.';
@@ -54,25 +54,14 @@ signupBtn.addEventListener('click', async (e) => {
     console.log("SignUp button clicked!");
 
     const username = document.querySelector('input[name="usernameSignUp"]').value;
-    const emailS = document.querySelector('input[name="emailSignUp"]').value;
-    const password = document.querySelector('input[name="passwordSignUp"]').value;
+    const firstName = document.querySelector('input[name="firstName"]').value;
+    const middleInitial = document.querySelector('input[name="middleInitial"]').value;
+    const lastName = document.querySelector('input[name="lastName"]').value;
+    const phoneNumber = document.querySelector('input[name="phoneNumber"]').value;
+    const passwordSignUp = document.querySelector('input[name="passwordSignUp"]').value;
+    const email = document.querySelector('input[name="emailSignUp"]').value;
 
     const errorMessage = document.getElementById('errorMessage');
-
-    if (!username || !emailS || !password) {
-        errorMessage.textContent = "All fields are required.";
-        return;
-    }
-
-    if (password.length < 6) {
-        errorMessage.textContent = "Password must be at least 6 characters long.";
-        return;
-    }
-
-    if (!emailS.includes('@')) {
-        errorMessage.textContent = "Please enter a valid email address.";
-        return;
-    }
 
     try {
         const res = await fetch('http://localhost:8800/signup', {
@@ -82,8 +71,12 @@ signupBtn.addEventListener('click', async (e) => {
             },
             body: JSON.stringify({
                 User: username,
-                Email: emailS,
-                Password: password
+                firstName: firstName,
+                middleInitial: middleInitial,
+                lastName: lastName,
+                phoneNumber: phoneNumber,
+                passwordSignUp: passwordSignUp,
+                email: email
             })
         });
 
