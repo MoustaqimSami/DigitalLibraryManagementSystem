@@ -9,7 +9,8 @@
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+    <script src="loansAndReservations.js" defer></script>
     <script src="clientProfile.js" defer></script>
   </head>
   <body>
@@ -77,18 +78,22 @@
             </div>
           </div>
 
-          <!-- Loans Section -->
-          <div class="horizontal-section">
-            <h2 class="section-title">Your Loans</h2>
-            <div class="grid-container" id="userLoans"></div>
-          </div>
-
-          <!-- Reservations Section -->
-          <div class="horizontal-section">
-            <h2 class="section-title">Your Reservations</h2>
-            <div class="grid-container" id="userReservations"></div>
-          </div>
-        </div>
+<!-- Loans Section -->
+<div class="horizontal-section">
+    <h2 class="section-title">Your Loans</h2>
+    <div class="grid-container" id="userLoans">
+      <!-- Cards will be injected dynamically via JavaScript -->
+    </div>
+  </div>
+  
+<!-- Reservations Section -->
+<div class="horizontal-section">
+    <h2 class="section-title">Your Reservations</h2>
+    <div class="grid-container" id="userReservations">
+      <!-- Cards will be injected dynamically via JavaScript -->
+    </div>
+  </div>
+  
 
         <!-- Footer -->
         <footer class="footer">
@@ -196,53 +201,31 @@
     <!-- Toast Notification -->
     <div id="toastContainer" class="toast-container"></div>
 
-    <!-- Book Modal -->
-    <div id="bookModal" class="modal hidden">
-      <div class="modal-content" id="modalContent">
-        <img id="modalImage" src="" alt="Book Cover" />
-        <h2 id="modalTitle">Book Title</h2>
-        <p id="modalAuthor">Author</p>
-        <p id="modalSummary">Book description goes here...</p>
-        <div class="modal-buttons">
-          <button class="book-action-btn borrow">Borrow</button>
-          <button class="book-action-btn reserve">Reserve</button>
+ <!-- Book Modal -->
+<div id="bookModal" class="book-modal hidden">
+    <div class="book-modal-content" id="modalContent">
+      <button class="close-modal-btn"><i class="bx bx-x"></i></button>
+      <div class="book-modal-body">
+        <div class="book-modal-left">
+          <h2 class="book-modal-title" id="modalTitle">Book Title</h2>
+          <p class="modal-field"><strong>Author:</strong> <span id="modalAuthor"></span></p>
+          <p class="modal-field"><strong>Genre:</strong> <span id="modalGenre"></span></p>
+          <p class="modal-field"><strong>Type:</strong> <span id="modalType"></span></p>
+          <p class="modal-field"><strong>Language:</strong> <span id="modalLanguage"></span></p>
+          <p class="modal-field synopsis" id="modalSummary">Description goes here...</p>
+          <p class="modal-field"><strong>Status:</strong> <span id="modalStatus" class="available">Available</span></p>
+          <div class="book-modal-buttons">
+            <button class="book-action-btn return" id="modalDownloadReceiptBtn">
+              <i class="bx bx-download"></i> Download Receipt
+            </button>
+          </div>
         </div>
-        <button class="close-modal-btn"><i class="bx bx-x"></i></button>
+        <div class="book-modal-right">
+          <img id="modalImage" src="https://via.placeholder.com/180x260" alt="Book Cover" />
+        </div>
       </div>
     </div>
+  </div>
 
-    <!-- Borrow Receipt Modal -->
-    <div id="borrowReceiptModal" class="modal hidden">
-      <div class="modal-content">
-        <button class="close-modal-btn" id="closeReceiptModal">
-          <i class="bx bx-x"></i>
-        </button>
-        <h2 class="modal-title">Borrow Receipt</h2>
-        <p class="modal-field">
-          <strong>Loan ID:</strong> <span id="receiptLoanId"></span>
-        </p>
-        <p class="modal-field">
-          <strong>Member:</strong> <span id="receiptMember"></span>
-        </p>
-        <p class="modal-field">
-          <strong>Email:</strong> <span id="receiptEmail"></span>
-        </p>
-        <p class="modal-field">
-          <strong>Book Title:</strong> <span id="receiptBookTitle"></span>
-        </p>
-        <p class="modal-field">
-          <strong>Item ID:</strong> <span id="receiptItemId"></span>
-        </p>
-        <p class="modal-field">
-          <strong>Borrow Date:</strong> <span id="receiptDate"></span>
-        </p>
-        <p class="modal-field">
-          <strong>Return By:</strong> <span id="receiptReturn"></span>
-        </p>
-        <button class="book-action-btn" id="downloadReceiptBtn">
-          <i class="bx bx-download"></i> Download Receipt
-        </button>
-      </div>
-    </div>
   </body>
 </html>
