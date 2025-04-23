@@ -50,17 +50,29 @@
           <div class="profile-box">
             <div class="profile-avatar">JD</div>
             <div class="profile-wrapper">
-            <div class="profile-details" id="profileDetails">
+              <div class="profile-details" id="profileDetails">
                 <h2 id="memberName">Loading...</h2>
                 <p><strong>Email:</strong> <span id="memberEmail"></span></p>
                 <p><strong>Phone:</strong> <span id="memberPhone"></span></p>
-                <p><strong>Start Date:</strong> <span id="memberStartDate"></span></p>
-                <p><strong>Expiration Date:</strong> <span id="memberEndDate"></span></p>
+                <p>
+                  <strong>Start Date:</strong>
+                  <span id="memberStartDate"></span>
+                </p>
+                <p>
+                  <strong>Expiration Date:</strong>
+                  <span id="memberEndDate"></span>
+                </p>
               </div>
               <div class="profile-actions">
-                <button class="btn btn-sidebar" id="editBtn"><i class='bx bx-edit-alt'></i> Edit</button>
-                <button class="btn btn-sidebar" id="passwordBtn"><i class='bx bx-lock-alt'></i> Change Password</button>
-                <button class="btn btn-sidebar" id="deleteBtn"><i class='bx bx-trash'></i> Delete</button>
+                <button class="btn btn-sidebar" id="editBtn">
+                  <i class="bx bx-edit-alt"></i> Edit
+                </button>
+                <button class="btn btn-sidebar" id="passwordBtn">
+                  <i class="bx bx-lock-alt"></i> Change Password
+                </button>
+                <button class="btn btn-sidebar" id="deleteBtn">
+                  <i class="bx bx-trash"></i> Delete
+                </button>
               </div>
             </div>
           </div>
@@ -92,60 +104,97 @@
     </div>
 
     <!-- Edit Profile Modal -->
-<div id="editModal" class="modal hidden">
-    <div class="modal-content">
-      <button class="close-modal-btn" onclick="closeModal('editModal')">
-        <i class="bx bx-x"></i>
-      </button>
-      <h2>Edit Profile</h2>
-      <form id="editProfileForm">
-        <input type="text" placeholder="Full Name" />
-        <input type="email" placeholder="Email Address" />
-        <input type="tel" placeholder="Phone Number" />
-        <button type="submit" class="btn btn-sidebar">
-          <i class="bx bx-check"></i> Save Changes
+    <div id="editModal" class="modal hidden">
+      <div class="modal-content">
+        <button class="close-modal-btn" onclick="closeModal('editModal')">
+          <i class="bx bx-x"></i>
         </button>
-      </form>
-    </div>
-  </div>
-  
-  <!-- Change Password Modal -->
-  <div id="passwordModal" class="modal hidden">
-    <div class="modal-content">
-      <button class="close-modal-btn" onclick="closeModal('passwordModal')">
-        <i class="bx bx-x"></i>
-      </button>
-      <h2>Change Password</h2>
-      <form id="changePasswordForm">
-        <input type="password" placeholder="Current Password" />
-        <input type="password" placeholder="New Password" />
-        <input type="password" placeholder="Confirm New Password" />
-        <button type="submit" class="btn btn-sidebar">
-          <i class="bx bx-lock-alt"></i> Update Password
-        </button>
-      </form>
-    </div>
-  </div>
-  
-  <!-- Delete Account Modal -->
-  <div id="deleteModal" class="modal hidden">
-    <div class="modal-content">
-      <button class="close-modal-btn" onclick="closeModal('deleteModal')">
-        <i class="bx bx-x"></i>
-      </button>
-      <h2>Delete Account</h2>
-      <p>Are you sure you want to delete your account? This action cannot be undone.</p>
-      <div class="modal-actions">
-        <button class="btn btn-sidebar" onclick="confirmDelete()">
-          <i class="bx bx-trash"></i> Confirm Delete
-        </button>
-        <button class="btn btn-sidebar" onclick="closeModal('deleteModal')">
-          Cancel
-        </button>
+        <h2>Edit Profile</h2>
+        <form id="editProfileForm">
+          <input type="text" id="editFname" placeholder="First Name" required />
+          <input
+            type="text"
+            id="editMInit"
+            placeholder="Middle Initial"
+            maxlength="2"
+          />
+          <input type="text" id="editLname" placeholder="Last Name" required />
+          <input
+            type="tel"
+            id="editPhone"
+            placeholder="Phone Number"
+            required
+          />
+          <input
+            type="email"
+            id="editEmail"
+            placeholder="Email Address"
+            readonly
+          />
+          <button type="submit" class="btn btn-sidebar">
+            <i class="bx bx-check"></i> Save Changes
+          </button>
+        </form>
       </div>
     </div>
-  </div>
-  
+
+    <!-- Change Password Modal -->
+    <div id="passwordModal" class="modal hidden">
+      <div class="modal-content">
+        <button class="close-modal-btn" onclick="closeModal('passwordModal')">
+          <i class="bx bx-x"></i>
+        </button>
+        <h2>Change Password</h2>
+        <form id="changePasswordForm">
+          <input
+            type="password"
+            id="currentPassword"
+            placeholder="Current Password"
+            required
+          />
+          <input
+            type="password"
+            id="newPassword"
+            placeholder="New Password"
+            required
+          />
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Confirm New Password"
+            required
+          />
+          <button type="submit" class="btn btn-sidebar">
+            <i class="bx bx-lock-alt"></i> Update Password
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Delete Account Modal -->
+    <div id="deleteModal" class="modal hidden">
+      <div class="modal-content">
+        <button class="close-modal-btn" onclick="closeModal('deleteModal')">
+          <i class="bx bx-x"></i>
+        </button>
+        <h2>Delete Account</h2>
+        <p>
+          Are you sure you want to delete your account? This action cannot be
+          undone.
+        </p>
+        <div class="modal-actions">
+          <button class="btn btn-sidebar" id="confirmDeleteBtn">
+            <i class="bx bx-trash"></i> Confirm Delete
+          </button>
+          <button class="btn btn-sidebar" onclick="closeModal('deleteModal')">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toastContainer" class="toast-container"></div>
 
     <!-- Book Modal -->
     <div id="bookModal" class="modal hidden">
