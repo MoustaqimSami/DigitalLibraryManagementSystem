@@ -181,7 +181,7 @@ submitBtn.addEventListener("click", async (e) => {
     }
     else if (typeInput=="Book"){
       try {
-        const res = await fetch('http://localhost:8800/addBook', {
+        const res = await fetch('http://localhost:8800/staffDashboard/addBook', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

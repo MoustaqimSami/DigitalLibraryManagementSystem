@@ -214,7 +214,7 @@ app.get('/logout', (req, res) => {
   });
 });
 
-app.post("/addBook", (req, res) => {
+app.post("/staffDashboard/addBook", (req, res) => {
     const qGetIDs = `
     SELECT
       p.Publisher_ID AS publisherId,
