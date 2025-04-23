@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GAMDL | Home</title>
+  <link rel="stylesheet" href="home.css" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar collapsed">
+      <div class="sidebar-header">
+        <button id="toggleSidebar"><i class="bx bx-menu"></i></button>
+      </div>
+      <ul class="sidebar-menu">
+        <li><i class="bx bx-home"></i><span>Home</span></li>
+        <li><i class="bx bx-book"></i><span>Loans</span></li>
+        <li><i class="bx bx-calendar"></i><span>Reservations</span></li>
+        <li><i class="bx bx-user"></i><span>Profile</span></li>
+      </ul>
+      <ul class="sidebar-footer">
+        <li><i class="bx bx-log-out"></i><span>Logout</span></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <div class="top-bar">
+        <a href="clientDashboard.html" class="home-link">
+          <i class="bx bx-book-bookmark"></i>
+          <span>GAMDL</span>
+        </a>
+        <div class="user-icon">JD</div> <!-- Replace dynamically if needed -->
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Sidebar toggle logic
+    const toggleBtn = document.getElementById("toggleSidebar");
+    const sidebar = document.querySelector(".sidebar");
+    toggleBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("collapsed");
+    });
+  </script>
+</body>
+</html>
