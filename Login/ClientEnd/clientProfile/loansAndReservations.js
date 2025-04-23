@@ -187,7 +187,7 @@ function openBookModal(book) {
   };
 
   // Inject the download button only for non-reserved items
-  if (book.toLowerCase.toLowerCase() !== "reserved") {
+  if (book.Type.toLowerCase() !== "reservation") {
     const buttonContainer = modal.querySelector("#modalButtons");
     const downloadBtn = document.createElement("button");
     downloadBtn.className = "book-action-btn return";
