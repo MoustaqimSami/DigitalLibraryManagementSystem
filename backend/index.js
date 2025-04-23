@@ -182,8 +182,6 @@ app.get('/staffDashboard/manageLoans', (req, res) => {
   res.sendFile(path.join(frontend_path, 'Login', 'StaffEnd', 'manageLoans', 'manageLoans.html'));
 });
 
-
-
 app.post("/stafflogin", (req, res) => {
     const { Email, Password } = req.body;
 
@@ -202,6 +200,18 @@ app.post("/stafflogin", (req, res) => {
             return res.status(401).json("Wrong Email or password.");
         }
     });
+});
+
+app.get('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      console.error('Logout error:', err);
+      return res.status(500).send('Error logging out');
+    }
+
+    res.clearCookie('connect.sid'); 
+    res.redirect('/'); 
+  });
 });
 
 app.post("/addBook", (req, res) => {
