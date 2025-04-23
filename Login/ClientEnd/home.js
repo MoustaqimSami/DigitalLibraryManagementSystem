@@ -245,6 +245,11 @@ window.addEventListener("DOMContentLoaded", () => {
     const returnDate = new Date(borrowDate);
     returnDate.setMonth(borrowDate.getMonth() + 1); // 1 month later
 
+    // BACKEND: PLEASE
+    const loanId = 2001;
+    document.getElementById("receiptLoanId").textContent = loanId;
+
+
     // Format dates
     const borrowDateStr = borrowDate.toLocaleDateString();
     const returnDateStr = returnDate.toLocaleDateString();
@@ -254,7 +259,7 @@ window.addEventListener("DOMContentLoaded", () => {
     document.getElementById("receiptItemId").textContent = book.ItemID;
     document.getElementById("receiptDate").textContent = borrowDateStr;
 
-    // Inject email and return date into modal (add these in HTML if not present)
+    // Inject email and return date into modal
     document.getElementById("receiptEmail").textContent = memberEmail;
     document.getElementById("receiptReturn").textContent = returnDateStr;
 
@@ -265,13 +270,14 @@ window.addEventListener("DOMContentLoaded", () => {
       doc.setFontSize(16);
       doc.text("GAMDL Borrow Receipt", 20, 20);
       doc.setFontSize(12);
-      doc.text(`Member Name: ${memberName}`, 20, 40);
-      doc.text(`Member Email: ${memberEmail}`, 20, 50);
-      doc.text(`Book Title: ${book.Title}`, 20, 60);
-      doc.text(`Item ID: ${book.ItemID}`, 20, 70);
-      doc.text(`Borrow Date: ${borrowDateStr}`, 20, 80);
-      doc.text(`Return By: ${returnDateStr}`, 20, 90);
-      doc.text(`Please present this receipt to the librarian.`, 20, 110);
+      doc.text(`Loan ID: ${loanId}`, 20, 50);
+      doc.text(`Member Name: ${memberName}`, 20, 60);
+      doc.text(`Member Email: ${memberEmail}`, 20, 70);
+      doc.text(`Book Title: ${book.Title}`, 20, 80);
+      doc.text(`Item ID: ${book.ItemID}`, 20, 90);
+      doc.text(`Borrow Date: ${borrowDateStr}`, 20, 100);
+      doc.text(`Return By: ${returnDateStr}`, 20, 110);
+      doc.text(`Please present this receipt to the librarian.`, 20, 130);      
       doc.save(`BorrowReceipt_${book.ItemID}.pdf`);
     };
   }
