@@ -227,6 +227,7 @@ function openBookModal(book) {
     buttonContainer.appendChild(downloadBtn);
   }
 }
+
 function createCard(book) {
   const image =
       book.Type === "Magazine"
