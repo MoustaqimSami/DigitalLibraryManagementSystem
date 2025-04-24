@@ -27,7 +27,8 @@ Follow the next steps carefully:
 Now, with the database set up, open a Terminal. Then:
 * `cd backend`. Move to backend
 * Run `npm start`
-	* You will see these confirmation messages![](https://i.imgur.com/acXT3rU.png)
+	* You will see these confirmation messages
+ ![](https://i.imgur.com/acXT3rU.png)
 * Then, go to `localhost:8800`
 * And your project should be working!
 If you want some mock credentials to test:
