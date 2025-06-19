@@ -1,5 +1,5 @@
 import express from "express"
-import mysql from "mysql"
+import mysql from "mysql2"
 import cors from "cors"
 import session from "express-session";
 import path from 'path';
@@ -21,7 +21,7 @@ app.use(express.static(path.join(frontend_path, 'Login')));
 const db = mysql.createConnection({
     host: "127.0.0.1",
     user: "root",
-    password: "Jp2X0f00_`gB",
+    password: "admin",
     database: "librarymanagement"
 });
 
