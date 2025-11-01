@@ -19,7 +19,7 @@ const frontend_path = path.join(__dirname, '..');
 app.use(express.static(path.join(frontend_path, 'Login')));
 
 const db = mysql.createConnection({
-    host: "127.0.0.1",
+    host: "host.docker.internal",
     user: "root",
     password: "admin",
     database: "librarymanagement"
@@ -1303,4 +1303,5 @@ app.get('/home/libraryItems/reservations/:clientEmail', (req, res) => {
 
 app.listen(8800, ()=> {
     console.log("Connected to backend");
+    console.log(`Listening on port http://localhost:8800`);
 });
